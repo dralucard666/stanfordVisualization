@@ -49,7 +49,7 @@ export function tileDescriptionSuffix(x: number, y: number): string {
     return `_${x}_${y}`
 }
 
-function onDrop(store: UseBaseStore, e: DragEvent<HTMLDivElement>) {
+export function onDrop(store: UseBaseStore, e: DragEvent<HTMLDivElement>) {
     e.stopPropagation()
     e.preventDefault()
     if (e.dataTransfer?.files.length === 1) {
@@ -167,7 +167,7 @@ export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElemen
     )
 }
 
-function SummarizeButton() {
+export function SummarizeButton() {
     const store = useBaseStore()
     const enabled = store((state) => state.selectedDescriptions.length > 1)
     return (
@@ -179,7 +179,7 @@ function SummarizeButton() {
     )
 }
 
-function Skybox() {
+export function Skybox() {
     const isInFlyCamera = useViewerState((state) => state.viewType === "fly")
     if (!isInFlyCamera) {
         return null
@@ -224,7 +224,7 @@ void main() {
 }
 `
 
-function Background({ texture }: { texture: Texture }) {
+export function Background({ texture }: { texture: Texture }) {
     const visualType = useViewerState((state) => state.visualType)
     const opacity = getBackgroundOpacity(visualType)
     const uniforms = useMemo(() => ({ map: { value: texture }, opacity: { value: 0 } }), [texture])
@@ -245,7 +245,7 @@ function Background({ texture }: { texture: Texture }) {
     )
 }
 
-function Foreground({ texture }: { texture: Texture }) {
+export function Foreground({ texture }: { texture: Texture }) {
     const visualType = useViewerState((state) => state.visualType)
     const opacity = getForegroundOpacity(visualType)
     const uniforms = useMemo(() => ({ map: { value: texture }, opacity: { value: 0 } }), [texture])
@@ -270,7 +270,7 @@ function Foreground({ texture }: { texture: Texture }) {
 const zoom = 18
 const globalLocalRatio = tileZoomRatio(0, zoom)
 
-async function generateLots(store: UseBaseStore) {
+export async function generateLots(store: UseBaseStore) {
     const [globalX, , globalZ] = getPosition(useViewerState.getState())
     const x = Math.floor(globalX * globalLocalRatio)
     const y = Math.floor(globalZ * globalLocalRatio)
@@ -284,7 +284,7 @@ async function generateLots(store: UseBaseStore) {
     store.getState().addDescriptions(newDescriptions)
 }
 
-async function generateRoads(store: UseBaseStore) {
+export async function generateRoads(store: UseBaseStore) {
     const [globalX, , globalZ] = getPosition(useViewerState.getState())
     const x = Math.floor(globalX * globalLocalRatio)
     const y = Math.floor(globalZ * globalLocalRatio)
@@ -298,7 +298,7 @@ async function generateRoads(store: UseBaseStore) {
     store.getState().addDescriptions(newDescriptions)
 }
 
-function ShowError() {
+export function ShowError() {
     const error = useViewerState((state) => state.error)
     if (error == null) {
         return null
@@ -306,7 +306,7 @@ function ShowError() {
     return <ErrorMessage message={error} align="left" />
 }
 
-function Panoramas() {
+export function Panoramas() {
     return (
         <>
             {panoramas.map(({ position }, index) => (
@@ -325,7 +325,7 @@ function Panoramas() {
     )
 }
 
-function DownloadButton({ className, ...rest }: HTMLProps<HTMLDivElement>) {
+export function DownloadButton({ className, ...rest }: HTMLProps<HTMLDivElement>) {
     const store = useBaseStore()
 
     return (
@@ -340,7 +340,7 @@ function DownloadButton({ className, ...rest }: HTMLProps<HTMLDivElement>) {
     )
 }
 
-function FlyCameraButton({ className, ...rest }: HTMLProps<HTMLDivElement>) {
+export function FlyCameraButton({ className, ...rest }: HTMLProps<HTMLDivElement>) {
     const inFlyCamera = useViewerState(({ viewType }) => viewType === "fly")
     return (
         <Tooltip placement="top" overlay="Fly Camera">
@@ -360,7 +360,7 @@ function FlyCameraButton({ className, ...rest }: HTMLProps<HTMLDivElement>) {
     )
 }
 
-function MultiSelectButton({ className, ...rest }: HTMLProps<HTMLDivElement>) {
+export function MultiSelectButton({ className, ...rest }: HTMLProps<HTMLDivElement>) {
     const store = useBaseStore()
     const shift = store((s) => (s.type === "gui" ? s.shift : false))
     return (
@@ -378,7 +378,7 @@ function MultiSelectButton({ className, ...rest }: HTMLProps<HTMLDivElement>) {
     )
 }
 
-function ExitStreetViewButton({ className, ...rest }: HTMLProps<HTMLDivElement>) {
+export function ExitStreetViewButton({ className, ...rest }: HTMLProps<HTMLDivElement>) {
     const viewType = useViewerState(({ viewType }) => viewType)
     if (viewType != "panorama") {
         return null

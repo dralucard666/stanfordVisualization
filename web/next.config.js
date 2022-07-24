@@ -1,6 +1,6 @@
 module.exports = {
-    basePath: "/cgv",
-    assetPrefix: "/cgv",
+    basePath: "/movement",
+    assetPrefix: "/movement",
     eslint: {
         ignoreDuringBuilds: true,
     },
