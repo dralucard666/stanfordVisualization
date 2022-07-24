@@ -1,6 +1,6 @@
-import { useContextBridge, RenderTexture } from "@react-three/drei"
+import { useContextBridge } from "@react-three/drei"
 import { Canvas, events } from "@react-three/fiber"
-import { patterns, tileZoomRatio } from "cgv/domains/shape"
+import { tileZoomRatio } from "cgv/domains/shape"
 import { operations } from "cgv/domains/movement/operations"
 import Head from "next/head"
 import React, { HTMLProps, Suspense, useState } from "react"
@@ -8,35 +8,22 @@ import { Texture } from "three"
 import { createBaseState } from "../src/base-state"
 import { CameraController } from "../src/domains/movement/camera"
 import Floor from "../src/domains/movement/floor"
-import {
-    Background,
-    DownloadButton,
-    ExitStreetViewButton,
-    FlyCameraButton,
-    Foreground,
-    generateLots,
-    generateRoads,
-    MultiSelectButton,
-    onDrop,
-    operationGuiMap,
-    Panoramas,
-    ShowError,
-    Skybox,
-    SummarizeButton,
-    tileDescriptionSuffix,
-} from "../src/domains/shape"
-import { GeoSearch } from "../src/domains/shape/geo-search"
-import { ViewerCamera } from "../src/domains/shape/viewer/camera"
-import { PanoramaView } from "../src/domains/shape/viewer/panorama"
-import { useViewerState, getPosition } from "../src/domains/shape/viewer/state"
-import { Tiles, BackgroundTile, DescriptionTile } from "../src/domains/shape/viewer/tile"
-import { ViewControls } from "../src/domains/shape/viewer/view-controls"
-import { VisualSelection } from "../src/domains/shape/viewer/visual-selection"
+import { DownloadButton, FlyCameraButton, MultiSelectButton, onDrop, ShowError, SummarizeButton } from "../src/domains/shape"
+import { useViewerState } from "../src/domains/shape/viewer/state"
 import { Editor } from "../src/editor"
 import { domainContext, DomainProvider, useBaseStore } from "../src/global"
-import { GUI } from "../src/gui"
-import { DescriptionList } from "../src/gui/description-list"
 import { TextEditorToggle } from "../src/gui/toggles/text"
+import {
+    allPatternType,
+    idPatternType,
+    indexGreaterEqualPatternType,
+    indexModuloPatternType,
+    indexPatternType,
+    indexSmallerEqualPatternType,
+} from "cgv"
+import { Descriptions } from "../src/domains/movement/description"
+import { DescriptionList } from "../src/gui/description-list"
+import { GUI } from "../src/gui"
 
 const zoom = 18
 const globalLocalRatio = tileZoomRatio(0, zoom)
@@ -50,9 +37,16 @@ export default function Movement() {
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             <DomainProvider
-                store={createBaseState(operations, patterns)}
+                store={createBaseState(operations, [
+                    allPatternType,
+                    indexPatternType,
+                    indexModuloPatternType,
+                    indexGreaterEqualPatternType,
+                    indexSmallerEqualPatternType,
+                    idPatternType,
+                ])}
                 Viewer={Viewer}
-                operationGuiMap={operationGuiMap}
+                operationGuiMap={{}}
                 operations={operations}>
                 <Editor />
             </DomainProvider>
@@ -89,26 +83,56 @@ export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElemen
                         },
                     })}
                     dpr={global.window == null ? 1 : window.devicePixelRatio}>
-                    <axesHelper />
-                    <Floor world={null} />
-                    <CameraController />
+                    <Bridge>
+                        <axesHelper />
+                        <Descriptions />
+                        <Floor world={null} />
+                        <CameraController />
+                    </Bridge>
                 </Canvas>
-                <div
-                    className="d-flex flex-row flex-column align-items-end m-3 position-absolute"
-                    style={{
-                        pointerEvents: "none",
-                        inset: 0,
-                        left: 0,
-                        right: 0,
-                        top: 0,
-                        bottom: 0,
-                    }}>
+            <div
+                className="d-flex flex-row justify-content-between position-absolute"
+                style={{
+                    pointerEvents: "none",
+                    inset: 0,
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                }}>
+                <div className="d-flex flex-column my-3 ms-3" style={{ maxWidth: 200 }}>
+                    <DescriptionList
+                        createDescriptionRequestData={() => ({})}
+                        style={{ pointerEvents: "all" }}
+                        className="mb-3">
+                        <div className="p-2 border-top border-1">
+                            <SummarizeButton />
+                        </div>
+                    </DescriptionList>
+                    <div className="flex-grow-1" />
+                    <div style={{ pointerEvents: "all" }} className="d-flex flex-row">
+                        <MultiSelectButton className="me-2" />
+                        {/*<SpeedSelection className="me-2" />*/}
+                        <DownloadButton className="me-2" />
+                        <FlyCameraButton className="me-2" />
+                        <ShowError />
+                    </div>
+                </div>
+                <div className="d-flex flex-column align-items-end m-3">
+                    <GUI
+                        className="bg-light border rounded shadow w-100 mb-3 overflow-hidden"
+                        style={{
+                            maxWidth: "16rem",
+                            pointerEvents: "all",
+                        }}
+                    />
                     <div className="flex-grow-1"></div>
                     <div className="d-flex flex-row" style={{ pointerEvents: "all" }}>
                         <TextEditorToggle className="me-2" />
                         {/*<FullscreenToggle rootRef={null} />*/}
                     </div>
                 </div>
+            </div>
                 {children}
             </div>
         </Suspense>
