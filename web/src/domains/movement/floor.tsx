@@ -1,5 +1,4 @@
 import * as THREE from "three"
-import { TextureLoader } from "three/src/loaders/TextureLoader"
 import { useLoader } from "@react-three/fiber"
 import normalImage from "./textures/dirt/normal.jpg"
 import coupaImage from "./textures/dirt/coupa.jpg"
@@ -11,6 +10,7 @@ import nexusImage from "./textures/dirt/nexus.jpg"
 import quadImage from "./textures/dirt/quad.jpg"
 import bookstoreImage from "./textures/dirt/bookstore.jpg"
 import { Suspense, useEffect, useState } from "react"
+import { useTexture } from "@react-three/drei"
 
 export enum ImageName {
     bookstore,
@@ -42,8 +42,8 @@ export const ImagePaths: any = {
 }
 
 export default function Floor(props: { world: WorldState | null }) {
-    const colorMfloorNormalTexture = useLoader(TextureLoader, ImagePaths.normalImage as string)
-    const colorMap = useLoader(TextureLoader, ImagePaths.bookstoreImage as string)
+    const [colorMfloorNormalTexture] = useTexture(["./textures/dirt/normal.jpg"])
+    const [colorMap] = useTexture(["./textures/dirt/bookstore.jpg"])
     colorMap.rotation = Math.PI
     colorMap.encoding = THREE.sRGBEncoding
     colorMap.wrapS = THREE.RepeatWrapping
@@ -52,67 +52,14 @@ export default function Floor(props: { world: WorldState | null }) {
     colorMfloorNormalTexture.wrapT = THREE.RepeatWrapping
 
     const world = props.world
-    const worldImage = world?.image ?? ImageName.bookstore
-
-    let image = null
-    switch (+worldImage) {
-        case ImageName.coupa: {
-            image = ImagePaths.coupaImage
-            break
-        }
-        case ImageName.bookstore: {
-            image = ImagePaths.bookstoreImage
-            console.log(image)
-            break
-        }
-        case ImageName.deathCircle: {
-            image = ImagePaths.deathCircleImage
-            break
-        }
-        case ImageName.gates: {
-            image = ImagePaths.gatesImage
-            break
-        }
-        case ImageName.hyang: {
-            image = ImagePaths.hyangImage
-            break
-        }
-        case ImageName.little: {
-            image = ImagePaths.littleImage
-            break
-        }
-        case ImageName.nexus: {
-            image = ImagePaths.nexusImage
-            break
-        }
-        default: {
-            image = ImagePaths.quadImage
-            break
-        }
-    }
-
-    console.log(colorMap)
-    console.log(colorMfloorNormalTexture)
 
     return (
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
-            <planeGeometry args={[world?.width ?? 1424, world?.height ?? 1088]} />
-                <ProfileDetails />
-        </mesh>
+        <>
+            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
+                <planeGeometry args={[props.world?.width ?? 1424, props.world?.height ?? 1088]} />
+                <meshStandardMaterial map={colorMap} normalMap={colorMfloorNormalTexture}></meshStandardMaterial>
+            </mesh>
+            <ambientLight />
+        </>
     )
-}
-
-function ProfileDetails() {
-    const colorMfloorNormalTexture = useLoader(TextureLoader, ImagePaths.normalImage as string)
-    const colorMap = useLoader(TextureLoader, ImagePaths.bookstoreImage as string)
-    colorMap.rotation = Math.PI
-    colorMap.encoding = THREE.sRGBEncoding
-    colorMap.wrapS = THREE.RepeatWrapping
-    colorMap.wrapT = THREE.RepeatWrapping
-    colorMfloorNormalTexture.wrapS = THREE.RepeatWrapping
-    colorMfloorNormalTexture.wrapT = THREE.RepeatWrapping
-    console.log(colorMfloorNormalTexture)
-    console.log(colorMap)
-
-    return <meshStandardMaterial map={colorMap} normalMap={colorMfloorNormalTexture} />
 }
