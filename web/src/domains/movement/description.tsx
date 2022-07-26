@@ -17,14 +17,14 @@ import {
     getSelectedStepsPath,
 } from "cgv"
 import { RefObject, ReactNode, useEffect, useRef } from "react"
-import { of, Subscription, Subject } from "rxjs"
+import { of, Subscription, Subject, map } from "rxjs"
 import { Color, Group, Matrix4, Mesh, MeshBasicMaterial, Object3D, SphereBufferGeometry, Vector3 } from "three"
 import { UseBaseStore, useBaseStore, useBaseStoreState } from "../../global"
 import { childrenSelectable } from "../../gui"
 import { useViewerState } from "../shape/viewer/state"
 import { operations } from "cgv/domains/movement/operations"
-import { ObjectType, Primitive } from "cgv/domains/movement/primitives"
-import { applyToObject3D } from "cgv/domains/movement/apply-to-object"
+import { ObjectPosition, ObjectType, Primitive } from "cgv/domains/movement/primitives"
+import { applyToObject3D } from "./apply-to-object"
 
 /**
  *
@@ -47,7 +47,11 @@ function pathStartsWith(p1: HierarchicalPath, p2: HierarchicalPath): boolean {
     return true
 }
 
-const defaultValue = new Primitive(new Vector3(0, 0, 0), ObjectType.Pedestrian, new Vector3(1, 0, 0))
+const defaultValue = new Primitive(
+    [{ position: new Vector3(0, 0, 0) } as ObjectPosition],
+    ObjectType.Pedestrian,
+    new Vector3(1, 0, 0)
+)
 
 export function Descriptions() {
     const descriptions = useBaseStoreState((state) => state.descriptions, shallowEqual)
@@ -238,7 +242,7 @@ function useInterpretation(
 
 function toObject(primitive: Primitive): Object3D {
     const mesh = new Mesh(sphereGeometry)
-    mesh.position.copy(primitive.position)
+    mesh.position.copy(primitive.position[primitive.position.length-1].position)
     return mesh
 }
 
