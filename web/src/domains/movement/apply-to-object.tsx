@@ -1,4 +1,4 @@
-import { Primitive } from "cgv/domains/movement"
+import { ObjectPosition, Primitive } from "cgv/domains/movement"
 import { Value } from "cgv/interpreter"
 import { Observable, Subscription, tap } from "rxjs"
 import { Object3D } from "three"
@@ -10,26 +10,26 @@ export function applyToObject3D(
     toObject: (value: Value<Primitive>) => Object3D,
     onError: (error: any) => void
 ): Subscription {
-    const map = new Map<string, Object3D>()
-    return input.pipe(valuesToChanges()).subscribe({
+    return input.subscribe({
         next: (change) => {
             console.log(change)
-            const key = change.index.join(",")
-            if (change.type === ChangeType.SET) {
-                console.log('hier sind wir')
-                const child = toObject(change.value)
-                object.add(child)
-                map.set(key, child)
-            } else {
-                const child = map.get(key)
-                if (child != null) {
-                    map.delete(key)
-                    object.remove(child)
-                }
+            const data=change.raw.position
+            if (data) { 
+                formatToTimeData(data)
             }
+            return
         },
         error: (error) => {
             onError(error)
         },
     })
+}
+
+
+function formatToTimeData(data:ObjectPosition[]) {
+
+
+    
+
+    return
 }

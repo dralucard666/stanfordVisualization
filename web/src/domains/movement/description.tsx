@@ -48,7 +48,7 @@ function pathStartsWith(p1: HierarchicalPath, p2: HierarchicalPath): boolean {
 }
 
 const defaultValue = new Primitive(
-    [{ position: new Vector3(0, 0, 0) } as ObjectPosition],
+    [{ position: new Vector3(0, 0, 0), time: 0 } as ObjectPosition],
     ObjectType.Pedestrian,
     new Vector3(1, 0, 0)
 )
@@ -242,7 +242,7 @@ function useInterpretation(
 
 function toObject(primitive: Primitive): Object3D {
     const mesh = new Mesh(sphereGeometry)
-    mesh.position.copy(primitive.position[primitive.position.length-1].position)
+    mesh.position.copy(primitive.position[primitive.position.length - 1].position)
     return mesh
 }
 
