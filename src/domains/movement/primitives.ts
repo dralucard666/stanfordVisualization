@@ -7,7 +7,7 @@ export enum ObjectType {
     Car,
 }
 
-const standardTime = 10
+const standardTime = 300
 
 export interface ObjectPosition {
     position: Vector3
@@ -20,53 +20,53 @@ export class Primitive {
     moveRight() {
         const oldPo = this.position[this.position.length - 1]
         const newPo = {
-            position: oldPo.position.clone().setX(oldPo.position.x + 10),
+            position: oldPo.position.clone().setX(oldPo.position.x + 100),
             time: oldPo.time + standardTime,
         } as ObjectPosition
 
         const newTimeSteps = this.returnNewTimeSteps(oldPo, newPo)
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
-        return new Primitive(newPosArray, ObjectType.Pedestrian, this.direction)
+        return new Primitive(newPosArray, ObjectType.Pedestrian, new Vector3(1, 0, 0))
     }
 
     moveLeft() {
         const oldPo = this.position[this.position.length - 1]
         const newPo = {
-            position: oldPo.position.clone().setX(oldPo.position.x - 10),
+            position: oldPo.position.clone().setX(oldPo.position.x - 100),
             time: oldPo.time + standardTime,
         } as ObjectPosition
 
         const newTimeSteps = this.returnNewTimeSteps(oldPo, newPo)
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
-        return new Primitive(newPosArray, ObjectType.Pedestrian, this.direction)
+        return new Primitive(newPosArray, ObjectType.Pedestrian, new Vector3(-1, 0, 0))
     }
 
     moveUp() {
         const oldPo = this.position[this.position.length - 1]
         const newPo = {
-            position: oldPo.position.clone().setZ(oldPo.position.z + 10),
+            position: oldPo.position.clone().setZ(oldPo.position.z + 100),
             time: oldPo.time + standardTime,
         } as ObjectPosition
 
         const newTimeSteps = this.returnNewTimeSteps(oldPo, newPo)
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
-        return new Primitive(newPosArray, ObjectType.Pedestrian, this.direction)
+        return new Primitive(newPosArray, ObjectType.Pedestrian, new Vector3(0, 0, 1))
     }
 
     moveDown() {
         const oldPo = this.position[this.position.length - 1]
         const newPo = {
-            position: oldPo.position.clone().setZ(oldPo.position.z + 10),
+            position: oldPo.position.clone().setZ(oldPo.position.z - 100),
             time: oldPo.time + standardTime,
         } as ObjectPosition
 
         const newTimeSteps = this.returnNewTimeSteps(oldPo, newPo)
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
-        return new Primitive(newPosArray, ObjectType.Pedestrian, this.direction)
+        return new Primitive(newPosArray, ObjectType.Pedestrian, new Vector3(0, 0, -1))
     }
 
     returnNewTimeSteps(oldPo: ObjectPosition, newPo: ObjectPosition): ObjectPosition[] {

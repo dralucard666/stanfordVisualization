@@ -1,8 +1,9 @@
-import { ObjectPosition, Primitive } from "cgv/domains/movement"
+import { ObjectPosition, ObjectType, Primitive } from "cgv/domains/movement"
 import { Value } from "cgv/interpreter"
 import { Observable, Subscription, tap } from "rxjs"
 import { Object3D } from "three"
 import { ChangeType, valuesToChanges } from "cgv/interpreter"
+import { framePositions, objectPos, useMovementStore } from "./useMovementStore"
 
 export function applyToObject3D(
     input: Observable<Value<Primitive>>,
@@ -12,10 +13,11 @@ export function applyToObject3D(
 ): Subscription {
     return input.subscribe({
         next: (change) => {
-            console.log(change)
-            const data=change.raw.position
-            if (data) { 
-                formatToTimeData(data)
+            const data = change.raw.position
+            if (data) {
+                const formData = formatToTimeData(data)
+                console.log(formData)
+                useMovementStore.getState().setData(formData)
             }
             return
         },
@@ -25,11 +27,11 @@ export function applyToObject3D(
     })
 }
 
-
-function formatToTimeData(data:ObjectPosition[]) {
-
-
-    
-
-    return
+function formatToTimeData(data: ObjectPosition[]): framePositions[] {
+    return data.map(({ time, position }) => {
+        return {
+            time,
+            obPositions: [[0, position.x, position.y, position.z, 10, ObjectType.Pedestrian] as objectPos],
+        } as framePositions
+    })
 }
