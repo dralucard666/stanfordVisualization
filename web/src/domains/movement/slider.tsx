@@ -5,16 +5,24 @@ import { useMovementStore } from "./useMovementStore"
 
 export const frameRate = 60
 
-export default function Slider(props: any) {
-    const [time, setTime] = useState(0)
+interface SliderState {
+    time: number
+    visible: boolean
+    min: number
+    max: number
+}
 
-    useEffect(() => {
-        useMovementStore.subscribe((e) => setTime(e.time))
-    })
+export default function Slider(props: any) {
+    const data = useMovementStore((e) => e.data)
+    const time = useMovementStore((e) => e.time)
+    const setTime = useMovementStore((e) => e.setTime)
+    const min = data ? data[0].time : 0
+    const max = data ? data[data?.length - 1].time : 0
+    const visible = !!data
 
     const handleChange = (event: any, newValue: any) => {
         useMovementStore.getState().setPlayActive(false)
-        useMovementStore.getState().setTime(newValue)
+        setTime(newValue)
     }
 
     const play = () => {
@@ -27,39 +35,41 @@ export default function Slider(props: any) {
 
     const reset = () => {
         useMovementStore.getState().setPlayActive(false)
-        useMovementStore.getState().setTime(0)
+        setTime(0)
     }
 
     return (
         <>
-            <div
-                style={{
-                    position: "absolute",
-                    top: "80%",
-                    zIndex: "10000",
-                    marginLeft: "10%",
-                    marginRight: "10%",
-                    width: "80%",
-                    height: "5%",
-                    color: "white",
-                }}>
-                Time : {time}
-                <div>
-                    <Sllider
-                        step={1}
-                        min={0}
-                        max={100}
-                        value={time}
-                        onChangeCommitted={handleChange}
-                        valueLabelDisplay="auto"
-                    />
-                    <div className="d-flex justify-content-between">
-                        <button onClick={play}>Play</button>
-                        <button onClick={pause}>Pause</button>
-                        <button onClick={reset}>Reset</button>
+            {visible ? (
+                <div
+                    style={{
+                        position: "absolute",
+                        top: "80%",
+                        zIndex: "10000",
+                        marginLeft: "10%",
+                        marginRight: "10%",
+                        width: "80%",
+                        height: "5%",
+                        color: "white",
+                    }}>
+                    Time : {time}
+                    <div>
+                        <Sllider
+                            step={1}
+                            min={min}
+                            max={max}
+                            value={time}
+                            onChangeCommitted={handleChange}
+                            valueLabelDisplay="auto"
+                        />
+                        <div className="d-flex justify-content-between">
+                            <button onClick={play}>Play</button>
+                            <button onClick={pause}>Pause</button>
+                            <button onClick={reset}>Reset</button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            ) : null}
         </>
     )
 }

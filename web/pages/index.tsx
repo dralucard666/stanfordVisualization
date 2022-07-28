@@ -33,6 +33,7 @@ import { DescriptionList } from "../src/gui/description-list"
 import { GUI } from "../src/gui"
 import { useMovementStore } from "../src/domains/movement/useMovementStore"
 import Slider from "../src/domains/movement/slider"
+import { Person } from "../src/domains/movement/personGltf"
 
 const zoom = 18
 const globalLocalRatio = tileZoomRatio(0, zoom)
@@ -99,9 +100,9 @@ export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElemen
                         <Clock />
                         <CameraController />
                     </Bridge>
+                    <Person key={0} />
                 </Canvas>
-                <Slider minTime={0} maxTime={10000} />
-
+                <Slider />
                 <div
                     className="d-flex flex-row justify-content-between position-absolute"
                     style={{
@@ -152,8 +153,11 @@ export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElemen
 }
 
 const Clock = () => {
+    const data = useMovementStore((e) => e.data)
+    const maxTime = data ? data[data.length - 1].time : 0
+
     useFrame(({ clock }) => {
-        if (useMovementStore.getState().getPlayActive() && useMovementStore.getState().time < 100) {
+        if (useMovementStore.getState().getPlayActive() && useMovementStore.getState().time < maxTime) {
             useMovementStore.getState().incrementTime(1)
         }
     })
