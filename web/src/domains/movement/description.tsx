@@ -23,7 +23,7 @@ import { UseBaseStore, useBaseStore, useBaseStoreState } from "../../global"
 import { childrenSelectable } from "../../gui"
 import { useViewerState } from "../shape/viewer/state"
 import { operations } from "cgv/domains/movement/operations"
-import { ObjectPosition, ObjectType, Primitive } from "cgv/domains/movement/primitives"
+import { ObjectPosition, ObjectType, MovingObject as Primitive } from "cgv/domains/movement/primitives"
 import { applyToObject3D } from "./apply-to-object"
 
 /**
@@ -48,7 +48,8 @@ function pathStartsWith(p1: HierarchicalPath, p2: HierarchicalPath): boolean {
 }
 
 const defaultValue = new Primitive(
-    [{ position: new Vector3(0, 0, 0), time: 0 } as ObjectPosition],
+    0,
+    [ { position: new Vector3(0, 0, 0), time: 0 } as ObjectPosition],
     ObjectType.Pedestrian,
     new Vector3(1, 0, 0)
 )
