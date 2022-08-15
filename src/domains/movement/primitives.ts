@@ -1,5 +1,6 @@
 import { of } from "rxjs"
 import { Vector3 } from "three"
+import { possibleAngles, possibleDistance } from "./operations"
 
 export enum ObjectType {
     Pedestrian,
@@ -14,8 +15,13 @@ export interface ObjectPosition {
     time: number
 }
 
-export class Primitive {
-    constructor(public position: ObjectPosition[], public type: ObjectType, public direction: Vector3) {}
+export class MovingObject {
+    constructor(
+        public id: number,
+        public position: ObjectPosition[],
+        public type: ObjectType,
+        public direction: Vector3
+    ) {}
 
     moveRight() {
         const oldPo = this.position[this.position.length - 1]
@@ -27,7 +33,7 @@ export class Primitive {
         const newTimeSteps = this.returnNewTimeSteps(oldPo, newPo)
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
-        return new Primitive(newPosArray, ObjectType.Pedestrian, new Vector3(1, 0, 0))
+        return new MovingObject(this.id, newPosArray, this.type, new Vector3(1, 0, 0))
     }
 
     moveLeft() {
@@ -40,7 +46,7 @@ export class Primitive {
         const newTimeSteps = this.returnNewTimeSteps(oldPo, newPo)
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
-        return new Primitive(newPosArray, ObjectType.Pedestrian, new Vector3(-1, 0, 0))
+        return new MovingObject(this.id, newPosArray, this.type, new Vector3(-1, 0, 0))
     }
 
     moveUp() {
@@ -53,7 +59,7 @@ export class Primitive {
         const newTimeSteps = this.returnNewTimeSteps(oldPo, newPo)
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
-        return new Primitive(newPosArray, ObjectType.Pedestrian, new Vector3(0, 0, 1))
+        return new MovingObject(this.id, newPosArray, this.type, new Vector3(0, 0, 1))
     }
 
     moveDown() {
@@ -66,7 +72,20 @@ export class Primitive {
         const newTimeSteps = this.returnNewTimeSteps(oldPo, newPo)
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
-        return new Primitive(newPosArray, ObjectType.Pedestrian, new Vector3(0, 0, -1))
+        return new MovingObject(this.id, newPosArray, this.type, new Vector3(0, 0, -1))
+    }
+
+    moveRotate(angle: possibleAngles, distance: possibleDistance) {
+        const oldPo = this.position[this.position.length - 1]
+        const newDirection = this.direction.applyAxisAngle(new Vector3(0, 1, 0), angle)
+        const newPo = {
+            position: oldPo.position.clone().add(newDirection.multiplyScalar(distance)),
+            time: oldPo.time + standardTime,
+        } as ObjectPosition
+        const newTimeSteps = this.returnNewTimeSteps(oldPo, newPo)
+        const newPosArray = structuredClone(this.position)
+        newPosArray.push(...newTimeSteps)
+        return new MovingObject(this.id, newPosArray, this.type, newDirection)
     }
 
     returnNewTimeSteps(oldPo: ObjectPosition, newPo: ObjectPosition): ObjectPosition[] {

@@ -38,7 +38,6 @@ export const defaultOperations: Operations<any> = {
     },
     log: {
         execute: (value) => {
-            console.log(value.raw[1])
             return of([
                 {
                     ...value,

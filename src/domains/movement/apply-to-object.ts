@@ -1,13 +1,13 @@
 import { Observable, Subscription, tap } from "rxjs"
 import { Object3D } from "three"
 import { Value } from "../.."
-import { Primitive } from "."
+import { MovingObject } from "."
 import { ChangeType, valuesToChanges } from "../../interpreter"
 
 export function applyToObject3D(
-    input: Observable<Value<Primitive>>,
+    input: Observable<Value<MovingObject>>,
     object: Object3D,
-    toObject: (value: Value<Primitive>) => Object3D,
+    toObject: (value: Value<MovingObject>) => Object3D,
     onError: (error: any) => void
 ): Subscription {
     const map = new Map<string, Object3D>()

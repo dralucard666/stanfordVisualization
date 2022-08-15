@@ -34,6 +34,7 @@ import { GUI } from "../src/gui"
 import { useMovementStore } from "../src/domains/movement/useMovementStore"
 import Slider from "../src/domains/movement/slider"
 import { Person } from "../src/domains/movement/personGltf"
+import shallow from 'zustand/shallow'
 
 const zoom = 18
 const globalLocalRatio = tileZoomRatio(0, zoom)
@@ -63,6 +64,26 @@ export default function Movement() {
         </>
     )
 }
+
+
+const Persons = () => {
+
+    const allPersonIds = useMovementStore(state => state.currentDataLine?.obPositions.map((e) => e[0]), shallow)
+    
+      return (
+        <>
+          {
+          allPersonIds
+            ? allPersonIds.map((x) => (
+                <Person
+                  key={x}
+                  id={x}
+                />
+              ))
+            : null}
+        </>
+      );
+    };
 
 export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElement>) {
     const Bridge = useContextBridge(domainContext)
@@ -100,7 +121,7 @@ export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElemen
                         <Clock />
                         <CameraController />
                     </Bridge>
-                    <Person key={0} />
+                    <Persons/>
                 </Canvas>
                 <Slider />
                 <div
