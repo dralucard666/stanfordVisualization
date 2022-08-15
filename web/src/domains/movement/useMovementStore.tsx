@@ -26,7 +26,7 @@ export interface TimeState {
     data: movObject[] | null
     world: WorldState | null
     setWorld: (newVal: WorldState) => void
-    setData: (newVal: movObject[]) => void
+    setData: (newVal: movObject[] | null) => void
     incrementTime: (newVal: number) => void
     setTime: (newVal: number) => void
     action: () => number
@@ -45,7 +45,7 @@ export const useMovementStore = create<TimeState>((set, get) => ({
         set((state) => {
             return { world: newVal }
         }),
-    setData: (newVal: movObject[]) =>
+    setData: (newVal: movObject[] | null) =>
         set((state) => {
             return { data: newVal }
         }),

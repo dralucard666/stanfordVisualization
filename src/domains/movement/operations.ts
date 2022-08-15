@@ -41,7 +41,7 @@ function createObject(
     type: ObjectType,
     direction: Vector3
 ): Observable<Array<MovingObject>> {
-    return of([new MovingObject(id, [{ position, time } as ObjectPosition], type, direction)])
+    return of([new MovingObject(id, [{ position, time } as ObjectPosition], ObjectType.Pedestrian, direction)])
 }
 
 function computePoint3(x: number, y: number, z: number): Observable<Array<Vector3>> {
@@ -54,6 +54,7 @@ export const operations: Operations<any> = {
         execute: simpleExecution<any>(createObject),
         includeThis: false,
         defaultParameters: [
+            () => ({ type: "raw", value: 0 }),
             () => ({
                 type: "operation",
                 identifier: "point3",
@@ -64,7 +65,7 @@ export const operations: Operations<any> = {
                 ],
             }),
             () => ({ type: "raw", value: 0 }),
-            () => ({ type: "raw", value: ObjectType.Pedestrian }),
+            () => ({ type: "raw", value: 0 }),
             () => ({
                 type: "operation",
                 identifier: "point3",

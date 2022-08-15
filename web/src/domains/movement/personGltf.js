@@ -7,7 +7,7 @@ import { useMovementStore } from "./useMovementStore"
 
 export const Person = (props) => {
     const { scene, materials, animations } = useGLTF("./models/remyplace.glb")
-    const clones = useMemo(() => clone(scene), [scene])
+    const clones = useMemo(() => clone(scene), [scene, props])
 
     const { nodes } = useGraph(clones)
 
@@ -21,9 +21,11 @@ export const Person = (props) => {
     const data = props.data
 
     useEffect(() => {
-        console.log('wird ausgefhurt')
-        person.current.rotation.y = data.direction[0]*Math.PI
-    }, [person])
+        person.current.rotation.y = data.direction[0] * Math.PI
+        person.current.position.x = data.framePos[0].position[0]
+        person.current.position.y = data.framePos[0].position[1]
+        person.current.position.z = data.framePos[0].position[2]
+    }, [person, props])
 
     useFrame((state, delta) => {
         const currentTime = useMovementStore.getState().time
