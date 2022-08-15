@@ -34,7 +34,7 @@ import { GUI } from "../src/gui"
 import { useMovementStore } from "../src/domains/movement/useMovementStore"
 import Slider from "../src/domains/movement/slider"
 import { Person } from "../src/domains/movement/personGltf"
-import shallow from 'zustand/shallow'
+import shallow from "zustand/shallow"
 
 const zoom = 18
 const globalLocalRatio = tileZoomRatio(0, zoom)
@@ -65,25 +65,20 @@ export default function Movement() {
     )
 }
 
-
 const Persons = () => {
+    const data = useMovementStore((store) => store.data)
+    const playActive = useMovementStore((store) => store.playActive)
 
-    const allPersonIds = useMovementStore(state => state.currentDataLine?.obPositions.map((e) => e[0]), shallow)
-    
-      return (
+    return (
         <>
-          {
-          allPersonIds
-            ? allPersonIds.map((x) => (
-                <Person
-                  key={x}
-                  id={x}
-                />
-              ))
-            : null}
+            {data
+                ? data.map((ob) => {
+                      return <Person key={ob.id} id={ob.id} data={ob} />
+                  })
+                : null}
         </>
-      );
-    };
+    )
+}
 
 export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElement>) {
     const Bridge = useContextBridge(domainContext)
@@ -121,7 +116,7 @@ export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElemen
                         <Clock />
                         <CameraController />
                     </Bridge>
-                    <Persons/>
+                    <Persons />
                 </Canvas>
                 <Slider />
                 <div
@@ -175,7 +170,7 @@ export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElemen
 
 const Clock = () => {
     const data = useMovementStore((e) => e.data)
-    const maxTime = data ? data[data.length - 1].time : 0
+    const maxTime = useMovementStore((e) => e.maxTime)
 
     useFrame(({ clock }) => {
         if (useMovementStore.getState().getPlayActive() && useMovementStore.getState().time < maxTime) {

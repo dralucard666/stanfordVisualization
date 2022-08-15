@@ -17,18 +17,31 @@ export const Person = (props) => {
         const action = mixer.clipAction(clip)
         action.play()
     })
-    /*   useEffect(( ) => {
-    const unsubscribe = useStore.subscribe(state => state.currentDataLine)
-    return unsubscribe
-  },[]) */
+
+    const data = props.data
+
+    useEffect(() => {
+        console.log('wird ausgefhurt')
+        person.current.rotation.y = data.direction[0]*Math.PI
+    }, [person])
 
     useFrame((state, delta) => {
-        let currentLine = useMovementStore.getState().currentDataLine?.obPositions[0]
+        const currentTime = useMovementStore.getState().time
+        const playActive = useMovementStore.getState().playActive
 
-        if (currentLine) {
-            const positionX = currentLine[1]
-            const positionY = currentLine[2]
-            const positionZ = currentLine[3]
+        if (data.startT <= currentTime && currentTime <= data.endT && data.framePos && playActive) {
+            /*             person.traverse((child) => {
+                if (child instanceof THREE.SkinnedMesh) {
+                    child.visible = true
+                }
+            }) */
+            const arrayIndex = currentTime - data.startT
+            const currentLine = data.framePos[arrayIndex]
+            //  console.log(arrayIndex)
+            //  console.log(data.framePos)
+            const positionX = currentLine.position[0]
+            const positionY = currentLine.position[1]
+            const positionZ = currentLine.position[2]
 
             person.current.rotation.y =
                 positionX - person.current.position.x > 0
@@ -42,6 +55,13 @@ export const Person = (props) => {
             person.current.position.y = positionY
             person.current.position.z = positionZ
             mixer.update(delta)
+        } else {
+            mixer.update(delta)
+            /*             person.traverse((child) => {
+                if (child instanceof THREE.SkinnedMesh) {
+                    child.visible = false
+                }
+            }) */
         }
     })
 
