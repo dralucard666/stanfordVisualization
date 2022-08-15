@@ -85,7 +85,8 @@ export class MovingObject {
         const newTimeSteps = this.returnNewTimeSteps(oldPo, newPo)
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
-        return new MovingObject(this.id, newPosArray, this.type, newDirection)
+        console.log(newDirection)
+        return new MovingObject(this.id, newPosArray, this.type, newDirection.normalize())
     }
 
     returnNewTimeSteps(oldPo: ObjectPosition, newPo: ObjectPosition): ObjectPosition[] {

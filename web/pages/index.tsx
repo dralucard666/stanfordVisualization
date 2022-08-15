@@ -67,8 +67,7 @@ export default function Movement() {
 
 const Persons = () => {
     const data = useMovementStore((store) => store.data)
-    const playActive = useMovementStore((store) => store.playActive)
-
+   // const playActive = useMovementStore((store) => store.playActive)
     return (
         <>
             {data

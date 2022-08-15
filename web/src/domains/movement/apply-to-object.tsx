@@ -14,6 +14,7 @@ export function applyToObject3D(
     return input.subscribe({
         next: (change) => {
             const data = change.raw
+            console.log(change.raw.direction)
             if (data) {
                 const startTime = data.position[0].time
                 const endTime = data.position[data.position.length - 1].time
@@ -31,6 +32,7 @@ export function applyToObject3D(
 
                 const storeData = useMovementStore.getState().data
                 const setStoreData = useMovementStore.getState().setData
+                setStoreData(null)
                 if (storeData) {
                     const indexOfCurrent = storeData.findIndex((e) => e.id === id)
                     if (indexOfCurrent !== -1) {
