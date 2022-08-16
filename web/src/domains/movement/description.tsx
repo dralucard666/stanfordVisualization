@@ -25,6 +25,7 @@ import { useViewerState } from "../shape/viewer/state"
 import { operations } from "cgv/domains/movement/operations"
 import { ObjectPosition, ObjectType, MovingObject as Primitive } from "cgv/domains/movement/primitives"
 import { applyToObject3D } from "./apply-to-object"
+import { useMovementStore } from "./useMovementStore"
 
 /**
  *

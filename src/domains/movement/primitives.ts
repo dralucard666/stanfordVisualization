@@ -23,10 +23,10 @@ export class MovingObject {
         public direction: Vector3
     ) {}
 
-    moveRight() {
+    moveRight(distance: number) {
         const oldPo = this.position[this.position.length - 1]
         const newPo = {
-            position: oldPo.position.clone().setX(oldPo.position.x + 100),
+            position: oldPo.position.clone().setX(oldPo.position.x + distance),
             time: oldPo.time + standardTime,
         } as ObjectPosition
 
@@ -36,10 +36,10 @@ export class MovingObject {
         return new MovingObject(this.id, newPosArray, this.type, new Vector3(1, 0, 0))
     }
 
-    moveLeft() {
+    moveLeft(distance: number) {
         const oldPo = this.position[this.position.length - 1]
         const newPo = {
-            position: oldPo.position.clone().setX(oldPo.position.x - 100),
+            position: oldPo.position.clone().setX(oldPo.position.x - distance),
             time: oldPo.time + standardTime,
         } as ObjectPosition
 
@@ -49,10 +49,10 @@ export class MovingObject {
         return new MovingObject(this.id, newPosArray, this.type, new Vector3(-1, 0, 0))
     }
 
-    moveUp() {
+    moveUp(distance: number) {
         const oldPo = this.position[this.position.length - 1]
         const newPo = {
-            position: oldPo.position.clone().setZ(oldPo.position.z + 100),
+            position: oldPo.position.clone().setZ(oldPo.position.z + distance),
             time: oldPo.time + standardTime,
         } as ObjectPosition
 
@@ -62,10 +62,10 @@ export class MovingObject {
         return new MovingObject(this.id, newPosArray, this.type, new Vector3(0, 0, 1))
     }
 
-    moveDown() {
+    moveDown(distance: number) {
         const oldPo = this.position[this.position.length - 1]
         const newPo = {
-            position: oldPo.position.clone().setZ(oldPo.position.z - 100),
+            position: oldPo.position.clone().setZ(oldPo.position.z - distance),
             time: oldPo.time + standardTime,
         } as ObjectPosition
 
@@ -77,7 +77,7 @@ export class MovingObject {
 
     moveRotate(angle: possibleAngles, distance: possibleDistance) {
         const oldPo = this.position[this.position.length - 1]
-        const newDirection = this.direction.applyAxisAngle(new Vector3(0, 1, 0), angle)
+        const newDirection = this.direction.applyAxisAngle(new Vector3(0, 1, 0), (angle / 180) * Math.PI)
         const newPo = {
             position: oldPo.position.clone().add(newDirection.multiplyScalar(distance)),
             time: oldPo.time + standardTime,
@@ -85,7 +85,6 @@ export class MovingObject {
         const newTimeSteps = this.returnNewTimeSteps(oldPo, newPo)
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
-        console.log(newDirection)
         return new MovingObject(this.id, newPosArray, this.type, newDirection.normalize())
     }
 
