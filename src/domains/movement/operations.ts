@@ -10,20 +10,20 @@ export type possibleAngles = 0 | 45 | 90 | 135 | 180 | 225 | 270 | 315 | 360
 
 export type possibleDistance = 2 | 4 | 6 | 8 | 10 | 12 | 14 | 16 | 18 | 20
 
-function computeMoveRight(instance: MovingObject): Observable<Array<MovingObject>> {
-    return of([instance.moveRight()])
+function computeMoveRight(instance: MovingObject, distance: number): Observable<Array<MovingObject>> {
+    return of([instance.moveRight(distance)])
 }
 
-function computeMoveLeft(instance: MovingObject): Observable<Array<MovingObject>> {
-    return of([instance.moveLeft()])
+function computeMoveLeft(instance: MovingObject, distance: number): Observable<Array<MovingObject>> {
+    return of([instance.moveLeft(distance)])
 }
 
-function computeMoveUp(instance: MovingObject): Observable<Array<MovingObject>> {
-    return of([instance.moveUp()])
+function computeMoveUp(instance: MovingObject, distance: number): Observable<Array<MovingObject>> {
+    return of([instance.moveUp(distance)])
 }
 
-function computeMoveDown(instance: MovingObject): Observable<Array<MovingObject>> {
-    return of([instance.moveDown()])
+function computeMoveDown(instance: MovingObject, distance: number): Observable<Array<MovingObject>> {
+    return of([instance.moveDown(distance)])
 }
 
 function computeMoveRotate(
@@ -89,22 +89,22 @@ export const operations: Operations<any> = {
     moveRight: {
         execute: simpleExecution<any>(computeMoveRight),
         includeThis: true,
-        defaultParameters: [],
+        defaultParameters: [() => ({ type: "raw", value: 100 })],
     },
     moveLeft: {
         execute: simpleExecution<any>(computeMoveLeft),
         includeThis: true,
-        defaultParameters: [],
+        defaultParameters: [() => ({ type: "raw", value: 100 })],
     },
     moveUp: {
         execute: simpleExecution<any>(computeMoveUp),
         includeThis: true,
-        defaultParameters: [],
+        defaultParameters: [() => ({ type: "raw", value: 100 })],
     },
     moveDown: {
         execute: simpleExecution<any>(computeMoveDown),
         includeThis: true,
-        defaultParameters: [],
+        defaultParameters: [() => ({ type: "raw", value: 100 })],
     },
     moveRotate: {
         execute: simpleExecution<any>(computeMoveRotate),

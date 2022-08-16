@@ -14,7 +14,7 @@ export function applyToObject3D(
     return input.subscribe({
         next: (change) => {
             const data = change.raw
-            console.log(change.raw.direction)
+            console.log(change.raw)
             if (data) {
                 const startTime = data.position[0].time
                 const endTime = data.position[data.position.length - 1].time
