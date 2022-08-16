@@ -12,7 +12,7 @@ export type movObject = {
     endT: number
     direction: number[]
 }
-export type framePositions = { time: number; position: number[] | null }
+export type framePositions = { time: number; position: number[] | null; direction: number[] | null }
 
 export interface WorldState {
     image: ImageName

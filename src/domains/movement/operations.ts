@@ -41,7 +41,7 @@ function createObject(
     type: ObjectType,
     direction: Vector3
 ): Observable<Array<MovingObject>> {
-    return of([new MovingObject(id, [{ position, time } as ObjectPosition], ObjectType.Pedestrian, direction)])
+    return of([new MovingObject(id, [{ position, time, direction } as ObjectPosition], ObjectType.Pedestrian)])
 }
 
 function computePoint3(x: number, y: number, z: number): Observable<Array<Vector3>> {
