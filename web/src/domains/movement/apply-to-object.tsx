@@ -27,7 +27,7 @@ export function applyToObject3D(
                     framePos: framePositions,
                     startT: startTime,
                     endT: endTime,
-                    direction: [data.direction.x, data.direction.y, data.direction.z],
+                    direction: [data.position[0].direction.x, data.position[0].direction.y, data.position[0].direction.z],
                 } as movObject
 
                 const storeData = useMovementStore.getState().data
@@ -61,10 +61,11 @@ function formatToTimeData(data: ObjectPosition[], startTime: number, endTime: nu
     const framePos = [] as framePositions[]
 
     for (let x = startTime; x <= endTime; x++) {
-        framePos.push({ time: x, position: null } as framePositions)
+        framePos.push({ time: x, position: null, direction: null } as framePositions)
     }
-    data.map(({ time, position }) => {
+    data.map(({ time, position, direction }) => {
         framePos[time].position = [position.x, position.y, position.z]
+        framePos[time].direction = [direction.x, direction.y, direction.z]
     })
     return framePos
 }

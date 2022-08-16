@@ -21,7 +21,7 @@ export const Person = (props) => {
     const data = props.data
 
     useEffect(() => {
-        person.current.rotation.y = data.direction[0] * Math.PI
+        person.current.rotation.y = Math.PI/2
         person.current.position.x = data.framePos[0].position[0]
         person.current.position.y = data.framePos[0].position[1]
         person.current.position.z = data.framePos[0].position[2]
@@ -39,20 +39,15 @@ export const Person = (props) => {
             }) */
             const arrayIndex = currentTime - data.startT
             const currentLine = data.framePos[arrayIndex]
-            //  console.log(arrayIndex)
-            //  console.log(data.framePos)
             const positionX = currentLine.position[0]
             const positionY = currentLine.position[1]
             const positionZ = currentLine.position[2]
 
-            person.current.rotation.y =
-                positionX - person.current.position.x > 0
-                    ? 0.5 * Math.PI
-                    : positionX - person.current.position.x < 0
-                    ? 1.5 * Math.PI
-                    : positionZ - person.current.position.z > 0
-                    ? 0
-                    : Math.PI
+            const direction =currentLine.direction
+            if (direction) {
+                const angle = -(Math.atan2(direction[2], direction[0]))+Math.PI/2;
+                person.current.rotation.y = angle;
+            }
             person.current.position.x = positionX
             person.current.position.y = positionY
             person.current.position.z = positionZ

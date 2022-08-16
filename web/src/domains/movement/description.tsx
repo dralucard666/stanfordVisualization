@@ -50,9 +50,8 @@ function pathStartsWith(p1: HierarchicalPath, p2: HierarchicalPath): boolean {
 
 const defaultValue = new Primitive(
     0,
-    [ { position: new Vector3(0, 0, 0), time: 0 } as ObjectPosition],
-    ObjectType.Pedestrian,
-    new Vector3(1, 0, 0)
+    [{ position: new Vector3(0, 0, 0), time: 0, direction: new Vector3(1, 0, 0) } as ObjectPosition],
+    ObjectType.Pedestrian
 )
 
 export function Descriptions() {
@@ -260,15 +259,13 @@ function HighlightDescription({ description }: { description: string }) {
             new Set(
                 (state.hovered != null ? state.selectionsList.concat(state.hovered) : state.selectionsList)
                     .filter(({ steps }) => isNounOfDescription(description, getSelectedStepsPath(steps)[0]))
-                    .reduce<Array<Object3D>>(
-                        (prev, selections) =>
-                            prev.concat(
-                                selections.values
-                                    .filter((value) => (value as any).object != null)
-                                    .map((value) => (value as any).object)
-                            ),
-                        []
-                    )
+                    .reduce<Array<Object3D>>((prev, selections) => {
+                        return prev.concat(
+                            selections.values
+                                .filter((value) => (value as any).object != null)
+                                .map((value) => (value as any).object)
+                        )
+                    }, [])
             )
         )
     }, shallowEqual)
