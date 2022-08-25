@@ -56,16 +56,17 @@ const defaultValue = new Primitive(
 
 export function Descriptions() {
     const descriptions = useBaseStoreState((state) => state.descriptions, shallowEqual)
+    console.log(descriptions)
     return (
         <>
-            {descriptions.map(({ seed, name }) => (
-                <Description seed={seed} key={name} name={name} />
+            {descriptions.map(({ seed, name }, index) => (
+                <Description seed={seed} key={name} name={name} index={index} />
             ))}
         </>
     )
 }
 
-export function Description({ seed, name }: { seed: number; name: string }) {
+export function Description({ seed, name, index }: { seed: number; name: string; index:number }) {
     const store = useBaseStore()
     const isSelected = store((state) => state.selectedDescriptions.includes(name))
     const rootNode = store(
@@ -249,6 +250,7 @@ function toObject(primitive: Primitive): Object3D {
 
 function HighlightDescription({ description }: { description: string }) {
     const store = useBaseStore()
+    const setTime = useMovementStore((e) => e.setTime)
 
     const highlightedValues = store((state) => {
         if (state.type !== "gui") {
@@ -260,6 +262,14 @@ function HighlightDescription({ description }: { description: string }) {
                 (state.hovered != null ? state.selectionsList.concat(state.hovered) : state.selectionsList)
                     .filter(({ steps }) => isNounOfDescription(description, getSelectedStepsPath(steps)[0]))
                     .reduce<Array<Object3D>>((prev, selections) => {
+                        const before = selections.values[0]?.before.raw
+                        const after = selections.values[0]?.after.raw
+                        const nameOfOperation: string = selections.steps.identifier ?? ""
+                        if (nameOfOperation.includes("move") && before && after) {
+                            const newVars = after.position.slice(before.position.length)
+                            const newTime = newVars[0].time
+                            setTime(newTime)
+                        }
                         return prev.concat(
                             selections.values
                                 .filter((value) => (value as any).object != null)

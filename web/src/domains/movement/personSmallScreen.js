@@ -3,9 +3,8 @@ import { useGLTF, useAnimations } from "@react-three/drei"
 import * as THREE from "three"
 import { useGraph, useFrame } from "@react-three/fiber"
 import { clone } from "three/examples/jsm/utils/SkeletonUtils"
-import { useMovementStore } from "./useMovementStore"
 
-export const Person = (props) => {
+export const PersonSmallScreen = (props) => {
     const { scene, materials, animations } = useGLTF("./models/remyplace.glb")
     const clones = useMemo(() => clone(scene), [scene, props])
 
@@ -21,46 +20,13 @@ export const Person = (props) => {
     const data = props.data
 
     useEffect(() => {
-        person.current.rotation.y = Math.PI/2
-        person.current.position.x = data.framePos[0].position[0]
-        person.current.position.y = data.framePos[0].position[1]
-        person.current.position.z = data.framePos[0].position[2]
+        const direction = data.direction
+        person.current.rotation.y = -Math.atan2(direction[2], direction[0]) + Math.PI / 2
+        person.current.position.x = data.position[0]
+        person.current.position.y = data.position[1]
+        person.current.position.z = data.position[2]
+        mixer.update(Math.round(Math.random()*500))
     }, [person, props])
-
-    useFrame((state, delta) => {
-        const currentTime = useMovementStore.getState().time
-        const playActive = useMovementStore.getState().playActive
-
-        if (data.startT <= currentTime && currentTime <= data.endT && data.framePos) {
-            /*             person.traverse((child) => {
-                if (child instanceof THREE.SkinnedMesh) {
-                    child.visible = true
-                }
-            }) */
-            const arrayIndex = currentTime - data.startT
-            const currentLine = data.framePos[arrayIndex]
-            const positionX = currentLine.position[0]
-            const positionY = currentLine.position[1]
-            const positionZ = currentLine.position[2]
-
-            const direction =currentLine.direction
-            if (direction) {
-                const angle = -(Math.atan2(direction[2], direction[0]))+Math.PI/2;
-                person.current.rotation.y = angle;
-            }
-            person.current.position.x = positionX
-            person.current.position.y = positionY
-            person.current.position.z = positionZ
-            mixer.update(delta)
-        } else {
-            mixer.update(delta)
-            /*             person.traverse((child) => {
-                if (child instanceof THREE.SkinnedMesh) {
-                    child.visible = false
-                }
-            }) */
-        }
-    })
 
     return (
         <group ref={person} dispose={null}>
