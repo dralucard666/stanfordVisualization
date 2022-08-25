@@ -1,15 +1,21 @@
 import Sllider from "@mui/material/Slider"
-import { extend, useFrame } from "@react-three/fiber"
+import { Canvas, extend, useFrame, useThree } from "@react-three/fiber"
 import React, { useState, useEffect } from "react"
+import { CameraController } from "./camera"
+import Floor from "./floor"
 import { useMovementStore } from "./useMovementStore"
+import { PersonSmallScreen } from "./personSmallScreen"
 
 export const frameRate = 60
 
-interface SliderState {
-    time: number
-    visible: boolean
-    min: number
-    max: number
+export const CameraSmallScreen = () => {
+    const { camera, gl } = useThree()
+    useEffect(() => {
+        camera.rotateX(-Math.PI / 10)
+        camera.position.set(3, 200, 400)
+        camera.rotateX(-Math.PI / 10)
+    }, [camera, gl])
+    return null
 }
 
 export default function Slider(props: any) {
@@ -19,10 +25,14 @@ export default function Slider(props: any) {
     const min = data ? data[0].time : 0
     const max = useMovementStore((e) => e.maxTime)
     const visible = !!data
+    const [searchCanvasPos, setSearchCanvasPos] = useState<number | false>(false)
+    const [smallScreenTime, setSmallScreenTime] = useState<number>(0)
 
     const handleChange = (event: any, newValue: any) => {
-        useMovementStore.getState().setPlayActive(false)
+        useMovementStore.getState().setPlayActive(true)
         setTime(newValue)
+        useMovementStore.getState().setPlayActive(false)
+        setSearchCanvasPos(false)
     }
 
     const play = () => {
@@ -36,6 +46,17 @@ export default function Slider(props: any) {
     const reset = () => {
         useMovementStore.getState().setPlayActive(false)
         setTime(0)
+    }
+
+    const onHover = (e: Event, value: any) => {
+        if (e.type == "mousemove") {
+            const event: MouseEvent = e as unknown as MouseEvent
+            setSearchCanvasPos(event.clientX)
+            setSmallScreenTime(value)
+        } else {
+            setSearchCanvasPos(false)
+            setSmallScreenTime(0)
+        }
     }
 
     return (
@@ -53,6 +74,35 @@ export default function Slider(props: any) {
                         color: "white",
                     }}>
                     Time : {time}
+                    {searchCanvasPos ? (
+                        <Canvas
+                            style={{
+                                position: "absolute",
+                                bottom: "75%",
+                                zIndex: "10000",
+                                marginLeft: searchCanvasPos - 220 + "px",
+                                width: "500px",
+                                height: "350px",
+                                border: "4px solid mediumgray",
+                            }}>
+                            <axesHelper />
+                            <Floor world={null} />(
+                            <>
+                                {data
+                                    ? data.map((ob) => {
+                                          return (
+                                              <PersonSmallScreen
+                                                  key={ob.id}
+                                                  id={ob.id}
+                                                  data={ob.framePos[smallScreenTime]}
+                                              />
+                                          )
+                                      })
+                                    : null}
+                            </>
+                            ) <CameraSmallScreen />
+                        </Canvas>
+                    ) : null}
                     <div>
                         <Sllider
                             step={1}
@@ -60,6 +110,7 @@ export default function Slider(props: any) {
                             max={max}
                             value={time}
                             onChangeCommitted={handleChange}
+                            onChange={onHover}
                             valueLabelDisplay="auto"
                         />
                         <div className="d-flex justify-content-between">
