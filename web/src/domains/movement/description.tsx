@@ -23,7 +23,7 @@ import { UseBaseStore, useBaseStore, useBaseStoreState } from "../../global"
 import { childrenSelectable } from "../../gui"
 import { useViewerState } from "../shape/viewer/state"
 import { operations } from "cgv/domains/movement/operations"
-import { ObjectPosition, ObjectType, MovingObject as Primitive } from "cgv/domains/movement/primitives"
+import { ObjectPosition, ObjectType, Primitive, MovingObject } from "cgv/domains/movement/primitives"
 import { applyToObject3D } from "./apply-to-object"
 import { useMovementStore } from "./useMovementStore"
 
@@ -48,15 +48,10 @@ function pathStartsWith(p1: HierarchicalPath, p2: HierarchicalPath): boolean {
     return true
 }
 
-const defaultValue = new Primitive(
-    0,
-    [{ position: new Vector3(0, 0, 0), time: 0, direction: new Vector3(1, 0, 0) } as ObjectPosition],
-    ObjectType.Pedestrian
-)
+const defaultValue = new Primitive("null")
 
 export function Descriptions() {
     const descriptions = useBaseStoreState((state) => state.descriptions, shallowEqual)
-    console.log(descriptions)
     return (
         <>
             {descriptions.map(({ seed, name }, index) => (
@@ -66,7 +61,7 @@ export function Descriptions() {
     )
 }
 
-export function Description({ seed, name, index }: { seed: number; name: string; index:number }) {
+export function Description({ seed, name, index }: { seed: number; name: string; index: number }) {
     const store = useBaseStore()
     const isSelected = store((state) => state.selectedDescriptions.includes(name))
     const rootNode = store(
@@ -95,12 +90,15 @@ function useSimpleInterpretation(
     ref: RefObject<ReactNode & Group>
 ) {
     const store = useBaseStore()
+    const name = description ? (description[0].name ? description[0].name : "") : ("" as unknown as string)
+    const newdefaultValue = defaultValue
+    newdefaultValue.id = name
     useEffect(() => {
         if (ref.current == null || description == null) {
             return
         }
         const subscription = applyToObject3D(
-            of(defaultValue).pipe(
+            of(newdefaultValue).pipe(
                 toValue(),
                 interprete<Primitive, HierarchicalInfo>(description, operations, {
                     delay: store.getState().interpretationDelay,
@@ -146,9 +144,12 @@ function useInterpretation(
         const unsubscribeAfterStep = afterStepSubject
             .pipe(debounceBufferTime(300))
             .subscribe((entries) => store.getState().editIndices(entries, true))
+        const name = description ? (description[0].name ? description[0].name : "") : ("" as unknown as string)
+        const newdefaultValue = defaultValue
+        newdefaultValue.id = name
         try {
             subscription = applyToObject3D(
-                of(defaultValue).pipe(
+                of(newdefaultValue).pipe(
                     toValue(),
                     interprete<Primitive, HierarchicalInfo>(description, operations, {
                         delay: store.getState().interpretationDelay,
@@ -244,7 +245,9 @@ function useInterpretation(
 
 function toObject(primitive: Primitive): Object3D {
     const mesh = new Mesh(sphereGeometry)
-    mesh.position.copy(primitive.position[primitive.position.length - 1].position)
+    if (primitive instanceof MovingObject) {
+        mesh.position.copy(primitive.position[primitive.position.length - 1].position)
+    }
     return mesh
 }
 

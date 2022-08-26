@@ -21,6 +21,7 @@ export const CameraSmallScreen = () => {
 export default function Slider(props: any) {
     const data = useMovementStore((e) => e.data)
     const time = useMovementStore((e) => e.time)
+    const world = useMovementStore((e) => e.world)
     const setTime = useMovementStore((e) => e.setTime)
     const min = data ? data[0].time : 0
     const max = useMovementStore((e) => e.maxTime)
@@ -86,7 +87,7 @@ export default function Slider(props: any) {
                                 border: "4px solid mediumgray",
                             }}>
                             <axesHelper />
-                            <Floor world={null} />(
+                            <Floor world={world} />(
                             <>
                                 {data
                                     ? data.map((ob) => {
@@ -94,7 +95,7 @@ export default function Slider(props: any) {
                                               <PersonSmallScreen
                                                   key={ob.id}
                                                   id={ob.id}
-                                                  data={ob.framePos[smallScreenTime]}
+                                                  data={ob.framePos[smallScreenTime] ?? null}
                                               />
                                           )
                                       })
