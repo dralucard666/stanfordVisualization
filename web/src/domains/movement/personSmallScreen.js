@@ -20,12 +20,15 @@ export const PersonSmallScreen = (props) => {
     const data = props.data
 
     useEffect(() => {
-        const direction = data.direction
-        person.current.rotation.y = -Math.atan2(direction[2], direction[0]) + Math.PI / 2
-        person.current.position.x = data.position[0]
-        person.current.position.y = data.position[1]
-        person.current.position.z = data.position[2]
-        mixer.update(Math.round(Math.random()*500))
+        if (data) {
+            console.log('hier sind wir')
+            const direction = data.direction
+            person.current.rotation.y = -Math.atan2(direction[2], direction[0]) + Math.PI / 2
+            person.current.position.x = data.position[0]
+            person.current.position.y = data.position[1]
+            person.current.position.z = data.position[2]
+            mixer.update(Math.round(Math.random() * 500))
+        }
     }, [person, props])
 
     return (

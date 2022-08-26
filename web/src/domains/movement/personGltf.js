@@ -43,6 +43,7 @@ export const Person = (props) => {
             const positionY = currentLine.position[1]
             const positionZ = currentLine.position[2]
 
+
             const direction =currentLine.direction
             if (direction) {
                 const angle = -(Math.atan2(direction[2], direction[0]))+Math.PI/2;

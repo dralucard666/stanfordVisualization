@@ -1,4 +1,4 @@
-import { ObjectPosition, ObjectType, MovingObject as Primitive } from "cgv/domains/movement"
+import { MovingObject, ObjectPosition, ObjectType, Primitive } from "cgv/domains/movement"
 import { Value } from "cgv/interpreter"
 import { Observable, Subscription, tap } from "rxjs"
 import { Object3D } from "three"
@@ -14,7 +14,7 @@ export function applyToObject3D(
     return input.subscribe({
         next: (change) => {
             const data = change.raw
-            if (data) {
+            if (data instanceof MovingObject) {
                 const startTime = data.position[0].time
                 const endTime = data.position[data.position.length - 1].time
                 const id = data.id
@@ -28,7 +28,6 @@ export function applyToObject3D(
                     endT: endTime,
                     direction: [data.position[0].direction.x, data.position[0].direction.y, data.position[0].direction.z],
                 } as movObject
-
                 const storeData = useMovementStore.getState().data
                 const setStoreData = useMovementStore.getState().setData
                 setStoreData(null)
@@ -63,8 +62,8 @@ function formatToTimeData(data: ObjectPosition[], startTime: number, endTime: nu
         framePos.push({ time: x, position: null, direction: null } as framePositions)
     }
     data.map(({ time, position, direction }) => {
-        framePos[time].position = [position.x, position.y, position.z]
-        framePos[time].direction = [direction.x, direction.y, direction.z]
+        framePos[time-startTime].position = [position.x, position.y, position.z]
+        framePos[time-startTime].direction = [direction.x, direction.y, direction.z]
     })
     return framePos
 }

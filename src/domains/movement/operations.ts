@@ -2,8 +2,8 @@ import { Color, Vector3 } from "three"
 import { Observable, of } from "rxjs"
 import { defaultOperations } from ".."
 import { Operations, simpleExecution } from "../../interpreter"
-import { ObjectPosition, ObjectType, MovingObject } from "./primitives"
-import { createPhongMaterialGenerator, PointPrimitive, Primitive } from "../shape/primitive"
+import { ObjectPosition, ObjectType, MovingObject, Primitive } from "./primitives"
+import { createPhongMaterialGenerator, PointPrimitive } from "../shape/primitive"
 import { makeTranslationMatrix } from "../shape"
 
 export type possibleAngles = 0 | 45 | 90 | 135 | 180 | 225 | 270 | 315 | 360
@@ -34,14 +34,18 @@ function computeMoveRotate(
     return of([instance.moveRotate(angle, distance)])
 }
 
+function computeStandStill(instance: MovingObject): Observable<Array<MovingObject>> {
+    return of([instance.standStill()])
+}
+
 function createObject(
-    id: number,
+    instance: Primitive,
     position: Vector3,
     time: number,
     type: ObjectType,
     direction: Vector3
 ): Observable<Array<MovingObject>> {
-    return of([new MovingObject(id, [{ position, time, direction } as ObjectPosition], ObjectType.Pedestrian)])
+    return of([instance.createPrimitive(position, time, direction, type)])
 }
 
 function computePoint3(x: number, y: number, z: number): Observable<Array<Vector3>> {
@@ -52,9 +56,8 @@ export const operations: Operations<any> = {
     ...defaultOperations,
     createOb: {
         execute: simpleExecution<any>(createObject),
-        includeThis: false,
+        includeThis: true,
         defaultParameters: [
-            () => ({ type: "raw", value: 0 }),
             () => ({
                 type: "operation",
                 identifier: "point3",
@@ -110,5 +113,10 @@ export const operations: Operations<any> = {
         execute: simpleExecution<any>(computeMoveRotate),
         includeThis: true,
         defaultParameters: [() => ({ type: "raw", value: 0 }), () => ({ type: "raw", value: 100 })],
+    },
+    standStill: {
+        execute: simpleExecution<any>(computeStandStill),
+        includeThis: true,
+        defaultParameters: [],
     },
 }

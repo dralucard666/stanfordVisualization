@@ -8,7 +8,7 @@ export enum ObjectType {
     Car,
 }
 
-const standardTime = 300
+const standardTime = 5
 
 export interface ObjectPosition {
     position: Vector3
@@ -16,8 +16,19 @@ export interface ObjectPosition {
     direction: Vector3
 }
 
-export class MovingObject {
-    constructor(public id: number, public position: ObjectPosition[], public type: ObjectType) {}
+export class Primitive {
+    constructor(public id: string) {}
+
+    createPrimitive(position: Vector3, time: number, direction: Vector3, type: ObjectType) {
+        console.log(this.id)
+        return new MovingObject(this.id, [{ position, time, direction } as ObjectPosition], ObjectType.Pedestrian)
+    }
+}
+
+export class MovingObject extends Primitive {
+    constructor(public id: string, public position: ObjectPosition[], public type: ObjectType) {
+        super(id)
+    }
 
     moveRight(distance: number) {
         const oldPo = this.position[this.position.length - 1]
@@ -82,6 +93,17 @@ export class MovingObject {
         const newTimeSteps = this.returnNewTimeSteps2(oldPo, newPo, newDirection.normalize())
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
+        return new MovingObject(this.id, newPosArray, this.type)
+    }
+
+    standStill() {
+        const oldPo = this.position[this.position.length - 1]
+        const oldTime = oldPo.time
+        const newPosArray = structuredClone(this.position)
+        for (let time = oldTime + 1; time < oldTime + 1 + standardTime; time++) {
+            const newEntry = { ...oldPo, time } as ObjectPosition
+            newPosArray.push(newEntry)
+        }
         return new MovingObject(this.id, newPosArray, this.type)
     }
 
