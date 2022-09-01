@@ -46,6 +46,9 @@ export function applyToObject3D(
                 if (useMovementStore.getState().maxTime < endTime) {
                     useMovementStore.getState().setMaxTime(endTime)
                 }
+                if (useMovementStore.getState().minTime > startTime) {
+                    useMovementStore.getState().setMinTime(startTime)
+                }
             }
             return
         },
