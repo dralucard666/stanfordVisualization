@@ -23,7 +23,7 @@ export default function Slider(props: any) {
     const time = useMovementStore((e) => e.time)
     const world = useMovementStore((e) => e.world)
     const setTime = useMovementStore((e) => e.setTime)
-    const min = data ? data[0].time : 0
+    const min = useMovementStore((e) => e.minTime)
     const max = useMovementStore((e) => e.maxTime)
     const visible = !!data
     const [searchCanvasPos, setSearchCanvasPos] = useState<number | false>(false)

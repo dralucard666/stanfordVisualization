@@ -9,7 +9,6 @@ import littleData from "../../../public/data/little0Lang.json"
 import nexusData from "../../../public/data/nexus0Lang.json"
 import quadData from "../../../public/data/quad0Lang.json"
 
-
 // id, x , y , z, xsize, typeof
 export type movObject = {
     id: string
@@ -27,7 +26,7 @@ export const dataWorldState: WorldState[] = [
         image: "./textures/dirt/bookstore.jpg",
         width: 1424,
         height: 1088,
-        name: "BookStore Empty"
+        name: "BookStore Empty",
     },
     {
         image: "./textures/dirt/bookstore.jpg",
@@ -98,6 +97,7 @@ export interface WorldState {
 export interface TimeState {
     time: number
     maxTime: number
+    minTime: number
     data: movObject[] | null
     world: WorldState
     setWorld: (newVal: WorldState) => void
@@ -108,11 +108,13 @@ export interface TimeState {
     playActive: boolean
     setPlayActive: (newBol: boolean) => void
     setMaxTime: (maxTime: number) => void
+    setMinTime: (minTime: number) => void
     getPlayActive: () => boolean
 }
 
 export const useMovementStore = create<TimeState>((set, get) => ({
     time: 0,
+    minTime: 1000000,
     maxTime: 0,
     data: null,
     world: dataWorldState[0],
@@ -144,6 +146,10 @@ export const useMovementStore = create<TimeState>((set, get) => ({
     setMaxTime: (maxTime: number) =>
         set((state) => {
             return { maxTime }
+        }),
+    setMinTime: (minTime: number) =>
+        set((state) => {
+            return { minTime, time: minTime }
         }),
     getPlayActive: () => {
         return get().playActive
