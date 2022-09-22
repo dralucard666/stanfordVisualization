@@ -37,6 +37,7 @@ import { dataWorldState, useMovementStore, WorldState } from "../src/domains/mov
 import Slider from "../src/domains/movement/slider"
 import { Person } from "../src/domains/movement/personGltf"
 import shallow from "zustand/shallow"
+import MovementLogic from "../src/domains/movement/movementLogic"
 
 const zoom = 18
 const globalLocalRatio = tileZoomRatio(0, zoom)
@@ -69,14 +70,14 @@ export default function Movement() {
     )
 }
 
-const Persons = () => {
+const Objects = () => {
     const data = useMovementStore((store) => store.data)
     // const playActive = useMovementStore((store) => store.playActive)
     return (
         <>
             {data
                 ? data.map((ob) => {
-                      return <Person key={ob.id} id={ob.id} data={ob} />
+                      return <MovementLogic key={ob.id} id={ob.id} data={ob} />
                   })
                 : null}
         </>
@@ -89,11 +90,17 @@ export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElemen
     const [texture, setTexture] = useState<Texture>()
     const world = useMovementStore((e) => e.world)
     const setWorldState = useMovementStore((e) => e.setWorld)
+    const resetMovementData = useMovementStore((e) => e.resetState)
+
+    const [worldName, setWorldName] = useState<string>()
 
     const selectWorld = (store: UseBaseStore, newVal: any) => {
         const selectedData = dataWorldState[newVal]
-        console.log('nix')
+        const descriptions = store.getState().descriptions
+        store.getState().deleteAllDescription()
+        resetMovementData()
         if (selectedData.data) {
+            const allDescription = []
             for (const dataLine of selectedData.data) {
                 const lineId = ("ID" + dataLine[0]) as string
                 const lineX = dataLine[1] as number
@@ -102,7 +109,8 @@ export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElemen
                 const lineSize = dataLine[4] as number
                 const lineTime = dataLine[5] as number
                 const lineStartDir = dataLine[6] as number[]
-                const lineType = dataLine[7] as string
+                const lineTypeString = dataLine[7] as string
+                const lineType = getNumberType(lineTypeString)
                 const lineCommands = dataLine[8] as any[]
                 const width = selectedData.width
                 const height = selectedData.height
@@ -112,17 +120,18 @@ export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElemen
                     lineZ,
                     lineY,
                     lineTime,
+                    lineType,
                     lineStartDir,
                     lineCommands,
                     width ?? 0,
                     height ?? 0
                 )
-                store.getState().addDescriptions(syntaxData)
+                allDescription.push(syntaxData)
             }
+            store.getState().addDescriptions(allDescription)
         }
+        setWorldName(newVal)
         setWorldState(selectedData)
-        console.log(selectedData)
-        console.log(world)
         return
     }
 
@@ -157,7 +166,7 @@ export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElemen
                         <Clock />
                         <CameraController />
                     </Bridge>
-                    <Persons />
+                    <Objects />
                 </Canvas>
                 <Slider />
                 <div
@@ -180,7 +189,7 @@ export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElemen
                             </div>
                             <div className="w-100 mt-2">Select Data</div>
                             <select
-                                value={world.name}
+                                value={worldName}
                                 onChange={(e) => {
                                     selectWorld(store, e.target.value) // See Issue 2 below
                                 }}
@@ -241,11 +250,12 @@ function sequentialSyntaxTree(
     lineZ: number,
     lineY: number,
     lineTime: number,
+    lineType: number,
     lineStartDir: number[],
     lineCommands: any[][],
     width: number,
     height: number
-): Array<{ name: string; step?: AbstractParsedSequantial<any> }> {
+): { name: string; step?: AbstractParsedSequantial<any> } {
     const syntaxTree = {
         name: lineId,
         step: {
@@ -265,7 +275,7 @@ function sequentialSyntaxTree(
                             ],
                         },
                         { type: "raw", value: lineTime },
-                        { type: "raw", value: 0 },
+                        { type: "raw", value: lineType },
                         {
                             type: "operation",
                             identifier: "point3",
@@ -300,7 +310,16 @@ function sequentialSyntaxTree(
             syntaxTree.step.children.push(moveRotate)
         }
     }
-    console.log(syntaxTree)
+    return syntaxTree
+}
 
-    return [syntaxTree]
+function getNumberType(type: string): number {
+    switch (type) {
+        case "Pedestrian":
+            return 0
+        case "Biker":
+            return 1
+        default:
+            return 0
+    }
 }

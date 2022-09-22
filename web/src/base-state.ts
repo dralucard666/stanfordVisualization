@@ -328,16 +328,29 @@ function createBaseStateFunctions(
             })
         },
         deleteDescription: (name: string) => {
+            const idName = "ID" + name
             const { descriptions, selectedDescriptions, grammar, selectionsList } = get()
-            const newDescriptions = descriptions.filter((description) => description.name != name)
+            const newDescriptions = descriptions.filter(
+                (description) => description.name != name && description.name !== idName
+            )
             set({
                 descriptions: newDescriptions,
-                selectedDescriptions: selectedDescriptions.filter((descriptionName) => descriptionName !== name),
+                selectedDescriptions: selectedDescriptions.filter(
+                    (descriptionName) => descriptionName !== name && descriptionName !== idName
+                ),
                 ...removeUnusedNouns(
                     grammar,
                     selectionsList ?? [],
                     newDescriptions.map(({ name }) => name)
                 ),
+            })
+        },
+        deleteAllDescription: () => {
+            const { grammar, selectionsList } = get()
+            set({
+                descriptions: [],
+                selectedDescriptions: [],
+                ...removeUnusedNouns(grammar, selectionsList ?? [], []),
             })
         },
         concretizeDescription: async (name: string, seed: number) => {

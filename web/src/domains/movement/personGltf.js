@@ -2,16 +2,18 @@ import React, { useRef, useMemo, forwardRef, useImperativeHandle, useEffect } fr
 import { useGLTF, useAnimations } from "@react-three/drei"
 import * as THREE from "three"
 import { useGraph, useFrame } from "@react-three/fiber"
-import { clone } from "three/examples/jsm/utils/SkeletonUtils"
+import { SkeletonUtils } from "three/examples/jsm/utils/SkeletonUtils"
 import { useMovementStore } from "./useMovementStore"
 
 export const Person = (props) => {
     const { scene, materials, animations } = useGLTF("./models/remyplace.glb")
-    const clones = useMemo(() => clone(scene), [scene, props])
+    const clones = useMemo(() => SkeletonUtils.clone(scene), [scene, props])
 
     const { nodes } = useGraph(clones)
 
     const person = useRef()
+    const line = useRef();
+
     const mixer = new THREE.AnimationMixer(clones)
     animations.forEach((clip) => {
         const action = mixer.clipAction(clip)
@@ -52,9 +54,13 @@ export const Person = (props) => {
             person.current.position.x = positionX
             person.current.position.y = positionY
             person.current.position.z = positionZ
+            const oldLinePos= [positionX,10,positionZ]
+            const newLinePos= [positionX+direction[0]*50,12,positionZ+direction[2]*50]
+
+            line.current.geometry.setFromPoints([oldLinePos, newLinePos].map((point) => new THREE.Vector3(...point)))
             mixer.update(delta)
         } else {
-            mixer.update(delta)
+           // mixer.update(delta)
             /*             person.traverse((child) => {
                 if (child instanceof THREE.SkinnedMesh) {
                     child.visible = false
@@ -64,6 +70,7 @@ export const Person = (props) => {
     })
 
     return (
+        <>
         <group ref={person} dispose={null}>
             <mesh>
                 <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.1}>
@@ -106,6 +113,11 @@ export const Person = (props) => {
                 </group>
             </mesh>
         </group>
+                <line ref={line} >
+                <bufferGeometry/>
+                <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={100}/>
+              </line>
+             </>
     )
 }
 

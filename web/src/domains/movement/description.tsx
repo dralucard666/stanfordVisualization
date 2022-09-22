@@ -48,7 +48,7 @@ function pathStartsWith(p1: HierarchicalPath, p2: HierarchicalPath): boolean {
     return true
 }
 
-const defaultValue = new Primitive("null")
+const defaultValue = new Primitive("null", [])
 
 export function Descriptions() {
     const descriptions = useBaseStoreState((state) => state.descriptions, shallowEqual)
@@ -92,7 +92,10 @@ function useSimpleInterpretation(
     const store = useBaseStore()
     const name = description ? (description[0].name ? description[0].name : "") : ("" as unknown as string)
     const newdefaultValue = defaultValue
+    const world = useMovementStore((e) => e.world)
+
     newdefaultValue.id = name
+    newdefaultValue.staticObjects = world.staticObjects
     useEffect(() => {
         if (ref.current == null || description == null) {
             return
@@ -119,7 +122,7 @@ function useSimpleInterpretation(
             ref.current?.remove(...ref.current.children)
             subscription.unsubscribe()
         }
-    }, [store, description, seed])
+    }, [store, description, seed, world])
 }
 
 function useInterpretation(
@@ -129,11 +132,12 @@ function useInterpretation(
     ref: RefObject<ReactNode & Object3D>
 ) {
     const store = useBaseStore()
+    const world = useMovementStore((e) => e.world)
+
     useEffect(() => {
         if (ref.current == null || description == null) {
             return
         }
-
         let subscription: Subscription | undefined
 
         const beforeValuesMap = new Map<ParsedSteps, Array<Value<Primitive>>>()
@@ -147,6 +151,7 @@ function useInterpretation(
         const name = description ? (description[0].name ? description[0].name : "") : ("" as unknown as string)
         const newdefaultValue = defaultValue
         newdefaultValue.id = name
+        newdefaultValue.staticObjects = world.staticObjects
         try {
             subscription = applyToObject3D(
                 of(newdefaultValue).pipe(
@@ -240,7 +245,7 @@ function useInterpretation(
             subscription?.unsubscribe()
             unsubscribeAfterStep?.unsubscribe()
         }
-    }, [store, description, seed])
+    }, [store, description, seed, world])
 }
 
 function toObject(primitive: Primitive): Object3D {
@@ -268,6 +273,12 @@ function HighlightDescription({ description }: { description: string }) {
                         const before = selections.values[0]?.before.raw
                         const after = selections.values[0]?.after.raw
                         const nameOfOperation: string = selections.steps.identifier ?? ""
+                        if (before?.position) {
+                            const time=before?.position[before?.position.length - 1].time
+                            if (time) {
+                                setTime(time)
+                            }
+                        }
                         if (nameOfOperation.includes("move") && before && after) {
                             const newVars = after.position.slice(before.position.length)
                             const newTime = newVars[0].time

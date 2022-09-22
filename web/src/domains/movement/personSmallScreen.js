@@ -21,7 +21,6 @@ export const PersonSmallScreen = (props) => {
 
     useEffect(() => {
         if (data) {
-            console.log('hier sind wir')
             const direction = data.direction
             person.current.rotation.y = -Math.atan2(direction[2], direction[0]) + Math.PI / 2
             person.current.position.x = data.position[0]
