@@ -39,7 +39,7 @@ export const Cyclist = forwardRef((props: { id: string | null }, ref) => {
     useImperativeHandle(ref, () => ({
         updatePosition(x: number, y: number, z: number, angle: number, delta: number) {
             group.current.rotation.y = angle
-            group.current.position.y = y
+            group.current.position.y = y+17
             group.current.position.z = z
             group.current.position.x = x
         },

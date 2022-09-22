@@ -9,7 +9,7 @@ import { GLTF, SkeletonUtils } from "three-stdlib"
 import { AnimationClip, Group } from "three"
 import { useFrame, useGraph } from "@react-three/fiber"
 import { framePositions, movObject, useMovementStore } from "./useMovementStore"
-import { RemyPlace } from "./remyplace"
+import { Person } from "./person"
 import { render } from "react-dom"
 
 export default function MovementLogicSmallScreen(props: { data: framePositions | null; id: string }) {
@@ -32,7 +32,7 @@ export default function MovementLogicSmallScreen(props: { data: framePositions |
 
     return (
         <>
-            <RemyPlace id={props.id} ref={object}></RemyPlace>
+            <Person id={props.id} ref={object}></Person>
         </>
     )
 }

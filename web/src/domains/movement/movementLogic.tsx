@@ -9,19 +9,36 @@ import { GLTF, SkeletonUtils } from "three-stdlib"
 import { AnimationClip, Group } from "three"
 import { extend, useFrame, useGraph } from "@react-three/fiber"
 import { movObject, useMovementStore } from "./useMovementStore"
-import { RemyPlace } from "./remyplace"
 import { Cyclist } from "./cyclist"
 import { ObjectType } from "cgv/domains/movement"
 import { TextComponent } from "./text"
+import { Truck } from "./truck"
+import { Person } from "./person"
 
-const extraData: any = {
+const extraData = {
     pedestrian: {
+        lineOffsetX: 0,
+        lineOffsetY: 15,
+        lineLength: 50,
         textMarginX: -10,
         textMarginY: 45,
+        rotationY: Math.PI / 2,
     },
     cyclist: {
+        lineOffsetX: 0,
+        lineOffsetY: 15,
+        lineLength: 50,
         textMarginX: -10,
-        textMarginY: 45,
+        textMarginY: 60,
+        rotationY: Math.PI / 2,
+    },
+    truck: {
+        lineOffsetX: 50,
+        lineOffsetY: 20,
+        lineLength: 120,
+        textMarginX: -10,
+        textMarginY: 60,
+        rotationY: Math.PI,
     },
 }
 
@@ -29,18 +46,19 @@ export default function MovementLogic(props: { id: string; data: movObject }) {
     const object = useRef<any>()
     const text = useRef<any>()
     const type = props.data.type
+    const testType: ObjectType = ObjectType.Pedestrian as ObjectType
 
-    const [textMarginX, textMarginY] = getExtraData(type)
-
-    const [scene] = useState(() => new THREE.Scene())
-    const Person = useMemo(() => {
-        switch (type) {
+    const [lineOffsetX, lineOffsetY, lineLength, textMarginX, textMarginY, rotationY] = getExtraData(testType)
+    const PersonComp = useMemo(() => {
+        switch (testType) {
             case ObjectType.Cyclist:
                 return <Cyclist key={props.id} id={props.id} ref={object}></Cyclist>
             case ObjectType.Pedestrian:
-                return <RemyPlace key={props.id} id={props.id} ref={object}></RemyPlace>
+                return <Person key={props.id} id={props.id} ref={object}></Person>
+            case ObjectType.Car:
+                return <Truck key={props.id} id={props.id} ref={object}></Truck>
             default:
-                return <RemyPlace key={props.id} id={props.id} ref={object}></RemyPlace>
+                return <Person key={props.id} id={props.id} ref={object}></Person>
         }
     }, [props])
     const line = useRef<any>()
@@ -54,7 +72,7 @@ export default function MovementLogic(props: { id: string; data: movObject }) {
                 const x = firstPos.position[0]
                 const y = firstPos.position[1]
                 const z = firstPos.position[2]
-                object.current.updatePosition(x, y + 15, z, Math.PI / 2, 0)
+                object.current.updatePosition(x, y, z, rotationY, 0)
                 text.current.updatePosition(x + textMarginX, y + textMarginY, z)
             }
         }
@@ -72,12 +90,16 @@ export default function MovementLogic(props: { id: string; data: movObject }) {
                 const positionY = currentLine.position[1]
                 const positionZ = currentLine.position[2]
 
-                const angle = -Math.atan2(direction[2], direction[0]) + Math.PI / 2
+                const angle = -Math.atan2(direction[2], direction[0]) + rotationY
                 object.current.updatePosition(positionX, positionY, positionZ, angle, delta)
                 text.current.updatePosition(positionX + textMarginX, positionY + textMarginY, positionZ)
 
-                const oldLinePos = [positionX, 10, positionZ]
-                const newLinePos = [positionX + direction[0] * 50, 12, positionZ + direction[2] * 50]
+                const oldLinePos = [positionX, lineOffsetY, positionZ]
+                const newLinePos = [
+                    positionX + direction[0] * lineLength,
+                    lineOffsetY + 2,
+                    positionZ + direction[2] * lineLength,
+                ]
                 line.current.geometry.setFromPoints(
                     [oldLinePos, newLinePos].map((point) => new THREE.Vector3(...point))
                 )
@@ -88,7 +110,7 @@ export default function MovementLogic(props: { id: string; data: movObject }) {
     return (
         <>
             <TextComponent {...{ text: props.id }} ref={text} />
-            {Person}
+            {PersonComp}
             <line ref={line}>
                 <bufferGeometry />
                 <lineBasicMaterial attach="material" color={"#9c88ff"} linewidth={100} />
@@ -97,13 +119,43 @@ export default function MovementLogic(props: { id: string; data: movObject }) {
     )
 }
 
-function getExtraData(type: ObjectType): [number, number] {
+function getExtraData(type: ObjectType): [number, number, number, number, number, number] {
     switch (type) {
         case ObjectType.Cyclist:
-            return [extraData.cyclist.textMarginX, extraData.cyclist.textMarginY]
+            return [
+                extraData.cyclist.lineOffsetX,
+                extraData.cyclist.lineOffsetY,
+                extraData.cyclist.lineLength,
+                extraData.cyclist.textMarginX,
+                extraData.cyclist.textMarginY,
+                extraData.cyclist.rotationY,
+            ]
         case ObjectType.Pedestrian:
-            return [extraData.pedestrian.textMarginX, extraData.pedestrian.textMarginY]
+            return [
+                extraData.pedestrian.lineOffsetX,
+                extraData.pedestrian.lineOffsetY,
+                extraData.pedestrian.lineLength,
+                extraData.pedestrian.textMarginX,
+                extraData.pedestrian.textMarginY,
+                extraData.pedestrian.rotationY,
+            ]
+        case ObjectType.Car:
+            return [
+                extraData.truck.lineOffsetX,
+                extraData.truck.lineOffsetY,
+                extraData.truck.lineLength,
+                extraData.truck.textMarginX,
+                extraData.truck.textMarginY,
+                extraData.truck.rotationY,
+            ]
         default:
-            return [extraData.pedestrian.textMarginX, extraData.pedestrian.textMarginY]
+            return [
+                extraData.pedestrian.lineOffsetX,
+                extraData.pedestrian.lineOffsetY,
+                extraData.pedestrian.lineLength,
+                extraData.pedestrian.textMarginX,
+                extraData.pedestrian.textMarginY,
+                extraData.pedestrian.rotationY,
+            ]
     }
 }
