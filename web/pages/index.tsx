@@ -35,7 +35,6 @@ import { DescriptionList } from "../src/gui/description-list"
 import { GUI } from "../src/gui"
 import { dataWorldState, useMovementStore, WorldState } from "../src/domains/movement/useMovementStore"
 import Slider from "../src/domains/movement/slider"
-import { Person } from "../src/domains/movement/personGltf"
 import shallow from "zustand/shallow"
 import MovementLogic from "../src/domains/movement/movementLogic"
 
