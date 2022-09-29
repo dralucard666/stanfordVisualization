@@ -3,8 +3,8 @@ import { Canvas, extend, useFrame, useThree } from "@react-three/fiber"
 import React, { useState, useEffect } from "react"
 import { CameraController } from "./camera"
 import Floor from "./floor"
+import MovementLogicSmallScreen from "./movementLogicSmallScreen"
 import { useMovementStore } from "./useMovementStore"
-import { PersonSmallScreen } from "./personSmallScreen"
 
 export const frameRate = 60
 
@@ -92,7 +92,7 @@ export default function Slider(props: any) {
                                 {data
                                     ? data.map((ob) => {
                                           return (
-                                              <PersonSmallScreen
+                                              <MovementLogicSmallScreen
                                                   key={ob.id}
                                                   id={ob.id}
                                                   data={ob.framePos[smallScreenTime] ?? null}

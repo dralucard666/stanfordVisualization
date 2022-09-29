@@ -8,7 +8,7 @@ export enum ObjectType {
     Car,
 }
 
-const standardTime = 5
+const standardTime = 20
 
 export interface ObjectPosition {
     position: Vector3
@@ -17,17 +17,21 @@ export interface ObjectPosition {
 }
 
 export class Primitive {
-    constructor(public id: string) {}
+    constructor(public id: string, public staticObjects: any[]) {}
 
     createPrimitive(position: Vector3, time: number, direction: Vector3, type: ObjectType) {
-        console.log(this.id)
-        return new MovingObject(this.id, [{ position, time, direction } as ObjectPosition], ObjectType.Pedestrian)
+        return new MovingObject(this.id, [{ position, time, direction } as ObjectPosition], type, this.staticObjects)
     }
 }
 
 export class MovingObject extends Primitive {
-    constructor(public id: string, public position: ObjectPosition[], public type: ObjectType) {
-        super(id)
+    constructor(
+        public id: string,
+        public position: ObjectPosition[],
+        public type: ObjectType,
+        public staticObjects: any[]
+    ) {
+        super(id, staticObjects)
     }
 
     moveRight(distance: number) {
@@ -40,7 +44,7 @@ export class MovingObject extends Primitive {
         const newTimeSteps = this.returnNewTimeSteps(oldPo, newPo, new Vector3(1, 0, 0))
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
-        return new MovingObject(this.id, newPosArray, this.type)
+        return new MovingObject(this.id, newPosArray, this.type, this.staticObjects)
     }
 
     moveLeft(distance: number) {
@@ -53,7 +57,7 @@ export class MovingObject extends Primitive {
         const newTimeSteps = this.returnNewTimeSteps(oldPo, newPo, new Vector3(-1, 0, 0))
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
-        return new MovingObject(this.id, newPosArray, this.type)
+        return new MovingObject(this.id, newPosArray, this.type, this.staticObjects)
     }
 
     moveUp(distance: number) {
@@ -66,7 +70,7 @@ export class MovingObject extends Primitive {
         const newTimeSteps = this.returnNewTimeSteps(oldPo, newPo, new Vector3(0, 0, 1))
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
-        return new MovingObject(this.id, newPosArray, this.type)
+        return new MovingObject(this.id, newPosArray, this.type, this.staticObjects)
     }
 
     moveDown(distance: number) {
@@ -79,13 +83,13 @@ export class MovingObject extends Primitive {
         const newTimeSteps = this.returnNewTimeSteps(oldPo, newPo, new Vector3(0, 0, -1))
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
-        return new MovingObject(this.id, newPosArray, this.type)
+        return new MovingObject(this.id, newPosArray, this.type, this.staticObjects)
     }
 
     moveRotate(angle: possibleAngles, distance: possibleDistance) {
         const oldPo = this.position[this.position.length - 1]
         const direction = this.position[this.position.length - 1].direction
-        const newDirection = direction.applyAxisAngle(new Vector3(0, 1, 0), (angle / 180) * Math.PI)
+        const newDirection = direction.applyAxisAngle(new Vector3(0, 1, 0), (-angle / 180) * Math.PI)
         const newPo = {
             position: oldPo.position.clone().add(newDirection.multiplyScalar(distance)),
             time: oldPo.time + standardTime,
@@ -93,7 +97,7 @@ export class MovingObject extends Primitive {
         const newTimeSteps = this.returnNewTimeSteps2(oldPo, newPo, newDirection.normalize())
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
-        return new MovingObject(this.id, newPosArray, this.type)
+        return new MovingObject(this.id, newPosArray, this.type, this.staticObjects)
     }
 
     standStill() {
@@ -104,7 +108,7 @@ export class MovingObject extends Primitive {
             const newEntry = { ...oldPo, time } as ObjectPosition
             newPosArray.push(newEntry)
         }
-        return new MovingObject(this.id, newPosArray, this.type)
+        return new MovingObject(this.id, newPosArray, this.type, this.staticObjects)
     }
 
     returnNewTimeSteps(oldPo: ObjectPosition, newPo: ObjectPosition, direction: Vector3): ObjectPosition[] {
@@ -142,4 +146,22 @@ export class MovingObject extends Primitive {
         }
         return missingPos
     }
+
+    staticObjectAhead() {
+        const staticOb = new Vector3(12, -5, 0)
+        const staticOb2 = new Vector3(12, 5, 0)
+        const obPos = this.position[this.position.length - 1].position
+        const direction = this.position[this.position.length - 1].direction.multiplyScalar(10)
+        const futureObPos = new Vector3(0, 0, 0).addVectors(obPos, direction)
+        return new Vector3(0, 0, 0).subVectors(obPos, staticOb)
+    }
+}
+
+function ccw(A: Vector3, B: Vector3, C: Vector3) {
+    return (C.y - A.y) * (B.x - A.x) > (B.y - A.y) * (C.x - A.x)
+}
+
+// Return true if line segments AB and CD intersect
+function intersect(A: Vector3, B: Vector3, C: Vector3, D: Vector3) {
+    return ccw(A, C, D) != ccw(B, C, D) && ccw(A, B, C) != ccw(A, B, D)
 }

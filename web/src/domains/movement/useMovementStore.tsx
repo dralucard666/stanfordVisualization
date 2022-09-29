@@ -1,13 +1,7 @@
 import { ObjectType } from "cgv/domains/movement"
 import create from "zustand"
-import bookStoreData from "../../../public/data/bookstore0Lang.json"
-import coupaData from "../../../public/data/coupa0Lang.json"
-import deathCircleData from "../../../public/data/deathCircle0Lang.json"
-import gatesData from "../../../public/data/gates0Lang.json"
-import hyangData from "../../../public/data/hyang0Lang.json"
-import littleData from "../../../public/data/little0Lang.json"
-import nexusData from "../../../public/data/nexus0Lang.json"
-import quadData from "../../../public/data/quad0Lang.json"
+import simonTest from "../../../public/data/testLang.json"
+
 
 // id, x , y , z, xsize, typeof
 export type movObject = {
@@ -27,62 +21,15 @@ export const dataWorldState: WorldState[] = [
         width: 1424,
         height: 1088,
         name: "BookStore Empty",
+        staticObjects: ['bookstore']
     },
     {
         image: "./textures/dirt/bookstore.jpg",
         width: 1424,
         height: 1088,
-        name: "BookStore With Data",
-        data: bookStoreData,
-    },
-    {
-        image: "./textures/dirt/coupa.jpg",
-        width: 1980,
-        height: 1093,
-        name: "Coupa",
-        data: coupaData,
-    },
-    {
-        image: "./textures/dirt/deathCircle.jpg",
-        width: 1630,
-        height: 1948,
-        name: "DeathCircle",
-        data: deathCircleData,
-    },
-    {
-        image: "./textures/dirt/gates.jpg",
-        width: 1325,
-        height: 1973,
-        name: "Gates",
-        data: gatesData,
-    },
-    {
-        image: "./textures/dirt/hyang.jpg",
-        width: 1455,
-        height: 1925,
-        name: "Hyan",
-        data: hyangData,
-    },
-    {
-        image: "./textures/dirt/little.jpg",
-        width: 1417,
-        height: 2019,
-        name: "Little",
-        data: littleData,
-    },
-    {
-        image: "./textures/dirt/nexus.jpg",
-        width: 1330,
-        height: 1947,
-        name: "Nexus",
-        data: nexusData,
-    },
-    {
-        image: "./textures/dirt/quad.jpg",
-        width: 1983,
-        height: 1088,
-        name: "Quad",
-        data: quadData,
+        name: "Simon Data",
+        data: simonTest,
+        staticObjects: ['simonTest']
     },
 ]
 
@@ -92,6 +39,7 @@ export interface WorldState {
     height?: number
     name: string
     data?: any
+    staticObjects: any[]
 }
 
 export interface TimeState {
@@ -110,6 +58,7 @@ export interface TimeState {
     setMaxTime: (maxTime: number) => void
     setMinTime: (minTime: number) => void
     getPlayActive: () => boolean
+    resetState: () => void
 }
 
 export const useMovementStore = create<TimeState>((set, get) => ({
@@ -154,4 +103,14 @@ export const useMovementStore = create<TimeState>((set, get) => ({
     getPlayActive: () => {
         return get().playActive
     },
+    resetState: () => {
+        set ((state) => {
+            return {
+                time:0,
+                maxTime:0,
+                minTime:1000000,
+                data:null,
+            }
+        })
+    }
 }))

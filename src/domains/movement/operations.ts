@@ -52,6 +52,10 @@ function computePoint3(x: number, y: number, z: number): Observable<Array<Vector
     return of([new Vector3(x, y, z)])
 }
 
+function distanceToStatic(instance: MovingObject): Observable<Array<Vector3>> {
+    return of([instance.staticObjectAhead()])
+}
+
 export const operations: Operations<any> = {
     ...defaultOperations,
     createOb: {
@@ -92,22 +96,22 @@ export const operations: Operations<any> = {
     moveRight: {
         execute: simpleExecution<any>(computeMoveRight),
         includeThis: true,
-        defaultParameters: [() => ({ type: "raw", value: 100 })],
+        defaultParameters: [() => ({ type: "raw", value: 10 })],
     },
     moveLeft: {
         execute: simpleExecution<any>(computeMoveLeft),
         includeThis: true,
-        defaultParameters: [() => ({ type: "raw", value: 100 })],
+        defaultParameters: [() => ({ type: "raw", value: 10 })],
     },
     moveUp: {
         execute: simpleExecution<any>(computeMoveUp),
         includeThis: true,
-        defaultParameters: [() => ({ type: "raw", value: 100 })],
+        defaultParameters: [() => ({ type: "raw", value: 10 })],
     },
     moveDown: {
         execute: simpleExecution<any>(computeMoveDown),
         includeThis: true,
-        defaultParameters: [() => ({ type: "raw", value: 100 })],
+        defaultParameters: [() => ({ type: "raw", value: 10 })],
     },
     moveRotate: {
         execute: simpleExecution<any>(computeMoveRotate),
@@ -116,6 +120,11 @@ export const operations: Operations<any> = {
     },
     standStill: {
         execute: simpleExecution<any>(computeStandStill),
+        includeThis: true,
+        defaultParameters: [],
+    },
+    distanceToStatic: {
+        execute: simpleExecution<any>(distanceToStatic),
         includeThis: true,
         defaultParameters: [],
     },
