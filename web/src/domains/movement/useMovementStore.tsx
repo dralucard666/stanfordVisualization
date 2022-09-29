@@ -1,13 +1,5 @@
 import { ObjectType } from "cgv/domains/movement"
 import create from "zustand"
-import bookStoreData from "../../../public/data/bookstore0Lang.json"
-import coupaData from "../../../public/data/coupa0Lang.json"
-import deathCircleData from "../../../public/data/deathCircle0Lang.json"
-import gatesData from "../../../public/data/gates0Lang.json"
-import hyangData from "../../../public/data/hyang0Lang.json"
-import littleData from "../../../public/data/little0Lang.json"
-import nexusData from "../../../public/data/nexus0Lang.json"
-import quadData from "../../../public/data/quad0Lang.json"
 import simonTest from "../../../public/data/testLang.json"
 
 
