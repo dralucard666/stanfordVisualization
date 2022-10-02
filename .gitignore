@@ -3,5 +3,4 @@
 /coverage
 !/dist/.npmrc
 /package-lock.json
-/web/public/data
 .nyc_output
