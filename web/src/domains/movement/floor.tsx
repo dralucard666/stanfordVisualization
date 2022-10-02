@@ -16,7 +16,7 @@ export default function Floor(props: { world: WorldState | null }) {
     colorMap.wrapT = THREE.RepeatWrapping
     colorMfloorNormalTexture.wrapS = THREE.RepeatWrapping
     colorMfloorNormalTexture.wrapT = THREE.RepeatWrapping
-    const scene = useFBX("./models/bookstorefull.fbx")
+    const scene = useFBX("./models/bookstore.fbx")
     const floor = useRef<Group>(null)
     return (
         <>
@@ -30,4 +30,4 @@ export default function Floor(props: { world: WorldState | null }) {
     )
 }
 
-useFBX.preload("./models/bookstorefull.fbx")
+useFBX.preload("./models/bookstore.fbx")
