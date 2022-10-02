@@ -272,17 +272,21 @@ function HighlightDescription({ description }: { description: string }) {
                     .reduce<Array<Object3D>>((prev, selections) => {
                         const before = selections.values[0]?.before.raw
                         const after = selections.values[0]?.after.raw
-                        const nameOfOperation: string = selections.steps.identifier ?? ""
-                        if (before?.position) {
-                            const time=before?.position[before?.position.length - 1].time
-                            if (time) {
-                                setTime(time)
+
+                        if (typeof selections.steps != "string") {
+                            if (selections.steps.type == "operation") {
+                                const nameOfOperation = selections.steps.identifier
+                                if (nameOfOperation.includes("move") && before && after) {
+                                    const newVars = after.position.slice(before.position.length)
+                                    const newTime = newVars[0].time
+                                    setTime(newTime)
+                                } else if (before?.position) {
+                                    const time = before?.position[before?.position.length - 1].time
+                                    if (time) {
+                                        setTime(time)
+                                    }
+                                }
                             }
-                        }
-                        if (nameOfOperation.includes("move") && before && after) {
-                            const newVars = after.position.slice(before.position.length)
-                            const newTime = newVars[0].time
-                            setTime(newTime)
                         }
                         return prev.concat(
                             selections.values

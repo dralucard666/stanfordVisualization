@@ -10,16 +10,6 @@ jobs:
       steps:
         - name: Checkout code
           uses: actions/checkout@v2
-          with:
-            lfs: true
-
-        - name: Extract public files
-          working-directory: web/public
-          run: 7z x public.zip
-
-        - name: Remove public.zip
-          working-directory: web/public
-          run: rm -f public.zip
 
         - name: Install and Build
           run: |

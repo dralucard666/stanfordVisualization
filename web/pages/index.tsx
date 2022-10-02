@@ -1,10 +1,9 @@
-import { useContextBridge } from "@react-three/drei"
+import { PerspectiveCamera, useContextBridge } from "@react-three/drei"
 import { Canvas, events, useFrame } from "@react-three/fiber"
 import { tileZoomRatio } from "cgv/domains/shape"
 import { operations } from "cgv/domains/movement/operations"
 import Head from "next/head"
-import React, { HTMLProps, Suspense, useState } from "react"
-import { Texture } from "three"
+import React, { HTMLProps, Suspense, useEffect, useState } from "react"
 import { createBaseState } from "../src/base-state"
 import { CameraController } from "../src/domains/movement/camera"
 import Floor from "../src/domains/movement/floor"
@@ -37,6 +36,7 @@ import { dataWorldState, useMovementStore, WorldState } from "../src/domains/mov
 import Slider from "../src/domains/movement/slider"
 import shallow from "zustand/shallow"
 import MovementLogic from "../src/domains/movement/movementLogic"
+import { useRouter } from "next/router"
 
 const zoom = 18
 const globalLocalRatio = tileZoomRatio(0, zoom)
@@ -83,56 +83,70 @@ const Objects = () => {
     )
 }
 
+const selectWorld = (
+    store: UseBaseStore,
+    newVal: any,
+    resetMovementData: any,
+    setWorldName: any,
+    setWorldState: any
+) => {
+    const selectedData = dataWorldState[newVal]
+    store.getState().deleteAllDescription()
+    resetMovementData()
+    if (selectedData.data) {
+        const allDescription = []
+        for (const dataLine of selectedData.data) {
+            const lineId = ("ID" + dataLine[0]) as string
+            const lineX = dataLine[1] as number
+            const lineZ = dataLine[2] as number
+            const lineY = dataLine[3] as number
+            const lineSize = dataLine[4] as number
+            const lineTime = dataLine[5] as number
+            const lineStartDir = dataLine[6] as number[]
+            const lineTypeString = dataLine[7] as string
+            const lineType = getNumberType(lineTypeString)
+            const lineCommands = dataLine[8] as any[]
+            const width = selectedData.width
+            const height = selectedData.height
+            const syntaxData = sequentialSyntaxTree(
+                lineId,
+                lineX,
+                lineZ,
+                lineY,
+                lineTime,
+                lineType,
+                lineStartDir,
+                lineCommands,
+                width ?? 0,
+                height ?? 0
+            )
+            allDescription.push(syntaxData)
+        }
+        store.getState().addDescriptions(allDescription)
+    }
+    setWorldName(newVal)
+    setWorldState(selectedData)
+    return
+}
+
 export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElement>) {
     const Bridge = useContextBridge(domainContext)
     const store = useBaseStore()
-    const [texture, setTexture] = useState<Texture>()
     const world = useMovementStore((e) => e.world)
     const setWorldState = useMovementStore((e) => e.setWorld)
     const resetMovementData = useMovementStore((e) => e.resetState)
 
     const [worldName, setWorldName] = useState<string>()
+    const router = useRouter()
 
-    const selectWorld = (store: UseBaseStore, newVal: any) => {
-        const selectedData = dataWorldState[newVal]
-        const descriptions = store.getState().descriptions
-        store.getState().deleteAllDescription()
-        resetMovementData()
-        if (selectedData.data) {
-            const allDescription = []
-            for (const dataLine of selectedData.data) {
-                const lineId = ("ID" + dataLine[0]) as string
-                const lineX = dataLine[1] as number
-                const lineZ = dataLine[2] as number
-                const lineY = dataLine[3] as number
-                const lineSize = dataLine[4] as number
-                const lineTime = dataLine[5] as number
-                const lineStartDir = dataLine[6] as number[]
-                const lineTypeString = dataLine[7] as string
-                const lineType = getNumberType(lineTypeString)
-                const lineCommands = dataLine[8] as any[]
-                const width = selectedData.width
-                const height = selectedData.height
-                const syntaxData = sequentialSyntaxTree(
-                    lineId,
-                    lineX,
-                    lineZ,
-                    lineY,
-                    lineTime,
-                    lineType,
-                    lineStartDir,
-                    lineCommands,
-                    width ?? 0,
-                    height ?? 0
-                )
-                allDescription.push(syntaxData)
+    useEffect(() => {
+        const { data } = router.query
+        if (data) {
+            if (data === "welt") {
+                selectWorld(store, 1, resetMovementData, setWorldName, setWorldState)
             }
-            store.getState().addDescriptions(allDescription)
         }
-        setWorldName(newVal)
-        setWorldState(selectedData)
-        return
-    }
+    }, [router])
 
     return (
         <Suspense fallback={null}>
@@ -161,8 +175,11 @@ export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElemen
                     <Bridge>
                         <axesHelper />
                         <Descriptions />
+                        <Suspense fallback={null}>
                         <Floor world={world} />
+                        </Suspense>
                         <Clock />
+                        <PerspectiveCamera makeDefault far={10000}/>
                         <CameraController />
                     </Bridge>
                     <Objects />
@@ -190,7 +207,7 @@ export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElemen
                             <select
                                 value={worldName}
                                 onChange={(e) => {
-                                    selectWorld(store, e.target.value) // See Issue 2 below
+                                    selectWorld(store, e.target.value, resetMovementData, setWorldName, setWorldState) // See Issue 2 below
                                 }}
                                 className="form-select">
                                 {dataWorldState.map((worldState, index) => (
