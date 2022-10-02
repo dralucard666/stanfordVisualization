@@ -2,7 +2,6 @@ import { ObjectType } from "cgv/domains/movement"
 import create from "zustand"
 import simonTest from "../../../public/data/testLang.json"
 
-
 // id, x , y , z, xsize, typeof
 export type movObject = {
     id: string
@@ -17,26 +16,82 @@ export type framePositions = { time: number; position: number[] | null; directio
 
 export const dataWorldState: WorldState[] = [
     {
-        image: "./textures/dirt/bookstore.jpg",
+        image: "./models/bookstore.fbx",
         width: 1424,
         height: 1088,
+        scale: [2.6, 2.8, 3.1],
+        position: [20, 0, -20],
         name: "BookStore Empty",
-        staticObjects: ['bookstore']
+        staticObjects: ["bookstore"],
     },
     {
-        image: "./textures/dirt/bookstore.jpg",
+        image: "./models/bookstore.fbx",
         width: 1424,
         height: 1088,
-        name: "Simon Data",
+        scale: [2.6, 2.8, 3.1],
+        position: [20, 0, -20],
+        name: "Simon Bookstore",
         data: simonTest,
-        staticObjects: ['simonTest']
+        staticObjects: ["simonTest"],
+    },
+    {
+        image: "./models/eth.glb",
+        width: 1424,
+        height: 1088,
+        scale: [2.6, 2.8, 3.1],
+        position: [20, 0, -20],
+        name: "Simon ETH",
+        data: simonTest,
+        staticObjects: ["simonTest"],
+    },
+    {
+        image: "./models/hotel.glb",
+        width: 1424,
+        height: 1088,
+        scale: [2.6, 2.8, 3.1],
+        position: [20, 0, -20],
+        name: "Simon HOTEL",
+        data: simonTest,
+        staticObjects: ["simonTest"],
+    },
+    {
+        image: "./models/little.glb",
+        width: 1424,
+        height: 1088,
+        scale: [2.6, 2.8, 3.1],
+        position: [20, 0, -20],
+        name: "Simon LITTLE",
+        data: simonTest,
+        staticObjects: ["simonTest"],
+    },
+    {
+        image: "./models/students.glb",
+        width: 1424,
+        height: 1088,
+        scale: [2.6, 2.8, 3.1],
+        position: [20, 0, -20],
+        name: "Simon STUDENTS",
+        data: simonTest,
+        staticObjects: ["simonTest"],
+    },
+    {
+        image: "./models/zara.glb",
+        width: 1424,
+        height: 1088,
+        scale: [2.6, 2.8, 3.1],
+        position: [20, 0, -20],
+        name: "Simon ZARA",
+        data: simonTest,
+        staticObjects: ["simonTest"],
     },
 ]
 
 export interface WorldState {
     image: string
-    width?: number
-    height?: number
+    width: number
+    height: number
+    position?: [number, number, number]
+    scale?: [number, number, number]
     name: string
     data?: any
     staticObjects: any[]
@@ -104,13 +159,13 @@ export const useMovementStore = create<TimeState>((set, get) => ({
         return get().playActive
     },
     resetState: () => {
-        set ((state) => {
+        set((state) => {
             return {
-                time:0,
-                maxTime:0,
-                minTime:1000000,
-                data:null,
+                time: 0,
+                maxTime: 0,
+                minTime: 1000000,
+                data: null,
             }
         })
-    }
+    },
 }))
