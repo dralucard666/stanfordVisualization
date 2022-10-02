@@ -7,33 +7,39 @@ import bookStore0StaticObject from "../../../public/dataStaticObjects/bookstore0
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader"
 import { Group } from "three"
 
-export default function Floor(props: { world: WorldState | null }) {
+export default function Floor(props: { world: WorldState }) {
     const [colorMfloorNormalTexture] = useTexture(["./textures/dirt/normal.jpg"])
-    const [colorMap] = useTexture(["./textures/dirt/bookstore.jpg"])
+    const [colorMap] = useTexture(["./textures/dirt/hotelreference.png"])
     colorMap.rotation = Math.PI
     colorMap.encoding = THREE.sRGBEncoding
     colorMap.wrapS = THREE.RepeatWrapping
     colorMap.wrapT = THREE.RepeatWrapping
     colorMfloorNormalTexture.wrapS = THREE.RepeatWrapping
     colorMfloorNormalTexture.wrapT = THREE.RepeatWrapping
-    const scene = useGLTF("./models/bookstore.glb")
+    const world = props.world
+    const scene = useGLTF(world.image)
     const floor = useRef<Group>(null)
     return (
         <>
-            <mesh rotation={[-Math.PI / 2, 0, Math.PI]} position={[0, 10, 0]}>
-                <planeGeometry args={[props.world?.width ?? 1424, props.world?.height ?? 1088]} />
+{/*              <mesh rotation={[-Math.PI / 2, 0, Math.PI]} position={[0, 0, 0]}>
+                <planeGeometry args={[props.world?.width ?? 720, props.world?.height ?? 576]} />
                 <meshStandardMaterial map={colorMap} normalMap={colorMfloorNormalTexture}></meshStandardMaterial>
-            </mesh>
+            </mesh>  */}
             <Clone
                 ref={floor}
-                rotation={[0, 0, 0]}
+                rotation={[0, -Math.PI/2, 0]}
                 object={scene.scene}
-                scale={[260, 280, 310]}
-                position={[-20, 0, -20]}
+                scale={world.scale}
+                position={world.position}
             />
-            <ambientLight />
+            <ambientLight intensity={1}/>
         </>
     )
 }
 
 useGLTF.preload("./models/bookstore.glb")
+useGLTF.preload("./models/eth.glb")
+useGLTF.preload("./models/zara.glb")
+useGLTF.preload("./models/students.glb")
+useGLTF.preload("./models/hotel.glb")
+useGLTF.preload("./models/little.glb")

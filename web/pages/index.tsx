@@ -142,8 +142,25 @@ export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElemen
     useEffect(() => {
         const { data } = router.query
         if (data) {
-            if (data === "welt") {
-                selectWorld(store, 1, resetMovementData, setWorldName, setWorldState)
+            switch (data) {
+                case "bookstore":
+                    selectWorld(store, 1, resetMovementData, setWorldName, setWorldState)
+                    break
+                case "eth":
+                    selectWorld(store, 2, resetMovementData, setWorldName, setWorldState)
+                    break
+                case "hotel":
+                    selectWorld(store, 3, resetMovementData, setWorldName, setWorldState)
+                    break
+                case "little":
+                    selectWorld(store, 4, resetMovementData, setWorldName, setWorldState)
+                    break
+                case "students":
+                    selectWorld(store, 5, resetMovementData, setWorldName, setWorldState)
+                    break
+                case "zara":
+                    selectWorld(store, 6, resetMovementData, setWorldName, setWorldState)
+                    break
             }
         }
     }, [router])
@@ -176,10 +193,10 @@ export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElemen
                         <axesHelper />
                         <Descriptions />
                         <Suspense fallback={null}>
-                        <Floor world={world} />
+                            <Floor world={world} />
                         </Suspense>
                         <Clock />
-                        <PerspectiveCamera makeDefault far={10000}/>
+                        <PerspectiveCamera makeDefault far={10000} />
                         <CameraController />
                     </Bridge>
                     <Objects />
