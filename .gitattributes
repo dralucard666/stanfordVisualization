@@ -21,3 +21,4 @@
 *.glb binary
 *.gltf binary
 *.mvt binary
+*.fbx binary
