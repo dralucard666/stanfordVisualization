@@ -2,7 +2,7 @@ name: Depolyment
 
 on:
     push:
-        branches: [feature/simon-lang]
+        branches: [main]
 
 jobs:
     web-page:
@@ -13,6 +13,7 @@ jobs:
 
         - name: Install and Build
           run: |
+            git checkout feature/simon-lang
             npm install
             npm run build
 
