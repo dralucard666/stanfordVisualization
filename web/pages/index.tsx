@@ -213,34 +213,34 @@ export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElemen
                         bottom: 0,
                     }}>
                     <div className="d-flex flex-column my-3 ms-3" style={{ maxWidth: 200 }}>
-                        <DescriptionList
-                            createDescriptionRequestData={() => ({})}
+                        <div
                             style={{ pointerEvents: "all" }}
-                            className="mb-3">
-                            <div className="p-2 border-top border-1">
-                                <SummarizeButton />
-                            </div>
+                            className={`bg-light rounded shadow w-100 overflow-hidden border d-flex flex-column`}>
                             <div className="w-100 mt-2">Select Data</div>
-                            <select
-                                value={worldName}
-                                onChange={(e) => {
-                                    selectWorld(store, e.target.value, resetMovementData, setWorldName, setWorldState) // See Issue 2 below
-                                }}
-                                className="form-select">
-                                {dataWorldState.map((worldState, index) => (
-                                    <option value={index} key={worldState.name}>
-                                        {worldState.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </DescriptionList>
+                            <div className="px-3 py-2 border-bottom d-flex flex-row align-items-center">
+                                <select
+                                    value={worldName}
+                                    onChange={(e) => {
+                                        selectWorld(
+                                            store,
+                                            e.target.value,
+                                            resetMovementData,
+                                            setWorldName,
+                                            setWorldState
+                                        ) // See Issue 2 below
+                                    }}
+                                    className="form-select">
+                                    {dataWorldState.map((worldState, index) => (
+                                        <option value={index} key={worldState.name}>
+                                            {worldState.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
                         <div className="flex-grow-1" />
                         <div style={{ pointerEvents: "all" }} className="d-flex flex-row">
-                            <MultiSelectButton className="me-2" />
                             {/*<SpeedSelection className="me-2" />*/}
-                            <DownloadButton className="me-2" />
-                            <FlyCameraButton className="me-2" />
-                            <ShowError />
                         </div>
                     </div>
                     <div className="d-flex flex-column align-items-end m-3">
@@ -252,10 +252,6 @@ export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElemen
                             }}
                         />
                         <div className="flex-grow-1"></div>
-                        <div className="d-flex flex-row" style={{ pointerEvents: "all" }}>
-                            <TextEditorToggle className="me-2" />
-                            {/*<FullscreenToggle rootRef={null} />*/}
-                        </div>
                     </div>
                 </div>
                 {children}
