@@ -72,7 +72,7 @@ export const Person = forwardRef((props: { id: string | null }, ref) => {
     return (
         <>
             <group ref={group} dispose={null}>
-                <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.1}>
+                <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.095}>
                     <primitive object={nodes.mixamorigHips} />
                     <skinnedMesh
                         geometry={nodes.Body.geometry}

@@ -39,7 +39,6 @@ export const Cyclist = forwardRef((props: { id: string | null }, ref) => {
     useImperativeHandle(ref, () => ({
         updatePosition(x: number, y: number, z: number, angle: number, delta: number) {
             group.current.rotation.y = angle
-            group.current.position.y = y+17
             group.current.position.z = z
             group.current.position.x = x
         },
@@ -50,8 +49,8 @@ export const Cyclist = forwardRef((props: { id: string | null }, ref) => {
             <group
                 ref={(group as MutableRefObject<THREE.Group>) ?? null}
                 dispose={null}
-                scale={10}
-                position={[0, 30, 0]}>
+                scale={8}
+                position={[0, 14, 0]}>
                 <group rotation={[Math.PI / 2, 0, Math.PI / 2]}>
                     <mesh geometry={nodes.Chain_Chain_0.geometry} material={materials.Chain_COLOR_0} />
                     <mesh geometry={nodes.eyeball1_eyeball1_0.geometry} material={materials.eyeball1} />

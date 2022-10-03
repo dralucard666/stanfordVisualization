@@ -6,7 +6,7 @@ import * as THREE from "three"
 import React, { Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
 import { useGLTF, useAnimations } from "@react-three/drei"
 import { GLTF, SkeletonUtils } from "three-stdlib"
-import { AnimationClip, Group } from "three"
+import { AnimationClip, Group, RingGeometry } from "three"
 import { extend, useFrame, useGraph } from "@react-three/fiber"
 import { movObject, useMovementStore } from "./useMovementStore"
 import { Cyclist } from "./cyclist"
@@ -14,6 +14,7 @@ import { ObjectType } from "cgv/domains/movement"
 import { TextComponent } from "./text"
 import { Truck } from "./truck"
 import { Person } from "./person"
+import { Marker } from "./marker"
 
 const extraData = {
     pedestrian: {
@@ -45,8 +46,12 @@ const extraData = {
 export default function MovementLogic(props: { id: string; data: movObject }) {
     const object = useRef<any>()
     const text = useRef<any>()
+    const marker = useRef<any>()
+
     const type = props.data.type
-    const testType: ObjectType = ObjectType.Pedestrian as ObjectType
+    const testType: ObjectType = Math.random() > 0.5 ? (ObjectType.Pedestrian as ObjectType) : ObjectType.Car
+
+    const isMarked = true
 
     const [lineOffsetX, lineOffsetY, lineLength, textMarginX, textMarginY, rotationY] = getExtraData(testType)
     const PersonComp = useMemo(() => {
@@ -93,6 +98,9 @@ export default function MovementLogic(props: { id: string; data: movObject }) {
                 const angle = -Math.atan2(direction[2], direction[0]) + rotationY
                 object.current.updatePosition(positionX, positionY, positionZ, angle, delta)
                 text.current.updatePosition(positionX + textMarginX, positionY + textMarginY, positionZ)
+                if (isMarked) {
+                    marker.current.updatePosition(positionX, positionY, positionZ)
+                }
 
                 const oldLinePos = [positionX, lineOffsetY, positionZ]
                 const newLinePos = [
@@ -110,9 +118,8 @@ export default function MovementLogic(props: { id: string; data: movObject }) {
     return (
         <>
             <TextComponent {...{ text: props.id }} ref={text} />
-            <Suspense fallback={null}>
-            {PersonComp}
-            </Suspense>
+            {isMarked ? <Marker type={testType} ref={marker} /> : null}
+            <Suspense fallback={null}>{PersonComp}</Suspense>
             <line ref={line}>
                 <bufferGeometry />
                 <lineBasicMaterial attach="material" color={"#9c88ff"} linewidth={100} />
