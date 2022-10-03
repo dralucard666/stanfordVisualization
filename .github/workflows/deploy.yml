@@ -2,7 +2,7 @@ name: Depolyment
 
 on:
     push:
-        branches: [feature/publish]
+        branches: [main]
 
 jobs:
     web-page:
@@ -15,7 +15,6 @@ jobs:
 
         - name: Install and Build
           run: |
-            git checkout feature/publish
             npm install
             npm run build
 

@@ -8,8 +8,7 @@
         "fix": "run-s fix:prettier fix:eslint",
         "fix:prettier": "prettier --write src/**/*.{ts,tsx}",
         "fix:eslint": "eslint src --fix",
-        "test": "nyc mocha -r ts-node/register ./tests/*",
-        "deploy": "gh-pages -d dist -b feature/publish"
+        "test": "nyc mocha -r ts-node/register ./tests/*"
     },
     "devDependencies": {
         "@types/chai": "^4.3.0",
