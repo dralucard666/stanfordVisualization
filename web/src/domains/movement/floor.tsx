@@ -27,7 +27,7 @@ export default function Floor(props: { world: WorldState }) {
             </mesh>  */}
             <Clone
                 ref={floor}
-                rotation={[0, -Math.PI/2, 0]}
+                rotation={[0, 0, 0]}
                 object={scene.scene}
                 scale={world.scale}
                 position={world.position}

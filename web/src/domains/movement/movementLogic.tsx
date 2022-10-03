@@ -49,7 +49,7 @@ export default function MovementLogic(props: { id: string; data: movObject }) {
     const marker = useRef<any>()
 
     const type = props.data.type
-    const testType: ObjectType = Math.random() > 0.5 ? (ObjectType.Pedestrian as ObjectType) : ObjectType.Car
+    const testType: ObjectType = ObjectType.Pedestrian as ObjectType
 
     const isMarked = true
 

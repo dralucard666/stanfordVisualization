@@ -48,7 +48,7 @@ function pathStartsWith(p1: HierarchicalPath, p2: HierarchicalPath): boolean {
     return true
 }
 
-const defaultValue = new Primitive("null", [])
+const defaultValue = new Primitive([])
 
 export function Descriptions() {
     const descriptions = useBaseStoreState((state) => state.descriptions, shallowEqual)
@@ -94,7 +94,6 @@ function useSimpleInterpretation(
     const newdefaultValue = defaultValue
     const world = useMovementStore((e) => e.world)
 
-    newdefaultValue.id = name
     newdefaultValue.staticObjects = world.staticObjects
     useEffect(() => {
         if (ref.current == null || description == null) {
@@ -108,6 +107,7 @@ function useSimpleInterpretation(
                     seed,
                 })
             ),
+            name,
             ref.current,
             (value) => {
                 useViewerState.getState().setError(undefined)
@@ -150,7 +150,6 @@ function useInterpretation(
             .subscribe((entries) => store.getState().editIndices(entries, true))
         const name = description ? (description[0].name ? description[0].name : "") : ("" as unknown as string)
         const newdefaultValue = defaultValue
-        newdefaultValue.id = name
         newdefaultValue.staticObjects = world.staticObjects
         try {
             subscription = applyToObject3D(
@@ -205,6 +204,7 @@ function useInterpretation(
                         },
                     })
                 ),
+                name,
                 ref.current,
                 (value) => {
                     const step = importantStepMap.get(value.index.join(","))

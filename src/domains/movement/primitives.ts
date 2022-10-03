@@ -17,21 +17,16 @@ export interface ObjectPosition {
 }
 
 export class Primitive {
-    constructor(public id: string, public staticObjects: any[]) {}
+    constructor(public staticObjects: any[]) {}
 
     createPrimitive(position: Vector3, time: number, direction: Vector3, type: ObjectType) {
-        return new MovingObject(this.id, [{ position, time, direction } as ObjectPosition], type, this.staticObjects)
+        return new MovingObject([{ position, time, direction } as ObjectPosition], type, this.staticObjects)
     }
 }
 
 export class MovingObject extends Primitive {
-    constructor(
-        public id: string,
-        public position: ObjectPosition[],
-        public type: ObjectType,
-        public staticObjects: any[]
-    ) {
-        super(id, staticObjects)
+    constructor(public position: ObjectPosition[], public type: ObjectType, public staticObjects: any[]) {
+        super(staticObjects)
     }
 
     moveRight(distance: number) {
@@ -44,7 +39,7 @@ export class MovingObject extends Primitive {
         const newTimeSteps = this.returnNewTimeSteps(oldPo, newPo, new Vector3(1, 0, 0))
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
-        return new MovingObject(this.id, newPosArray, this.type, this.staticObjects)
+        return new MovingObject(newPosArray, this.type, this.staticObjects)
     }
 
     moveLeft(distance: number) {
@@ -57,7 +52,7 @@ export class MovingObject extends Primitive {
         const newTimeSteps = this.returnNewTimeSteps(oldPo, newPo, new Vector3(-1, 0, 0))
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
-        return new MovingObject(this.id, newPosArray, this.type, this.staticObjects)
+        return new MovingObject(newPosArray, this.type, this.staticObjects)
     }
 
     moveUp(distance: number) {
@@ -70,7 +65,7 @@ export class MovingObject extends Primitive {
         const newTimeSteps = this.returnNewTimeSteps(oldPo, newPo, new Vector3(0, 0, 1))
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
-        return new MovingObject(this.id, newPosArray, this.type, this.staticObjects)
+        return new MovingObject(newPosArray, this.type, this.staticObjects)
     }
 
     moveDown(distance: number) {
@@ -83,7 +78,7 @@ export class MovingObject extends Primitive {
         const newTimeSteps = this.returnNewTimeSteps(oldPo, newPo, new Vector3(0, 0, -1))
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
-        return new MovingObject(this.id, newPosArray, this.type, this.staticObjects)
+        return new MovingObject(newPosArray, this.type, this.staticObjects)
     }
 
     moveRotate(angle: possibleAngles, distance: possibleDistance) {
@@ -97,7 +92,7 @@ export class MovingObject extends Primitive {
         const newTimeSteps = this.returnNewTimeSteps2(oldPo, newPo, newDirection.normalize())
         const newPosArray = structuredClone(this.position)
         newPosArray.push(...newTimeSteps)
-        return new MovingObject(this.id, newPosArray, this.type, this.staticObjects)
+        return new MovingObject(newPosArray, this.type, this.staticObjects)
     }
 
     standStill() {
@@ -108,7 +103,7 @@ export class MovingObject extends Primitive {
             const newEntry = { ...oldPo, time } as ObjectPosition
             newPosArray.push(newEntry)
         }
-        return new MovingObject(this.id, newPosArray, this.type, this.staticObjects)
+        return new MovingObject(newPosArray, this.type, this.staticObjects)
     }
 
     returnNewTimeSteps(oldPo: ObjectPosition, newPo: ObjectPosition, direction: Vector3): ObjectPosition[] {
