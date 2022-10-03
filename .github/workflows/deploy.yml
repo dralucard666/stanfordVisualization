@@ -11,9 +11,11 @@ jobs:
         - name: Checkout code
           uses: actions/checkout@v2
 
+
+
         - name: Install and Build
           run: |
-            git checkout feature/simon-lang
+            git checkout main
             npm install
             npm run build
 
