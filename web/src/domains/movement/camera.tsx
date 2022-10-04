@@ -12,7 +12,7 @@ export const CameraController = () => {
     camera.rotateX(-Math.PI / 10);
     controls.update();
     controls.minDistance = 3;
-    controls.maxDistance = 1000;
+    controls.maxDistance = 2000;
     return () => {
       controls.dispose();
     };

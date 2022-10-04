@@ -6,47 +6,14 @@ import * as THREE from "three"
 import React, { forwardRef, useImperativeHandle, useRef } from "react"
 import { ObjectType } from "cgv/domains/movement"
 
-type posNumber = [number,number,number]
-type argsCone = [number?,number?,number?,number?,boolean?,number?,number?]
-type argsTorus = [number?,number?,number?,number?,number?]
+type posNumber = [number, number, number]
+type argsCone = [number?, number?, number?, number?, boolean?, number?, number?]
+type argsTorus = [number?, number?, number?, number?, number?]
 
-const markerData = {
-    [ObjectType.Pedestrian]: {
-        cone: {
-            position: [0, 55, 0] as posNumber,
-            args: [6, 10, 8] as argsCone,
-        },
-        torus: {
-            position: [0, 4, 0] as posNumber,
-            args: [23, 0.4, 8, 50] as argsTorus,
-        },
-    },
-    [ObjectType.Cyclist]: {
-        cone: {
-            position: [0, 70, 0] as posNumber,
-            args: [6, 10, 8] as argsCone,
-        },
-        torus: {
-            position: [0, 4, 0] as posNumber,
-            args: [30, 0.4, 8, 50]  as argsTorus,
-        },
-    },
-    [ObjectType.Car]: {
-        cone: {
-            position: [0, 70, 0] as posNumber,
-            args: [6, 10, 8]  as argsCone,
-        },
-        torus: {
-            position: [0, 4, 0] as posNumber,
-            args: [60, 0.4, 8, 50] as argsTorus,
-        },
-    },
-}
-
-export const Marker = forwardRef((props:{type:ObjectType}, ref) => {
+export const Marker = forwardRef((props: { type: ObjectType; scene:'bookstore' }, ref) => {
     const group = useRef<any>()
-    const coneData= markerData[props.type].cone
-    const torusData= markerData[props.type].torus
+    const coneData = markerData['eth'][props.type].cone
+    const torusData = markerData['eth'][props.type].torus
 
     useImperativeHandle(ref, () => ({
         updatePosition(x: number, y: number, z: number) {
@@ -69,3 +36,199 @@ export const Marker = forwardRef((props:{type:ObjectType}, ref) => {
         </group>
     )
 })
+
+
+const markerData = {
+    bookstore: {
+        [ObjectType.Pedestrian]: {
+            cone: {
+                position: [0, 55, 0] as posNumber,
+                args: [6, 10, 8] as argsCone,
+            },
+            torus: {
+                position: [0, 4, 0] as posNumber,
+                args: [23, 0.4, 8, 50] as argsTorus,
+            },
+        },
+        [ObjectType.Cyclist]: {
+            cone: {
+                position: [0, 70, 0] as posNumber,
+                args: [6, 10, 8] as argsCone,
+            },
+            torus: {
+                position: [0, 4, 0] as posNumber,
+                args: [30, 0.4, 8, 50] as argsTorus,
+            },
+        },
+        [ObjectType.Car]: {
+            cone: {
+                position: [0, 70, 0] as posNumber,
+                args: [6, 10, 8] as argsCone,
+            },
+            torus: {
+                position: [0, 4, 0] as posNumber,
+                args: [60, 0.4, 8, 50] as argsTorus,
+            },
+        },
+    },
+    eth: {
+        [ObjectType.Pedestrian]: {
+            cone: {
+                position: [0, 125, 0] as posNumber,
+                args: [6, 10, 8] as argsCone,
+            },
+            torus: {
+                position: [0, 10, 0] as posNumber,
+                args: [50, 1, 8, 50] as argsTorus,
+            },
+        },
+        [ObjectType.Cyclist]: {
+            cone: {
+                position: [0, 70, 0] as posNumber,
+                args: [6, 10, 8] as argsCone,
+            },
+            torus: {
+                position: [0, 4, 0] as posNumber,
+                args: [30, 0.4, 8, 50] as argsTorus,
+            },
+        },
+        [ObjectType.Car]: {
+            cone: {
+                position: [0, 130, 0] as posNumber,
+                args: [6, 10, 8] as argsCone,
+            },
+            torus: {
+                position: [0, 4, 0] as posNumber,
+                args: [130, 1, 8, 50] as argsTorus,
+            },
+        },
+    },
+    hotel: {
+        [ObjectType.Pedestrian]: {
+            cone: {
+                position: [0, 55, 0] as posNumber,
+                args: [6, 10, 8] as argsCone,
+            },
+            torus: {
+                position: [0, 4, 0] as posNumber,
+                args: [23, 0.4, 8, 50] as argsTorus,
+            },
+        },
+        [ObjectType.Cyclist]: {
+            cone: {
+                position: [0, 70, 0] as posNumber,
+                args: [6, 10, 8] as argsCone,
+            },
+            torus: {
+                position: [0, 4, 0] as posNumber,
+                args: [30, 0.4, 8, 50] as argsTorus,
+            },
+        },
+        [ObjectType.Car]: {
+            cone: {
+                position: [0, 70, 0] as posNumber,
+                args: [6, 10, 8] as argsCone,
+            },
+            torus: {
+                position: [0, 4, 0] as posNumber,
+                args: [60, 0.4, 8, 50] as argsTorus,
+            },
+        },
+    },
+    little: {
+        [ObjectType.Pedestrian]: {
+            cone: {
+                position: [0, 55, 0] as posNumber,
+                args: [6, 10, 8] as argsCone,
+            },
+            torus: {
+                position: [0, 4, 0] as posNumber,
+                args: [23, 0.4, 8, 50] as argsTorus,
+            },
+        },
+        [ObjectType.Cyclist]: {
+            cone: {
+                position: [0, 70, 0] as posNumber,
+                args: [6, 10, 8] as argsCone,
+            },
+            torus: {
+                position: [0, 4, 0] as posNumber,
+                args: [30, 0.4, 8, 50] as argsTorus,
+            },
+        },
+        [ObjectType.Car]: {
+            cone: {
+                position: [0, 70, 0] as posNumber,
+                args: [6, 10, 8] as argsCone,
+            },
+            torus: {
+                position: [0, 4, 0] as posNumber,
+                args: [60, 0.4, 8, 50] as argsTorus,
+            },
+        },
+    },
+    students: {
+        [ObjectType.Pedestrian]: {
+            cone: {
+                position: [0, 55, 0] as posNumber,
+                args: [6, 10, 8] as argsCone,
+            },
+            torus: {
+                position: [0, 4, 0] as posNumber,
+                args: [23, 0.4, 8, 50] as argsTorus,
+            },
+        },
+        [ObjectType.Cyclist]: {
+            cone: {
+                position: [0, 70, 0] as posNumber,
+                args: [6, 10, 8] as argsCone,
+            },
+            torus: {
+                position: [0, 4, 0] as posNumber,
+                args: [30, 0.4, 8, 50] as argsTorus,
+            },
+        },
+        [ObjectType.Car]: {
+            cone: {
+                position: [0, 70, 0] as posNumber,
+                args: [6, 10, 8] as argsCone,
+            },
+            torus: {
+                position: [0, 4, 0] as posNumber,
+                args: [60, 0.4, 8, 50] as argsTorus,
+            },
+        },
+    },
+    zara: {
+        [ObjectType.Pedestrian]: {
+            cone: {
+                position: [0, 55, 0] as posNumber,
+                args: [6, 10, 8] as argsCone,
+            },
+            torus: {
+                position: [0, 4, 0] as posNumber,
+                args: [23, 0.4, 8, 50] as argsTorus,
+            },
+        },
+        [ObjectType.Cyclist]: {
+            cone: {
+                position: [0, 70, 0] as posNumber,
+                args: [6, 10, 8] as argsCone,
+            },
+            torus: {
+                position: [0, 4, 0] as posNumber,
+                args: [30, 0.4, 8, 50] as argsTorus,
+            },
+        },
+        [ObjectType.Car]: {
+            cone: {
+                position: [0, 70, 0] as posNumber,
+                args: [6, 10, 8] as argsCone,
+            },
+            torus: {
+                position: [0, 4, 0] as posNumber,
+                args: [60, 0.4, 8, 50] as argsTorus,
+            },
+        },
+    },
+}

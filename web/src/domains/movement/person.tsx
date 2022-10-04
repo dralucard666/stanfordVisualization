@@ -46,12 +46,14 @@ interface person {
 
 type ActionName = "Armature|mixamo.com|Layer0"
 
-export const Person = forwardRef((props: { id: string | null }, ref) => {
+export const Person = forwardRef((props: { id: string | null; scale: number }, ref) => {
     const group = useRef<any>()
 
     const { scene, materials, animations } = useGLTF("./models/remyplace.glb") as GLTFResult
     const clones = useMemo(() => SkeletonUtils.clone(scene), [scene])
     const { nodes } = useGraph(clones) as unknown as person
+
+    const sceneFactor = 3
 
     const mixer = useMemo(() => new THREE.AnimationMixer(clones), [scene])
     animations.forEach((clip) => {
@@ -62,7 +64,7 @@ export const Person = forwardRef((props: { id: string | null }, ref) => {
     useImperativeHandle(ref, () => ({
         updatePosition(x: number, y: number, z: number, angle: number, delta: number) {
             group.current.rotation.y = angle
-            group.current.position.y = y+2
+            group.current.position.y = y + 2
             group.current.position.z = z
             group.current.position.x = x
             mixer.update(delta)
@@ -72,7 +74,7 @@ export const Person = forwardRef((props: { id: string | null }, ref) => {
     return (
         <>
             <group ref={group} dispose={null}>
-                <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.095}>
+                <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={props.scale}>
                     <primitive object={nodes.mixamorigHips} />
                     <skinnedMesh
                         geometry={nodes.Body.geometry}

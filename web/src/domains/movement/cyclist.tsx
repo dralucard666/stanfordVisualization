@@ -32,7 +32,7 @@ type GLTFResult = GLTF & {
     }
 }
 
-export const Cyclist = forwardRef((props: { id: string | null }, ref) => {
+export const Cyclist = forwardRef((props: { id: string | null; scale: number }, ref) => {
     const group = useRef<any>()
     const { nodes, materials } = useGLTF("./models/cyclist.glb") as GLTFResult
 
@@ -49,7 +49,7 @@ export const Cyclist = forwardRef((props: { id: string | null }, ref) => {
             <group
                 ref={(group as MutableRefObject<THREE.Group>) ?? null}
                 dispose={null}
-                scale={8}
+                scale={props.scale}
                 position={[0, 14, 0]}>
                 <group rotation={[Math.PI / 2, 0, Math.PI / 2]}>
                     <mesh geometry={nodes.Chain_Chain_0.geometry} material={materials.Chain_COLOR_0} />
