@@ -1,4 +1,4 @@
-import { MovingObject, ObjectPosition, ObjectType, Primitive } from "cgv/domains/movement"
+import { MovingObject, ObjectPosition, ObjectType, Primitive, standardTime } from "cgv/domains/movement"
 import { Value } from "cgv/interpreter"
 import { Observable, Subscription, tap } from "rxjs"
 import { Object3D } from "three"
@@ -48,8 +48,8 @@ export function applyToObject3D(
                 } else {
                     setStoreData([moveOb])
                 }
-                if (useMovementStore.getState().maxTime < endTime) {
-                    useMovementStore.getState().setMaxTime(endTime)
+                if (useMovementStore.getState().maxTime <= endTime) {
+                    useMovementStore.getState().setMaxTime(endTime+1)
                 }
                 if (useMovementStore.getState().minTime > startTime) {
                     useMovementStore.getState().setMinTime(startTime)

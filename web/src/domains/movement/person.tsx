@@ -46,7 +46,7 @@ interface person {
 
 type ActionName = "Armature|mixamo.com|Layer0"
 
-export const Person = forwardRef((props: { id: string | null; scale: number }, ref) => {
+export const Person = forwardRef((props: { id: string | null; scale: number; positionY:number }, ref) => {
     const group = useRef<any>()
 
     const { scene, materials, animations } = useGLTF("./models/remyplace.glb") as GLTFResult
@@ -68,6 +68,14 @@ export const Person = forwardRef((props: { id: string | null; scale: number }, r
             group.current.position.z = z
             group.current.position.x = x
             mixer.update(delta)
+        },
+
+        hideObject() {
+            group.current.visible = false
+        },
+
+        showObject() {
+            group.current.visible = true
         },
     }))
 

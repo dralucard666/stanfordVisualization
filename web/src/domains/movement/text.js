@@ -12,6 +12,14 @@ export const TextComponent = forwardRef((props, ref) => {
             textRef.current.position.y = y
             textRef.current.position.z = z
         },
+
+        hideText() {
+            textRef.current.visible=false;
+        },
+
+        showText() {
+            textRef.current.visible=true;
+        }
     }))
 
     useLayoutEffect(() => {

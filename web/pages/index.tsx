@@ -37,6 +37,7 @@ import Slider from "../src/domains/movement/slider"
 import shallow from "zustand/shallow"
 import MovementLogic from "../src/domains/movement/movementLogic"
 import { useRouter } from "next/router"
+import { standardTime } from "cgv/domains/movement"
 
 const zoom = 18
 const globalLocalRatio = tileZoomRatio(0, zoom)
@@ -69,14 +70,14 @@ export default function Movement() {
     )
 }
 
-const Objects = () => {
+const Objects = (props: { world: WorldState }) => {
     const data = useMovementStore((store) => store.data)
     // const playActive = useMovementStore((store) => store.playActive)
     return (
         <>
             {data
                 ? data.map((ob) => {
-                      return <MovementLogic key={ob.id} id={ob.id} data={ob} />
+                      return <MovementLogic key={ob.id} id={ob.id} data={ob} world={props.world} />
                   })
                 : null}
         </>
@@ -101,7 +102,7 @@ const selectWorld = (
             const lineZ = dataLine[2] as number
             const lineY = dataLine[3] as number
             const lineSize = dataLine[4] as number
-            const lineTime = dataLine[5] as number
+            const lineTime = dataLine[5]*standardTime as number
             const lineStartDir = dataLine[6] as number[]
             const lineTypeString = dataLine[7] as string
             const lineType = getNumberType(lineTypeString)
@@ -199,7 +200,7 @@ export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElemen
                         <PerspectiveCamera makeDefault far={10000} />
                         <CameraController />
                     </Bridge>
-                    <Objects />
+                    <Objects world={world} />
                 </Canvas>
                 <Slider />
                 <div

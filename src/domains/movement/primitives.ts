@@ -8,7 +8,7 @@ export enum ObjectType {
     Car,
 }
 
-const standardTime = 20
+export const standardTime = 15
 
 export interface ObjectPosition {
     position: Vector3

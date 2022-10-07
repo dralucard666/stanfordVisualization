@@ -9,7 +9,7 @@ import { Group } from "three"
 
 export default function Floor(props: { world: WorldState }) {
     const [colorMfloorNormalTexture] = useTexture(["./textures/dirt/normal.jpg"])
-    const [colorMap] = useTexture(["./textures/dirt/hotelreference.png"])
+    const [colorMap] = useTexture(["./textures/dirt/studentsreference.png"])
     colorMap.rotation = Math.PI
     colorMap.encoding = THREE.sRGBEncoding
     colorMap.wrapS = THREE.RepeatWrapping
@@ -17,22 +17,17 @@ export default function Floor(props: { world: WorldState }) {
     colorMfloorNormalTexture.wrapS = THREE.RepeatWrapping
     colorMfloorNormalTexture.wrapT = THREE.RepeatWrapping
     const world = props.world
+    const rotation = world.rotation ?? [0, 0, 0]
     const scene = useGLTF(world.image)
     const floor = useRef<Group>(null)
     return (
         <>
-{/*              <mesh rotation={[-Math.PI / 2, 0, Math.PI]} position={[0, 0, 0]}>
+{/*              <mesh rotation={[-Math.PI / 2, 0, Math.PI]} position={[0, 10, 0]}>
                 <planeGeometry args={[props.world?.width ?? 720, props.world?.height ?? 576]} />
                 <meshStandardMaterial map={colorMap} normalMap={colorMfloorNormalTexture}></meshStandardMaterial>
             </mesh>  */}
-            <Clone
-                ref={floor}
-                rotation={[0, 0, 0]}
-                object={scene.scene}
-                scale={world.scale}
-                position={world.position}
-            />
-            <ambientLight intensity={1}/>
+            <Clone ref={floor} rotation={rotation} object={scene.scene} scale={world.scale} position={world.position} />
+            <ambientLight intensity={1} />
         </>
     )
 }

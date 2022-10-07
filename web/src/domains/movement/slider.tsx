@@ -96,6 +96,8 @@ export default function Slider(props: any) {
                                                   key={ob.id}
                                                   id={ob.id}
                                                   data={ob.framePos[smallScreenTime] ?? null}
+                                                  world={world}
+                                                  type={ob.type}
                                               />
                                           )
                                       })

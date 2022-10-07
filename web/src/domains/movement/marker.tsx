@@ -12,8 +12,8 @@ type argsTorus = [number?, number?, number?, number?, number?]
 
 export const Marker = forwardRef((props: { type: ObjectType; scene:'bookstore' }, ref) => {
     const group = useRef<any>()
-    const coneData = markerData['eth'][props.type].cone
-    const torusData = markerData['eth'][props.type].torus
+    const coneData = markerData['bookstore'][props.type].cone
+    const torusData = markerData['bookstore'][props.type].torus
 
     useImperativeHandle(ref, () => ({
         updatePosition(x: number, y: number, z: number) {

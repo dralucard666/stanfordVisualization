@@ -8,15 +8,16 @@ import { useGLTF, useAnimations } from "@react-three/drei"
 import { GLTF, SkeletonUtils } from "three-stdlib"
 import { AnimationClip, Group, RingGeometry } from "three"
 import { extend, useFrame, useGraph } from "@react-three/fiber"
-import { movObject, useMovementStore } from "./useMovementStore"
+import { movObject, useMovementStore, WorldEnum, WorldState } from "./useMovementStore"
 import { Cyclist } from "./cyclist"
 import { ObjectType } from "cgv/domains/movement"
 import { TextComponent } from "./text"
 import { Truck } from "./truck"
 import { Person } from "./person"
 import { Marker } from "./marker"
+import { getExtraData } from "./objectDataScene"
 
-export default function MovementLogic(props: { id: string; data: movObject }) {
+export default function MovementLogic(props: { id: string; data: movObject; world: WorldState }) {
     const object = useRef<any>()
     const text = useRef<any>()
     const marker = useRef<any>()
@@ -25,19 +26,22 @@ export default function MovementLogic(props: { id: string; data: movObject }) {
     const testType: ObjectType = ObjectType.Car as ObjectType
 
     const isMarked = true
-    const scene = "eth"
+    const scene = props.world.enumName as WorldEnum
 
-    const [lineOffsetX, lineOffsetY, lineLength, textMarginX, textMarginY, rotationY, scale] = getExtraData(scene, testType)
+    const [lineOffsetX, lineOffsetY, lineLength, textMarginX, textMarginY, positionY, rotationY, scale] = getExtraData(
+        scene,
+        type
+    )
     const PersonComp = useMemo(() => {
-        switch (testType) {
+        switch (type) {
             case ObjectType.Cyclist:
-                return <Cyclist key={props.id} id={props.id} ref={object} scale={scale}></Cyclist>
+                return <Cyclist key={props.id} id={props.id} ref={object} scale={scale} positionY={positionY}></Cyclist>
             case ObjectType.Pedestrian:
-                return <Person key={props.id} id={props.id} ref={object} scale={scale}></Person>
+                return <Person key={props.id} id={props.id} ref={object} scale={scale} positionY={positionY}></Person>
             case ObjectType.Car:
-                return <Truck key={props.id} id={props.id} ref={object} scale={scale}></Truck>
+                return <Truck key={props.id} id={props.id} ref={object} scale={scale} positionY={positionY}></Truck>
             default:
-                return <Person key={props.id} id={props.id} ref={object} scale={scale}></Person>
+                return <Person key={props.id} id={props.id} ref={object} scale={scale} positionY={positionY}></Person>
         }
     }, [props])
     const line = useRef<any>()
@@ -59,12 +63,15 @@ export default function MovementLogic(props: { id: string; data: movObject }) {
 
     useFrame((state, delta) => {
         const currentTime = useMovementStore.getState().time
-
         if (data.startT <= currentTime && currentTime <= data.endT && data.framePos) {
             const arrayIndex = currentTime - data.startT
             const currentLine = data.framePos[arrayIndex]
             const direction = currentLine.direction
             if (currentLine.position && object.current && line.current && direction) {
+                object.current.showObject()
+                line.current.visible = true
+                text.current.showText()
+
                 const positionX = currentLine.position[0]
                 const positionY = currentLine.position[1]
                 const positionZ = currentLine.position[2]
@@ -72,9 +79,9 @@ export default function MovementLogic(props: { id: string; data: movObject }) {
                 const angle = -Math.atan2(direction[2], direction[0]) + rotationY
                 object.current.updatePosition(positionX, positionY, positionZ, angle, delta)
                 text.current.updatePosition(positionX + textMarginX, positionY + textMarginY, positionZ)
-                if (isMarked) {
+                /*                 if (isMarked) {
                     marker.current.updatePosition(positionX, positionY, positionZ)
-                }
+                } */
 
                 const oldLinePos = [positionX, lineOffsetY, positionZ]
                 const newLinePos = [
@@ -86,124 +93,23 @@ export default function MovementLogic(props: { id: string; data: movObject }) {
                     [oldLinePos, newLinePos].map((point) => new THREE.Vector3(...point))
                 )
             }
+        } else {
+            object.current.hideObject()
+            line.current.visible = false
+            text.current.hideText()
         }
     })
 
     return (
         <>
-            <TextComponent {...{ text: props.id }} ref={text} />
-            {isMarked ? <Marker type={testType} scene={"bookstore"} ref={marker} /> : null}
+            {/*             {isMarked ? <Marker type={type} scene={"bookstore"} ref={marker} /> : null}
+             */}{" "}
             <Suspense fallback={null}>{PersonComp}</Suspense>
+            <TextComponent {...{ text: props.id }} ref={text} />
             <line ref={line}>
                 <bufferGeometry />
                 <lineBasicMaterial attach="material" color={"#9c88ff"} linewidth={100} />
             </line>
         </>
     )
-}
-
-function getExtraData(sceneName: "bookstore", type: ObjectType): [number, number, number, number, number, number, number] {
-    switch (type) {
-        case ObjectType.Cyclist:
-            return [
-                extraData[sceneName].cyclist.lineOffsetX,
-                extraData[sceneName].cyclist.lineOffsetY,
-                extraData[sceneName].cyclist.lineLength,
-                extraData[sceneName].cyclist.textMarginX,
-                extraData[sceneName].cyclist.textMarginY,
-                extraData[sceneName].cyclist.rotationY,
-                extraData[sceneName].cyclist.objectScale,
-            ]
-        case ObjectType.Pedestrian:
-            return [
-                extraData[sceneName].pedestrian.lineOffsetX,
-                extraData[sceneName].pedestrian.lineOffsetY,
-                extraData[sceneName].pedestrian.lineLength,
-                extraData[sceneName].pedestrian.textMarginX,
-                extraData[sceneName].pedestrian.textMarginY,
-                extraData[sceneName].pedestrian.rotationY,
-                extraData[sceneName].pedestrian.objectScale,
-            ]
-        case ObjectType.Car:
-            return [
-                extraData[sceneName].truck.lineOffsetX,
-                extraData[sceneName].truck.lineOffsetY,
-                extraData[sceneName].truck.lineLength,
-                extraData[sceneName].truck.textMarginX,
-                extraData[sceneName].truck.textMarginY,
-                extraData[sceneName].truck.rotationY,
-                extraData[sceneName].truck.objectScale,
-            ]
-        default:
-            return [
-                extraData[sceneName].pedestrian.lineOffsetX,
-                extraData[sceneName].pedestrian.lineOffsetY,
-                extraData[sceneName].pedestrian.lineLength,
-                extraData[sceneName].pedestrian.textMarginX,
-                extraData[sceneName].pedestrian.textMarginY,
-                extraData[sceneName].pedestrian.rotationY,
-                extraData[sceneName].pedestrian.objectScale,
-            ]
-    }
-}
-
-const extraData = {
-    bookstore: {
-        pedestrian: {
-            lineOffsetX: 0,
-            lineOffsetY: 60,
-            lineLength: 50,
-            textMarginX: -10,
-            textMarginY: 125,
-            rotationY: Math.PI / 2,
-            objectScale: 0.095,
-        },
-        cyclist: {
-            lineOffsetX: 0,
-            lineOffsetY: 15,
-            lineLength: 50,
-            textMarginX: -10,
-            textMarginY: 60,
-            rotationY: Math.PI / 2,
-            objectScale: 8,
-        },
-        truck: {
-            lineOffsetX: 50,
-            lineOffsetY: 20,
-            lineLength: 120,
-            textMarginX: -10,
-            textMarginY: 60,
-            rotationY: Math.PI,
-            objectScale: 0.4,
-        },
-    },
-    eth: {
-        pedestrian: {
-            lineOffsetX: 0,
-            lineOffsetY: 60,
-            lineLength: 50,
-            textMarginX: -10,
-            textMarginY: 115,
-            rotationY: Math.PI / 2,
-            objectScale: 0.095,
-        },
-        cyclist: {
-            lineOffsetX: 0,
-            lineOffsetY: 15,
-            lineLength: 50,
-            textMarginX: -10,
-            textMarginY: 60,
-            rotationY: Math.PI / 2,
-            objectScale: 0.095,
-        },
-        truck: {
-            lineOffsetX: 50,
-            lineOffsetY: 20,
-            lineLength: 120,
-            textMarginX: -10,
-            textMarginY: 120,
-            rotationY: Math.PI,
-            objectScale: 0.9,
-        },
-    },
 }
