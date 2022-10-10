@@ -95,9 +95,11 @@ export default function MovementLogic(props: { id: string; data: movObject; worl
                 )
             }
         } else {
-            object.current.hideObject()
-            line.current.visible = false
-            text.current.hideText()
+            if (object.current && line.current && text.current) {
+                object.current.hideObject()
+                line.current.visible = false
+                text.current.hideText()
+            }
         }
     })
 
@@ -105,8 +107,10 @@ export default function MovementLogic(props: { id: string; data: movObject; worl
         <>
             {/*             {isMarked ? <Marker type={type} scene={"bookstore"} ref={marker} /> : null}
              */}{" "}
-            <Suspense fallback={null}>{PersonComp}</Suspense>
-            <TextComponent {...{ text: props.id }} ref={text} />
+            <Suspense fallback={null}>
+                {PersonComp}
+                <TextComponent {...{ text: props.id }} ref={text} />
+            </Suspense>
             <line ref={line}>
                 <bufferGeometry />
                 <lineBasicMaterial attach="material" color={"#9c88ff"} linewidth={100} />

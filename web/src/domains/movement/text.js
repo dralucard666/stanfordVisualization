@@ -1,10 +1,10 @@
-import { Text } from "troika-three-text"
 import React, { useImperativeHandle, forwardRef, useLayoutEffect, useRef, useState } from "react"
-import { Scene } from "three"
+import { Text } from "@react-three/drei"
+import { useFrame } from "@react-three/fiber"
 
 export const TextComponent = forwardRef((props, ref) => {
-    const [scene] = useState(() => new Scene())
     const textRef = useRef()
+    const text = props.text.replace("Start@ID","");
 
     useImperativeHandle(ref, () => ({
         updatePosition(x, y, z) {
@@ -14,21 +14,23 @@ export const TextComponent = forwardRef((props, ref) => {
         },
 
         hideText() {
-            textRef.current.visible=false;
+            textRef.current.visible = false
         },
 
         showText() {
-            textRef.current.visible=true;
-        }
+            textRef.current.visible = true
+        },
     }))
 
-    useLayoutEffect(() => {
-        const myText = new Text()
-        scene.add(myText)
-        myText.text = props.text
-        myText.fontSize = 5
-        myText.color = 0x000000
-        return () => void scene
-    }, [])
-    return <primitive object={scene} ref={textRef}/>
+    useFrame(({ camera }) => {
+        textRef.current.quaternion.copy(camera.quaternion)
+      })
+
+    return (
+        <>
+            <Text color={'#000000'} fontSize={8} outlineWidth={"100%"} outlineOpacity={0} ref={textRef}>
+                {text}
+            </Text>
+        </>
+    )
 })
