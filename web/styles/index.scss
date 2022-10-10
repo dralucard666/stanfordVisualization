@@ -34,13 +34,13 @@ a {
 
 .noselect {
     -webkit-touch-callout: none; /* iOS Safari */
-      -webkit-user-select: none; /* Safari */
-       -khtml-user-select: none; /* Konqueror HTML */
-         -moz-user-select: none; /* Old versions of Firefox */
-          -ms-user-select: none; /* Internet Explorer/Edge */
-              user-select: none; /* Non-prefixed version, currently
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome, Edge, Opera and Firefox */
-  }
+}
 
 .hovered {
     @extend .bg-hovered;
@@ -79,9 +79,33 @@ a {
         max-height: unset;
         max-width: 35%;
     }
-    
 }
 
 .scroll {
     overflow: hidden auto;
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.loading-spinner {
+    z-index: 10001;
+    width: 300px;
+    height: 300px;
+    border: 12px solid #476a97; /* Light grey */
+    border-top: 12px solid #b5c8e0; /* Blue */
+    border-radius: 50%;
+    animation: spinner 1.5s linear infinite;
+}
+
+.spinner-container {
+    position: absolute;
+    top: 20%;
+    left: 40%;
+    z-index: 10001;
 }

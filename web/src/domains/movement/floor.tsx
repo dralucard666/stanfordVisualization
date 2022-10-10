@@ -2,10 +2,10 @@ import * as THREE from "three"
 import { useLoader } from "@react-three/fiber"
 import { Suspense, useEffect, useRef, useState } from "react"
 import { useGLTF, useTexture, useFBX, Clone } from "@react-three/drei"
-import { WorldState } from "./useMovementStore"
 import bookStore0StaticObject from "../../../public/dataStaticObjects/bookstore0.json"
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader"
 import { Group } from "three"
+import { WorldState } from "./movementData"
 
 export default function Floor(props: { world: WorldState }) {
     const [colorMfloorNormalTexture] = useTexture(["./textures/dirt/normal.jpg"])

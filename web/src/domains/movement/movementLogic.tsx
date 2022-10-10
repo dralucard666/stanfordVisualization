@@ -8,7 +8,7 @@ import { useGLTF, useAnimations } from "@react-three/drei"
 import { GLTF, SkeletonUtils } from "three-stdlib"
 import { AnimationClip, Group, RingGeometry } from "three"
 import { extend, useFrame, useGraph } from "@react-three/fiber"
-import { movObject, useMovementStore, WorldEnum, WorldState } from "./useMovementStore"
+import { movObject, useMovementStore } from "./useMovementStore"
 import { Cyclist } from "./cyclist"
 import { ObjectType } from "cgv/domains/movement"
 import { TextComponent } from "./text"
@@ -16,6 +16,7 @@ import { Truck } from "./truck"
 import { Person } from "./person"
 import { Marker } from "./marker"
 import { getExtraData } from "./objectDataScene"
+import { WorldState, WorldEnum } from "./movementData"
 
 export default function MovementLogic(props: { id: string; data: movObject; world: WorldState }) {
     const object = useRef<any>()

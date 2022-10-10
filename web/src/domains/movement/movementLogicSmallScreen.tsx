@@ -8,13 +8,14 @@ import { useGLTF, useAnimations } from "@react-three/drei"
 import { GLTF, SkeletonUtils } from "three-stdlib"
 import { AnimationClip, Group } from "three"
 import { useFrame, useGraph } from "@react-three/fiber"
-import { framePositions, movObject, useMovementStore, WorldEnum, WorldState } from "./useMovementStore"
+import { framePositions, movObject, useMovementStore } from "./useMovementStore"
 import { Person } from "./person"
 import { render } from "react-dom"
 import { ObjectType } from "cgv/domains/movement"
 import { Cyclist } from "./cyclist"
 import { Truck } from "./truck"
 import { getExtraData } from "./objectDataScene"
+import { WorldState, WorldEnum } from "./movementData"
 
 export default function MovementLogicSmallScreen(props: {
     data: framePositions | null

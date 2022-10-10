@@ -93,6 +93,7 @@ function useSimpleInterpretation(
     const name = description ? (description[0].name ? description[0].name : "") : ("" as unknown as string)
     const newdefaultValue = defaultValue
     const world = useMovementStore((e) => e.world)
+    const setLoadingState = useMovementStore((e) => e.setLoadingState)
 
     newdefaultValue.staticObjects = world.staticObjects
     useEffect(() => {
@@ -116,7 +117,8 @@ function useSimpleInterpretation(
             (error: any) => {
                 console.error(error)
                 useViewerState.getState().setError(error.message)
-            }
+            },
+            setLoadingState
         )
         return () => {
             ref.current?.remove(...ref.current.children)
@@ -133,6 +135,7 @@ function useInterpretation(
 ) {
     const store = useBaseStore()
     const world = useMovementStore((e) => e.world)
+    const setLoadingState = useMovementStore((e) => e.setLoadingState)
 
     useEffect(() => {
         if (ref.current == null || description == null) {
@@ -202,7 +205,7 @@ function useInterpretation(
                                 }
                             },
                         },
-                    })
+                    }),
                 ),
                 name,
                 ref.current,
@@ -234,7 +237,8 @@ function useInterpretation(
                 (error: any) => {
                     console.error(error)
                     useViewerState.getState().setError(error.message)
-                }
+                },
+                setLoadingState
             )
         } catch (error: any) {
             useViewerState.getState().setError(error.message)

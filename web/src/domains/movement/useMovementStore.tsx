@@ -1,20 +1,6 @@
 import { ObjectType } from "cgv/domains/movement"
 import create from "zustand"
-import simonTest from "../../../public/data/testLang.json"
-import simoneth from "../../../public/data/eth0Lang.json"
-import simonhotel from "../../../public/data/hotel0Lang.json"
-import simonzara from "../../../public/data/zara0Lang.json"
-import simonstudents from "../../../public/data/students0Lang.json"
-
-
-export enum WorldEnum {
-    Bookstore,
-    Students,
-    Eth,
-    Hotel,
-    Little,
-    Zara,
-}
+import { dataWorldState, WorldState } from "./movementData"
 
 // id, x , y , z, xsize, typeof
 export type movObject = {
@@ -27,105 +13,6 @@ export type movObject = {
     direction: number[]
 }
 export type framePositions = { time: number; position: number[] | null; direction: number[] | null }
-
-export const dataWorldState: WorldState[] = [
-    {
-        image: "./models/bookstore.glb",
-        width: 1424,
-        height: 1088,
-        scale: [260, 280, 310],
-        position: [-20, 0, -20],
-        rotation: [0, 0, 0],
-        name: "BookStore Empty",
-        staticObjects: ["bookstore"],
-        enumName: WorldEnum.Bookstore,
-    },
-    {
-        image: "./models/bookstore.glb",
-        width: 1424,
-        height: 1088,
-        scale: [260, 280, 310],
-        position: [-20, 0, -20],
-        rotation: [0, 0, 0],
-        name: "Simon Bookstore",
-        data: simonTest,
-        staticObjects: ["simonTest"],
-        enumName: WorldEnum.Bookstore,
-    },
-    {
-        image: "./models/eth.glb",
-        width: 640,
-        height: 480,
-        scale: [280, 280, 280],
-        position: [0, -192, -20],
-        rotation: [0, -Math.PI / 2, 0],
-        name: "Simon ETH",
-        data: simoneth,
-        staticObjects: ["simonTest"],
-        enumName: WorldEnum.Eth,
-    },
-    {
-        image: "./models/hotel.glb",
-        width: 720,
-        height: 576,
-        scale: [140, 140, 140],
-        position: [0, 4, 40],
-        rotation: [0, -Math.PI / 2, 0],
-        name: "Simon HOTEL",
-        data: simonhotel,
-        staticObjects: ["simonTest"],
-        enumName: WorldEnum.Hotel,
-    },
-    {
-        image: "./models/little.glb",
-        width: 1417,
-        height: 2019,
-        scale: [280, 280, 280],
-        position: [0, -9, -20],
-        rotation: [0, 0, 0],
-        name: "Simon LITTLE",
-        data: simonTest,
-        staticObjects: ["simonTest"],
-        enumName: WorldEnum.Little,
-    },
-    {
-        image: "./models/students.glb",
-        width: 720,
-        height: 576,
-        scale: [140, 140, 140],
-        position: [0, 4, -80],
-        rotation: [0, 0, 0],
-        name: "Simon STUDENTS",
-        data: simonstudents,
-        staticObjects: ["simonTest"],
-        enumName: WorldEnum.Students,
-    },
-    {
-        image: "./models/zara.glb",
-        width: 720,
-        height: 576,
-        scale: [140, 140, 140],
-        position: [0, 60, -20],
-        rotation: [0, 0, 0],
-        name: "Simon ZARA",
-        data: simonzara,
-        staticObjects: ["simonTest"],
-        enumName: WorldEnum.Zara,
-    },
-]
-
-export interface WorldState {
-    image: string
-    width: number
-    height: number
-    position?: [number, number, number]
-    scale?: [number, number, number]
-    rotation?: [number, number, number]
-    name: string
-    data?: any
-    staticObjects: any[]
-    enumName: WorldEnum
-}
 
 export interface TimeState {
     time: number
@@ -144,6 +31,8 @@ export interface TimeState {
     setMinTime: (minTime: number) => void
     getPlayActive: () => boolean
     resetState: () => void
+    loadingState: boolean
+    setLoadingState: (newBol: boolean) => void
 }
 
 export const useMovementStore = create<TimeState>((set, get) => ({
@@ -198,4 +87,9 @@ export const useMovementStore = create<TimeState>((set, get) => ({
             }
         })
     },
+    loadingState: false,
+    setLoadingState: (newBol: boolean) =>
+        set((state) => {
+            return { loadingState: newBol }
+        }),
 }))

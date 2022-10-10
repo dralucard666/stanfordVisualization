@@ -1,5 +1,5 @@
 import { ObjectType } from "cgv/domains/movement"
-import { WorldEnum } from "./useMovementStore"
+import { WorldEnum } from "./movementData"
 
 export function getExtraData(
     sceneName: WorldEnum,
@@ -207,38 +207,6 @@ const extraData = {
             lineOffsetX: 50,
             lineOffsetY: 40,
             lineLength: 180,
-            textMarginX: -10,
-            textMarginY: 120,
-            positionY: 0,
-            rotationY: Math.PI,
-            objectScale: 0.9,
-        },
-    },
-    [WorldEnum.Little]: {
-        pedestrian: {
-            lineOffsetX: 0,
-            lineOffsetY: 60,
-            lineLength: 50,
-            textMarginX: -10,
-            textMarginY: 115,
-            positionY: 0,
-            rotationY: Math.PI / 2,
-            objectScale: 0.095,
-        },
-        cyclist: {
-            lineOffsetX: 0,
-            lineOffsetY: 15,
-            lineLength: 50,
-            textMarginX: -10,
-            textMarginY: 60,
-            positionY: 0,
-            rotationY: Math.PI / 2,
-            objectScale: 0.095,
-        },
-        truck: {
-            lineOffsetX: 50,
-            lineOffsetY: 20,
-            lineLength: 120,
             textMarginX: -10,
             textMarginY: 120,
             positionY: 0,
