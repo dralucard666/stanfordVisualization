@@ -1,8 +1,3 @@
-import simonTest from "../../../public/data/testLang.json"
-import simoneth from "../../../public/data/eth0Lang.json"
-import simonhotel from "../../../public/data/hotel0Lang.json"
-import simonzara from "../../../public/data/zara0Lang.json"
-import simonstudents from "../../../public/data/students0Lang.json"
 import eth_eth_1665329651_7 from "../../../public/data/eth_eth/Lang9_1_1665329651_7.json"
 import eth_eth_1665329687_5 from "../../../public/data/eth_eth/Lang10_0_1665329687_5.json"
 import eth_eth_1665329516_1 from "../../../public/data/eth_eth/Lang5_5_1665329516_1.json"
@@ -303,9 +298,8 @@ export const dataWorldState: WorldState[] = [
         scale: [260, 280, 310],
         position: [-20, 0, -20],
         rotation: [0, 0, 0],
-        name: "Simon Bookstore",
+        name: "Bookstore",
         data: {
-            simonTest: simonTest,
             sdd_bookstore_video0_1665339823_2: sdd_bookstore_video0_1665339823_2,
             sdd_bookstore_video0_1665343286_1: sdd_bookstore_video0_1665343286_1,
             sdd_bookstore_video0_1665343286_3: sdd_bookstore_video0_1665343286_3,
@@ -335,9 +329,8 @@ export const dataWorldState: WorldState[] = [
         scale: [280, 280, 280],
         position: [0, -192, -20],
         rotation: [0, -Math.PI / 2, 0],
-        name: "Simon ETH",
+        name: "ETH",
         data: {
-            simoneth: simoneth,
             eth_eth_1665329651_7: eth_eth_1665329651_7,
             eth_eth_1665329687_5: eth_eth_1665329687_5,
             eth_eth_1665329516_1: eth_eth_1665329516_1,
@@ -406,9 +399,8 @@ export const dataWorldState: WorldState[] = [
         scale: [140, 140, 140],
         position: [0, 4, 40],
         rotation: [0, -Math.PI / 2, 0],
-        name: "Simon HOTEL",
+        name: "HOTEL",
         data: {
-            simonhotel: simonhotel,
             eth_hotel_1665330040_5: eth_hotel_1665330040_5,
             eth_hotel_1665329856_1: eth_hotel_1665329856_1,
             eth_hotel_1665329985_4: eth_hotel_1665329985_4,
@@ -473,9 +465,8 @@ export const dataWorldState: WorldState[] = [
         scale: [140, 140, 140],
         position: [0, 4, -80],
         rotation: [0, 0, 0],
-        name: "Simon STUDENTS",
+        name: "STUDENTS",
         data: {
-            simonstudents: simonstudents,
             ucy_students001_1665336660_6: ucy_students001_1665336660_6,
             ucy_students001_1665336660_9: ucy_students001_1665336660_9,
             ucy_students001_1665336660_4: ucy_students001_1665336660_4,
@@ -508,9 +499,8 @@ export const dataWorldState: WorldState[] = [
         scale: [140, 140, 140],
         position: [0, 60, -20],
         rotation: [0, 0, 0],
-        name: "Simon ZARA",
+        name: "ZARA",
         data: {
-            simonzara: simonzara,
             ucy_zara01_1665330417_0: ucy_zara01_1665330417_0,
             ucy_zara01_1665330474_3: ucy_zara01_1665330474_3,
             ucy_zara01_1665330584_1: ucy_zara01_1665330584_1,
