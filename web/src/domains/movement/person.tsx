@@ -9,6 +9,7 @@ import { GLTF, SkeletonUtils } from "three-stdlib"
 import { AnimationClip } from "three"
 import { useFrame, useGraph } from "@react-three/fiber"
 import { movObject, useMovementStore } from "./useMovementStore"
+import { idPatternType } from "cgv"
 
 type GLTFResult = GLTF & {
     nodes: {
@@ -46,7 +47,7 @@ interface person {
 
 type ActionName = "Armature|mixamo.com|Layer0"
 
-export const Person = forwardRef((props: { id: string | null; scale: number; positionY:number }, ref) => {
+export const Person = forwardRef((props: { id: string | null; scale: number; positionY: number }, ref) => {
     const group = useRef<any>()
 
     const { scene, materials, animations } = useGLTF("./models/remyplace.glb") as GLTFResult
@@ -63,6 +64,10 @@ export const Person = forwardRef((props: { id: string | null; scale: number; pos
 
     useImperativeHandle(ref, () => ({
         updatePosition(x: number, y: number, z: number, angle: number, delta: number) {
+            if (group.current.position.x == x && group.current.position.z == z) {
+                mixer.setTime(0.53)
+                return
+            }
             group.current.rotation.y = angle
             group.current.position.y = y + 2
             group.current.position.z = z

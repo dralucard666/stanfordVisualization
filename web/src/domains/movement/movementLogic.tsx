@@ -64,11 +64,13 @@ export default function MovementLogic(props: { id: string; data: movObject; worl
 
     useFrame((state, delta) => {
         const currentTime = useMovementStore.getState().time
+        const playActive = useMovementStore.getState().getPlayActive()
+
         if (data.startT <= currentTime && currentTime <= data.endT && data.framePos) {
             const arrayIndex = currentTime - data.startT
             const currentLine = data.framePos[arrayIndex]
             const direction = currentLine.direction
-            if (currentLine.position && object.current && line.current && direction) {
+            if (currentLine.position && object.current && line.current && direction && playActive) {
                 object.current.showObject()
                 line.current.visible = true
                 text.current.showText()

@@ -26,13 +26,6 @@ import eth_hotel_Langillustration_1_2 from "../../../public/data/eth_hotel/Langi
 import eth_hotel_Langexperiment_2_7 from "../../../public/data/eth_hotel/Langexperiment_2-7.json"
 import eth_hotel_Langexperiment_2_3 from "../../../public/data/eth_hotel/Langexperiment_2-3.json"
 import eth_hotel_Langillustration_2_1 from "../../../public/data/eth_hotel/Langillustration_2-1.json"
-import sdd_bookstore_video0_Langexperiment_1_2 from "../../../public/data/sdd_bookstore_video0/Langexperiment_1-2.json"
-import sdd_bookstore_video0_Langexperiment_2_2 from "../../../public/data/sdd_bookstore_video0/Langexperiment_2-2.json"
-import sdd_bookstore_video0_Langexperiment_2_6 from "../../../public/data/sdd_bookstore_video0/Langexperiment_2-6.json"
-import sdd_bookstore_video0_Langexperiment_2_8 from "../../../public/data/sdd_bookstore_video0/Langexperiment_2-8.json"
-import sdd_bookstore_video0_Langillustration_1_1 from "../../../public/data/sdd_bookstore_video0/Langillustration_1-1.json"
-import sdd_bookstore_video0_Langillustration_2_2 from "../../../public/data/sdd_bookstore_video0/Langillustration_2-2.json"
-import sdd_bookstore_video0_Langillustration_2_1 from "../../../public/data/sdd_bookstore_video0/Langillustration_2-1.json"
 import ucy_zara01_Langexperiment_1_2 from "../../../public/data/ucy_zara01/Langexperiment_1-2.json"
 import ucy_zara01_Langexperiment_2_2 from "../../../public/data/ucy_zara01/Langexperiment_2-2.json"
 import ucy_zara01_Langexperiment_2_5 from "../../../public/data/ucy_zara01/Langexperiment_2-5.json"
@@ -59,6 +52,20 @@ import ucy_zara02_Langillustration_1_2 from "../../../public/data/ucy_zara02/Lan
 import ucy_zara02_Langexperiment_2_7 from "../../../public/data/ucy_zara02/Langexperiment_2-7.json"
 import ucy_zara02_Langexperiment_2_3 from "../../../public/data/ucy_zara02/Langexperiment_2-3.json"
 import ucy_zara02_Langillustration_2_1 from "../../../public/data/ucy_zara02/Langillustration_2-1.json"
+import sdd_bookstore_Langexperiment_1_2 from "../../../public/data/sdd_bookstore/Langexperiment_1-2.json"
+import sdd_bookstore_Langexperiment_2_2 from "../../../public/data/sdd_bookstore/Langexperiment_2-2.json"
+import sdd_bookstore_Langexperiment_2_5 from "../../../public/data/sdd_bookstore/Langexperiment_2-5.json"
+import sdd_bookstore_Langexperiment_2_6 from "../../../public/data/sdd_bookstore/Langexperiment_2-6.json"
+import sdd_bookstore_Langexperiment_2_8 from "../../../public/data/sdd_bookstore/Langexperiment_2-8.json"
+import sdd_bookstore_Langillustration_1_1 from "../../../public/data/sdd_bookstore/Langillustration_1-1.json"
+import sdd_bookstore_Langillustration_2_2 from "../../../public/data/sdd_bookstore/Langillustration_2-2.json"
+import sdd_bookstore_Langexperiment_2_1 from "../../../public/data/sdd_bookstore/Langexperiment_2-1.json"
+import sdd_bookstore_Langexperiment_2_4 from "../../../public/data/sdd_bookstore/Langexperiment_2-4.json"
+import sdd_bookstore_Langexperiment_1_1 from "../../../public/data/sdd_bookstore/Langexperiment_1-1.json"
+import sdd_bookstore_Langillustration_1_2 from "../../../public/data/sdd_bookstore/Langillustration_1-2.json"
+import sdd_bookstore_Langexperiment_2_7 from "../../../public/data/sdd_bookstore/Langexperiment_2-7.json"
+import sdd_bookstore_Langexperiment_2_3 from "../../../public/data/sdd_bookstore/Langexperiment_2-3.json"
+import sdd_bookstore_Langillustration_2_1 from "../../../public/data/sdd_bookstore/Langillustration_2-1.json"
 
 export enum WorldEnum {
     Bookstore,
@@ -104,15 +111,22 @@ export const dataWorldState: WorldState[] = [
         rotation: [0, 0, 0],
         name: "Bookstore",
         data: {
-            sdd_bookstore_video0_Langillustration_1_1: sdd_bookstore_video0_Langillustration_1_1,
-            sdd_bookstore_video0_Langillustration_2_2: sdd_bookstore_video0_Langillustration_2_2,
-            sdd_bookstore_video0_Langillustration_2_1: sdd_bookstore_video0_Langillustration_2_1,
-            sdd_bookstore_video0_Langexperiment_1_2: sdd_bookstore_video0_Langexperiment_1_2,
-            sdd_bookstore_video0_Langexperiment_2_2: sdd_bookstore_video0_Langexperiment_2_2,
-            sdd_bookstore_video0_Langexperiment_2_6: sdd_bookstore_video0_Langexperiment_2_6,
-            sdd_bookstore_video0_Langexperiment_2_8: sdd_bookstore_video0_Langexperiment_2_8,
+            sdd_bookstore_Langillustration_1_1: sdd_bookstore_Langillustration_1_1,
+            sdd_bookstore_Langillustration_1_2: sdd_bookstore_Langillustration_1_2,
+            sdd_bookstore_Langillustration_2_1: sdd_bookstore_Langillustration_2_1,
+            sdd_bookstore_Langillustration_2_2: sdd_bookstore_Langillustration_2_2,
+            sdd_bookstore_Langexperiment_1_1: sdd_bookstore_Langexperiment_1_1,
+            sdd_bookstore_Langexperiment_1_2: sdd_bookstore_Langexperiment_1_2,
+            sdd_bookstore_Langexperiment_2_1: sdd_bookstore_Langexperiment_2_1,
+            sdd_bookstore_Langexperiment_2_2: sdd_bookstore_Langexperiment_2_2,
+            sdd_bookstore_Langexperiment_2_3: sdd_bookstore_Langexperiment_2_3,
+            sdd_bookstore_Langexperiment_2_4: sdd_bookstore_Langexperiment_2_4,
+            sdd_bookstore_Langexperiment_2_5: sdd_bookstore_Langexperiment_2_5,
+            sdd_bookstore_Langexperiment_2_6: sdd_bookstore_Langexperiment_2_6,
+            sdd_bookstore_Langexperiment_2_7: sdd_bookstore_Langexperiment_2_7,
+            sdd_bookstore_Langexperiment_2_8: sdd_bookstore_Langexperiment_2_8,
         },
-        dataSize: 7,
+        dataSize: 14,
         staticObjects: ["simonTest"],
         enumName: WorldEnum.Bookstore,
     },
