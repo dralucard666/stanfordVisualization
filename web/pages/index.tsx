@@ -112,7 +112,6 @@ const SelectData = (
 ) => {
     store.getState().deleteAllDescription()
     resetMovementData()
-    console.log(newVal)
     if (dataOptions && newVal !== "keine Auswahl") {
         const allDescription = []
         const selectedData = dataOptions[newVal]
@@ -146,7 +145,6 @@ const SelectData = (
             )
             allDescription.push(syntaxData)
         }
-        console.log("sollte fertig sein")
         store.getState().addDescriptions(allDescription)
     }
 }

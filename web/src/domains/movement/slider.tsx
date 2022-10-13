@@ -46,7 +46,7 @@ export default function Slider(props: any) {
 
     const reset = () => {
         useMovementStore.getState().setPlayActive(false)
-        setTime(0)
+        setTime(min)
     }
 
     const onHover = (e: Event, value: any) => {
