@@ -1,71 +1,33 @@
-import eth_eth_Langexperiment_1_2 from "../../../public/data/eth_eth/Langexperiment_1-2.json"
-import eth_eth_Langexperiment_2_2 from "../../../public/data/eth_eth/Langexperiment_2-2.json"
-import eth_eth_Langexperiment_2_5 from "../../../public/data/eth_eth/Langexperiment_2-5.json"
-import eth_eth_Langexperiment_2_6 from "../../../public/data/eth_eth/Langexperiment_2-6.json"
-import eth_eth_Langexperiment_2_8 from "../../../public/data/eth_eth/Langexperiment_2-8.json"
-import eth_eth_Langillustration_1_1 from "../../../public/data/eth_eth/Langillustration_1-1.json"
-import eth_eth_Langillustration_2_2 from "../../../public/data/eth_eth/Langillustration_2-2.json"
-import eth_eth_Langexperiment_2_1 from "../../../public/data/eth_eth/Langexperiment_2-1.json"
-import eth_eth_Langexperiment_2_4 from "../../../public/data/eth_eth/Langexperiment_2-4.json"
-import eth_eth_Langexperiment_1_1 from "../../../public/data/eth_eth/Langexperiment_1-1.json"
-import eth_eth_Langillustration_1_2 from "../../../public/data/eth_eth/Langillustration_1-2.json"
-import eth_eth_Langexperiment_2_7 from "../../../public/data/eth_eth/Langexperiment_2-7.json"
-import eth_eth_Langexperiment_2_3 from "../../../public/data/eth_eth/Langexperiment_2-3.json"
-import eth_eth_Langillustration_2_1 from "../../../public/data/eth_eth/Langillustration_2-1.json"
-import eth_hotel_Langexperiment_1_2 from "../../../public/data/eth_hotel/Langexperiment_1-2.json"
-import eth_hotel_Langexperiment_2_2 from "../../../public/data/eth_hotel/Langexperiment_2-2.json"
-import eth_hotel_Langexperiment_2_5 from "../../../public/data/eth_hotel/Langexperiment_2-5.json"
-import eth_hotel_Langexperiment_2_6 from "../../../public/data/eth_hotel/Langexperiment_2-6.json"
-import eth_hotel_Langexperiment_2_8 from "../../../public/data/eth_hotel/Langexperiment_2-8.json"
-import eth_hotel_Langillustration_1_1 from "../../../public/data/eth_hotel/Langillustration_1-1.json"
-import eth_hotel_Langillustration_2_2 from "../../../public/data/eth_hotel/Langillustration_2-2.json"
-import eth_hotel_Langexperiment_2_1 from "../../../public/data/eth_hotel/Langexperiment_2-1.json"
-import eth_hotel_Langexperiment_2_4 from "../../../public/data/eth_hotel/Langexperiment_2-4.json"
-import eth_hotel_Langexperiment_1_1 from "../../../public/data/eth_hotel/Langexperiment_1-1.json"
-import eth_hotel_Langillustration_1_2 from "../../../public/data/eth_hotel/Langillustration_1-2.json"
-import eth_hotel_Langexperiment_2_7 from "../../../public/data/eth_hotel/Langexperiment_2-7.json"
-import eth_hotel_Langexperiment_2_3 from "../../../public/data/eth_hotel/Langexperiment_2-3.json"
-import eth_hotel_Langillustration_2_1 from "../../../public/data/eth_hotel/Langillustration_2-1.json"
-import ucy_zara01_Langexperiment_1_2 from "../../../public/data/ucy_zara01/Langexperiment_1-2.json"
-import ucy_zara01_Langexperiment_2_2 from "../../../public/data/ucy_zara01/Langexperiment_2-2.json"
-import ucy_zara01_Langexperiment_2_5 from "../../../public/data/ucy_zara01/Langexperiment_2-5.json"
-import ucy_zara01_Langexperiment_2_6 from "../../../public/data/ucy_zara01/Langexperiment_2-6.json"
-import ucy_zara01_Langexperiment_2_8 from "../../../public/data/ucy_zara01/Langexperiment_2-8.json"
-import ucy_zara01_Langillustration_1_1 from "../../../public/data/ucy_zara01/Langillustration_1-1.json"
-import ucy_zara01_Langillustration_2_2 from "../../../public/data/ucy_zara01/Langillustration_2-2.json"
-import ucy_zara01_Langexperiment_2_1 from "../../../public/data/ucy_zara01/Langexperiment_2-1.json"
-import ucy_zara01_Langexperiment_2_4 from "../../../public/data/ucy_zara01/Langexperiment_2-4.json"
-import ucy_zara01_Langexperiment_1_1 from "../../../public/data/ucy_zara01/Langexperiment_1-1.json"
-import ucy_zara01_Langillustration_1_2 from "../../../public/data/ucy_zara01/Langillustration_1-2.json"
-import ucy_zara01_Langexperiment_2_7 from "../../../public/data/ucy_zara01/Langexperiment_2-7.json"
-import ucy_zara01_Langexperiment_2_3 from "../../../public/data/ucy_zara01/Langexperiment_2-3.json"
-import ucy_zara01_Langillustration_2_1 from "../../../public/data/ucy_zara01/Langillustration_2-1.json"
-import ucy_zara02_Langexperiment_1_2 from "../../../public/data/ucy_zara02/Langexperiment_1-2.json"
-import ucy_zara02_Langexperiment_2_2 from "../../../public/data/ucy_zara02/Langexperiment_2-2.json"
-import ucy_zara02_Langexperiment_2_5 from "../../../public/data/ucy_zara02/Langexperiment_2-5.json"
-import ucy_zara02_Langexperiment_2_6 from "../../../public/data/ucy_zara02/Langexperiment_2-6.json"
-import ucy_zara02_Langillustration_2_2 from "../../../public/data/ucy_zara02/Langillustration_2-2.json"
-import ucy_zara02_Langexperiment_2_1 from "../../../public/data/ucy_zara02/Langexperiment_2-1.json"
-import ucy_zara02_Langexperiment_2_4 from "../../../public/data/ucy_zara02/Langexperiment_2-4.json"
-import ucy_zara02_Langexperiment_1_1 from "../../../public/data/ucy_zara02/Langexperiment_1-1.json"
-import ucy_zara02_Langillustration_1_2 from "../../../public/data/ucy_zara02/Langillustration_1-2.json"
-import ucy_zara02_Langexperiment_2_7 from "../../../public/data/ucy_zara02/Langexperiment_2-7.json"
-import ucy_zara02_Langexperiment_2_3 from "../../../public/data/ucy_zara02/Langexperiment_2-3.json"
-import ucy_zara02_Langillustration_2_1 from "../../../public/data/ucy_zara02/Langillustration_2-1.json"
-import sdd_bookstore_Langexperiment_1_2 from "../../../public/data/sdd_bookstore/Langexperiment_1-2.json"
-import sdd_bookstore_Langexperiment_2_2 from "../../../public/data/sdd_bookstore/Langexperiment_2-2.json"
-import sdd_bookstore_Langexperiment_2_5 from "../../../public/data/sdd_bookstore/Langexperiment_2-5.json"
-import sdd_bookstore_Langexperiment_2_6 from "../../../public/data/sdd_bookstore/Langexperiment_2-6.json"
-import sdd_bookstore_Langexperiment_2_8 from "../../../public/data/sdd_bookstore/Langexperiment_2-8.json"
-import sdd_bookstore_Langillustration_1_1 from "../../../public/data/sdd_bookstore/Langillustration_1-1.json"
-import sdd_bookstore_Langillustration_2_2 from "../../../public/data/sdd_bookstore/Langillustration_2-2.json"
-import sdd_bookstore_Langexperiment_2_1 from "../../../public/data/sdd_bookstore/Langexperiment_2-1.json"
-import sdd_bookstore_Langexperiment_2_4 from "../../../public/data/sdd_bookstore/Langexperiment_2-4.json"
-import sdd_bookstore_Langexperiment_1_1 from "../../../public/data/sdd_bookstore/Langexperiment_1-1.json"
-import sdd_bookstore_Langillustration_1_2 from "../../../public/data/sdd_bookstore/Langillustration_1-2.json"
-import sdd_bookstore_Langexperiment_2_7 from "../../../public/data/sdd_bookstore/Langexperiment_2-7.json"
-import sdd_bookstore_Langexperiment_2_3 from "../../../public/data/sdd_bookstore/Langexperiment_2-3.json"
-import sdd_bookstore_Langillustration_2_1 from "../../../public/data/sdd_bookstore/Langillustration_2-1.json"
+import eth_eth_experiment_1_2 from "../../../public/data/eth_eth/Langexperiment_1-2.json"
+import eth_eth_illustration_2 from "../../../public/data/eth_eth/Langillustration_2.json"
+import eth_eth_experiment_2_2 from "../../../public/data/eth_eth/Langexperiment_2-2.json"
+import eth_eth_experiment_2_1 from "../../../public/data/eth_eth/Langexperiment_2-1.json"
+import eth_eth_illustration_1 from "../../../public/data/eth_eth/Langillustration_1.json"
+import eth_eth_experiment_1_1 from "../../../public/data/eth_eth/Langexperiment_1-1.json"
+import eth_hotel_experiment_1_2 from "../../../public/data/eth_hotel/Langexperiment_1-2.json"
+import eth_hotel_illustration_2 from "../../../public/data/eth_hotel/Langillustration_2.json"
+import eth_hotel_experiment_2_2 from "../../../public/data/eth_hotel/Langexperiment_2-2.json"
+import eth_hotel_experiment_2_1 from "../../../public/data/eth_hotel/Langexperiment_2-1.json"
+import eth_hotel_illustration_1 from "../../../public/data/eth_hotel/Langillustration_1.json"
+import eth_hotel_experiment_1_1 from "../../../public/data/eth_hotel/Langexperiment_1-1.json"
+import sdd_bookstore_video0_experiment_1_2 from "../../../public/data/sdd_bookstore_video0/Langexperiment_1-2.json"
+import sdd_bookstore_video0_illustration_2 from "../../../public/data/sdd_bookstore_video0/Langillustration_2.json"
+import sdd_bookstore_video0_experiment_2_2 from "../../../public/data/sdd_bookstore_video0/Langexperiment_2-2.json"
+import sdd_bookstore_video0_experiment_2_1 from "../../../public/data/sdd_bookstore_video0/Langexperiment_2-1.json"
+import sdd_bookstore_video0_illustration_1 from "../../../public/data/sdd_bookstore_video0/Langillustration_1.json"
+import sdd_bookstore_video0_experiment_1_1 from "../../../public/data/sdd_bookstore_video0/Langexperiment_1-1.json"
+import ucy_zara01_experiment_1_2 from "../../../public/data/ucy_zara01/Langexperiment_1-2.json"
+import ucy_zara01_illustration_2 from "../../../public/data/ucy_zara01/Langillustration_2.json"
+import ucy_zara01_experiment_2_2 from "../../../public/data/ucy_zara01/Langexperiment_2-2.json"
+import ucy_zara01_experiment_2_1 from "../../../public/data/ucy_zara01/Langexperiment_2-1.json"
+import ucy_zara01_illustration_1 from "../../../public/data/ucy_zara01/Langillustration_1.json"
+import ucy_zara01_experiment_1_1 from "../../../public/data/ucy_zara01/Langexperiment_1-1.json"
+import ucy_zara02_experiment_1_2 from "../../../public/data/ucy_zara02/Langexperiment_1-2.json"
+import ucy_zara02_illustration_2 from "../../../public/data/ucy_zara02/Langillustration_2.json"
+import ucy_zara02_experiment_2_2 from "../../../public/data/ucy_zara02/Langexperiment_2-2.json"
+import ucy_zara02_experiment_2_1 from "../../../public/data/ucy_zara02/Langexperiment_2-1.json"
+import ucy_zara02_illustration_1 from "../../../public/data/ucy_zara02/Langillustration_1.json"
+import ucy_zara02_experiment_1_1 from "../../../public/data/ucy_zara02/Langexperiment_1-1.json"
 
 export enum WorldEnum {
     Bookstore,
@@ -111,20 +73,12 @@ export const dataWorldState: WorldState[] = [
         rotation: [0, 0, 0],
         name: "Bookstore",
         data: {
-            sdd_bookstore_Langillustration_1_1: sdd_bookstore_Langillustration_1_1,
-            sdd_bookstore_Langillustration_1_2: sdd_bookstore_Langillustration_1_2,
-            sdd_bookstore_Langillustration_2_1: sdd_bookstore_Langillustration_2_1,
-            sdd_bookstore_Langillustration_2_2: sdd_bookstore_Langillustration_2_2,
-            sdd_bookstore_Langexperiment_1_1: sdd_bookstore_Langexperiment_1_1,
-            sdd_bookstore_Langexperiment_1_2: sdd_bookstore_Langexperiment_1_2,
-            sdd_bookstore_Langexperiment_2_1: sdd_bookstore_Langexperiment_2_1,
-            sdd_bookstore_Langexperiment_2_2: sdd_bookstore_Langexperiment_2_2,
-            sdd_bookstore_Langexperiment_2_3: sdd_bookstore_Langexperiment_2_3,
-            sdd_bookstore_Langexperiment_2_4: sdd_bookstore_Langexperiment_2_4,
-            sdd_bookstore_Langexperiment_2_5: sdd_bookstore_Langexperiment_2_5,
-            sdd_bookstore_Langexperiment_2_6: sdd_bookstore_Langexperiment_2_6,
-            sdd_bookstore_Langexperiment_2_7: sdd_bookstore_Langexperiment_2_7,
-            sdd_bookstore_Langexperiment_2_8: sdd_bookstore_Langexperiment_2_8,
+            sdd_bookstore_video0_illustration_1: sdd_bookstore_video0_illustration_1,
+            sdd_bookstore_video0_illustration_2: sdd_bookstore_video0_illustration_2,
+            sdd_bookstore_video0_experiment_1_1: sdd_bookstore_video0_experiment_1_1,
+            sdd_bookstore_video0_experiment_1_2: sdd_bookstore_video0_experiment_1_2,
+            sdd_bookstore_video0_experiment_2_1: sdd_bookstore_video0_experiment_2_1,
+            sdd_bookstore_video0_experiment_2_2: sdd_bookstore_video0_experiment_2_2,
         },
         dataSize: 14,
         staticObjects: ["simonTest"],
@@ -139,20 +93,12 @@ export const dataWorldState: WorldState[] = [
         rotation: [0, -Math.PI / 2, 0],
         name: "ETH",
         data: {
-            eth_eth_Langillustration_1_1: eth_eth_Langillustration_1_1,
-            eth_eth_Langillustration_1_2: eth_eth_Langillustration_1_2,
-            eth_eth_Langillustration_2_1: eth_eth_Langillustration_2_1,
-            eth_eth_Langillustration_2_2: eth_eth_Langillustration_2_2,
-            eth_eth_Langexperiment_1_1: eth_eth_Langexperiment_1_1,
-            eth_eth_Langexperiment_1_2: eth_eth_Langexperiment_1_2,
-            eth_eth_Langexperiment_2_1: eth_eth_Langexperiment_2_1,
-            eth_eth_Langexperiment_2_2: eth_eth_Langexperiment_2_2,
-            eth_eth_Langexperiment_2_3: eth_eth_Langexperiment_2_3,
-            eth_eth_Langexperiment_2_4: eth_eth_Langexperiment_2_4,
-            eth_eth_Langexperiment_2_5: eth_eth_Langexperiment_2_5,
-            eth_eth_Langexperiment_2_6: eth_eth_Langexperiment_2_6,
-            eth_eth_Langexperiment_2_7: eth_eth_Langexperiment_2_7,
-            eth_eth_Langexperiment_2_8: eth_eth_Langexperiment_2_8,
+            eth_eth_illustration_1: eth_eth_illustration_1,
+            eth_eth_illustration_2: eth_eth_illustration_2,
+            eth_eth_experiment_1_1: eth_eth_experiment_1_1,
+            eth_eth_experiment_1_2: eth_eth_experiment_1_2,
+            eth_eth_experiment_2_1: eth_eth_experiment_2_1,
+            eth_eth_experiment_2_2: eth_eth_experiment_2_2,
         },
         dataSize: 14,
         staticObjects: ["simonTest"],
@@ -167,20 +113,12 @@ export const dataWorldState: WorldState[] = [
         rotation: [0, -Math.PI / 2, 0],
         name: "HOTEL",
         data: {
-            eth_hotel_Langillustration_1_1: eth_hotel_Langillustration_1_1,
-            eth_hotel_Langillustration_1_2: eth_hotel_Langillustration_1_2,
-            eth_hotel_Langillustration_2_1: eth_hotel_Langillustration_2_1,
-            eth_hotel_Langillustration_2_2: eth_hotel_Langillustration_2_2,
-            eth_hotel_Langexperiment_1_1: eth_hotel_Langexperiment_1_1,
-            eth_hotel_Langexperiment_1_2: eth_hotel_Langexperiment_1_2,
-            eth_hotel_Langexperiment_2_1: eth_hotel_Langexperiment_2_1,
-            eth_hotel_Langexperiment_2_2: eth_hotel_Langexperiment_2_2,
-            eth_hotel_Langexperiment_2_3: eth_hotel_Langexperiment_2_3,
-            eth_hotel_Langexperiment_2_4: eth_hotel_Langexperiment_2_4,
-            eth_hotel_Langexperiment_2_5: eth_hotel_Langexperiment_2_5,
-            eth_hotel_Langexperiment_2_6: eth_hotel_Langexperiment_2_6,
-            eth_hotel_Langexperiment_2_7: eth_hotel_Langexperiment_2_7,
-            eth_hotel_Langexperiment_2_8: eth_hotel_Langexperiment_2_8,
+            eth_hotel_illustration_1: eth_hotel_illustration_1,
+            eth_hotel_illustration_2: eth_hotel_illustration_2,
+            eth_hotel_experiment_1_1: eth_hotel_experiment_1_1,
+            eth_hotel_experiment_1_2: eth_hotel_experiment_1_2,
+            eth_hotel_experiment_2_1: eth_hotel_experiment_2_1,
+            eth_hotel_experiment_2_2: eth_hotel_experiment_2_2,
         },
         dataSize: 14,
         staticObjects: ["simonTest"],
@@ -195,20 +133,12 @@ export const dataWorldState: WorldState[] = [
         rotation: [0, 0, 0],
         name: "ZARA01",
         data: {
-            ucy_zara01_Langillustration_1_1: ucy_zara01_Langillustration_1_1,
-            ucy_zara01_Langillustration_1_2: ucy_zara01_Langillustration_1_2,
-            ucy_zara01_Langillustration_2_1: ucy_zara01_Langillustration_2_1,
-            ucy_zara01_Langillustration_2_2: ucy_zara01_Langillustration_2_2,
-            ucy_zara01_Langexperiment_1_1: ucy_zara01_Langexperiment_1_1,
-            ucy_zara01_Langexperiment_1_2: ucy_zara01_Langexperiment_1_2,
-            ucy_zara01_Langexperiment_2_1: ucy_zara01_Langexperiment_2_1,
-            ucy_zara01_Langexperiment_2_2: ucy_zara01_Langexperiment_2_2,
-            ucy_zara01_Langexperiment_2_3: ucy_zara01_Langexperiment_2_3,
-            ucy_zara01_Langexperiment_2_4: ucy_zara01_Langexperiment_2_4,
-            ucy_zara01_Langexperiment_2_5: ucy_zara01_Langexperiment_2_5,
-            ucy_zara01_Langexperiment_2_6: ucy_zara01_Langexperiment_2_6,
-            ucy_zara01_Langexperiment_2_7: ucy_zara01_Langexperiment_2_7,
-            ucy_zara01_Langexperiment_2_8: ucy_zara01_Langexperiment_2_8,
+            ucy_zara01_illustration_1: ucy_zara01_illustration_1,
+            ucy_zara01_illustration_2: ucy_zara01_illustration_2,
+            ucy_zara01_experiment_1_1: ucy_zara01_experiment_1_1,
+            ucy_zara01_experiment_1_2: ucy_zara01_experiment_1_2,
+            ucy_zara01_experiment_2_1: ucy_zara01_experiment_2_1,
+            ucy_zara01_experiment_2_2: ucy_zara01_experiment_2_2,
         },
         dataSize: 14,
         staticObjects: ["simonTest"],
@@ -223,18 +153,12 @@ export const dataWorldState: WorldState[] = [
         rotation: [0, 0, 0],
         name: "ZARA02",
         data: {
-            ucy_zara02_Langillustration_1_2: ucy_zara02_Langillustration_1_2,
-            ucy_zara02_Langillustration_2_1: ucy_zara02_Langillustration_2_1,
-            ucy_zara02_Langillustration_2_2: ucy_zara02_Langillustration_2_2,
-            ucy_zara02_Langexperiment_1_1: ucy_zara02_Langexperiment_1_1,
-            ucy_zara02_Langexperiment_1_2: ucy_zara02_Langexperiment_1_2,
-            ucy_zara02_Langexperiment_2_1: ucy_zara02_Langexperiment_2_1,
-            ucy_zara02_Langexperiment_2_2: ucy_zara02_Langexperiment_2_2,
-            ucy_zara02_Langexperiment_2_3: ucy_zara02_Langexperiment_2_3,
-            ucy_zara02_Langexperiment_2_4: ucy_zara02_Langexperiment_2_4,
-            ucy_zara02_Langexperiment_2_5: ucy_zara02_Langexperiment_2_5,
-            ucy_zara02_Langexperiment_2_6: ucy_zara02_Langexperiment_2_6,
-            ucy_zara02_Langexperiment_2_7: ucy_zara02_Langexperiment_2_7,
+            ucy_zara02_illustration_1: ucy_zara02_illustration_1,
+            ucy_zara02_illustration_2: ucy_zara02_illustration_2,
+            ucy_zara02_experiment_1_1: ucy_zara02_experiment_1_1,
+            ucy_zara02_experiment_1_2: ucy_zara02_experiment_1_2,
+            ucy_zara02_experiment_2_1: ucy_zara02_experiment_2_1,
+            ucy_zara02_experiment_2_2: ucy_zara02_experiment_2_2,
         },
         dataSize: 12,
         staticObjects: ["simonTest"],
