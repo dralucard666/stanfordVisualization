@@ -48,7 +48,7 @@ export default function Movement() {
     return (
         <>
             <Head>
-                <title>CGV | Shape Editorrrrrrrrrrrrrrrrr</title>
+                <title>CGV | Shape Editor</title>
                 <meta name="description" content=""></meta>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
