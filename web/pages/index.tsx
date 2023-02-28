@@ -195,7 +195,7 @@ export function Viewer({ className, children, ...rest }: HTMLProps<HTMLDivElemen
                             <Floor world={world} />
                         </Suspense>
                         <Clock />
-                        <PerspectiveCamera makeDefault far={10000} />
+                        <PerspectiveCamera makeDefault far={10000} matrixWorldAutoUpdate={undefined} getObjectsByProperty={undefined} />
                         <CameraController />
                     </Bridge>
                     <Objects world={world} />

@@ -26,7 +26,7 @@ export default function Floor(props: { world: WorldState }) {
                 <planeGeometry args={[props.world?.width ?? 720, props.world?.height ?? 576]} />
                 <meshStandardMaterial map={colorMap} normalMap={colorMfloorNormalTexture}></meshStandardMaterial>
             </mesh>  */}
-            <Clone ref={floor} rotation={rotation} object={scene.scene} scale={world.scale} position={world.position} />
+            <Clone ref={floor} rotation={rotation} object={scene.scene} scale={world.scale} position={world.position} matrixWorldAutoUpdate={undefined} getObjectsByProperty={undefined} />
             <ambientLight intensity={1} />
         </>
     )

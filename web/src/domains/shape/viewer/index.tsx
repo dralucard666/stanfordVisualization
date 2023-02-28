@@ -316,8 +316,8 @@ export function Panoramas() {
                     onClick={(e) => {
                         e.stopPropagation()
                         useViewerState.getState().changePanoramaView(index)
-                    }}
-                    scale={0.00000003}>
+                    } }
+                    scale={0.00000003} matrixWorldAutoUpdate={undefined} getObjectsByProperty={undefined} getVertexPosition={undefined}>
                     <meshBasicMaterial color={0x0000ff} />
                 </Sphere>
             ))}

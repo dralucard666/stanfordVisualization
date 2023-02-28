@@ -48,15 +48,14 @@ export function ViewerCamera({ children, ...props }: PropsWithChildren<Perspecti
 
     return (
         <APerspectiveCamera
-            {...props}
-            ref={ref}
-            far={1000}
-            near={10e-10}
-            position={position}
-            rotation-order="YXZ"
-            children={children}
-            rotation={rotation as any}
-            makeDefault
-        />
+        matrixWorldAutoUpdate={undefined} getObjectsByProperty={undefined} {...props}
+        ref={ref}
+        far={1000}
+        near={10e-10}
+        position={position}
+        rotation-order="YXZ"
+        children={children}
+        rotation={rotation as any}
+        makeDefault        />
     )
 }
