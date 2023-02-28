@@ -1,6 +1,6 @@
 module.exports = {
-    basePath: "/movement",
-    assetPrefix: "/movement",
+    basePath: "/stanfordVisualization",
+    assetPrefix: "/stanfordVisualization",
     eslint: {
         ignoreDuringBuilds: true,
     },
