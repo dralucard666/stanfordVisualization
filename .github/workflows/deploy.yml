@@ -8,8 +8,10 @@ jobs:
     web-page:
         runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v3
-        - uses: actions/setup-node@v3
+        - name: Checkout code
+          uses: actions/checkout@v3
+        - name: Set Node Version 
+        uses: actions/setup-node@v3
           with:
               node-version: 16.10
         - name: Install and Build
