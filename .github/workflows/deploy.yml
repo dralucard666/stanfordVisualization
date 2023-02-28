@@ -7,14 +7,11 @@ on:
 jobs:
     web-page:
       runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.10]
     steps:
         - uses: actions/checkout@v3
         - uses: actions/setup-node@v3
-        with:
-          node-version: 16
+          with:
+            node-version: 16.10
         - name: Install and Build
           run: |
             npm install
